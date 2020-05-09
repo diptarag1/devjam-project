@@ -6,5 +6,7 @@ Run it with python.
 Go to directory-> terminal
 
 python manage.py makemigrations
-python manage.py makemigrations
+
+python manage.py migrate
+
 python manage.py runserver //Dev server will be up on localhost:8000
