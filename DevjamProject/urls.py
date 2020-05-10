@@ -20,4 +20,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-dd,nwdnjlwjdwksdfsfs edited by sid
