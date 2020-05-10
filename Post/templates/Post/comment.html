@@ -1,0 +1,18 @@
+{%  extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<p class="text-muted"> <a href="{% url 'post-detail' posty.id%}">Commenting on Post: '{{posty.title}}' by {{posty.author.username}}</a></p>
+	<div class="content-section">
+		<form method="POST" >
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4"> Comment </legend>
+				{{form|crispy}}
+			</fieldset>
+			<div class="form-group">
+			<button class="btn btn-outline-info" type="submit"> Post </button>
+			</div>
+		</form>
+	</div>
+{% endblock content %}
