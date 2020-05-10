@@ -1,16 +1,13 @@
-from django.conf import settings
+from django import forms
 from django.db import models
-from django.utils import timezone
-from django.urls import reverse
-from django.utils.text import slugify
 from django.contrib.auth.models import User
-# Create your models here.
+from PIL import Image
+from Post.models import Post
 SEX = ((0, "Not Defined"), (1, "Male"), (2, "Female"))
 
-
 class Profile(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='userprofile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     bio = models.TextField(unique=False, default=" ")
     country = models.CharField(max_length=50, default=" ")
     gender = models.IntegerField(choices=SEX, default=0)

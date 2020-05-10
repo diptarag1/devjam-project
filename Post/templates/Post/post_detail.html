@@ -1,0 +1,35 @@
+{%  extends "base.html" %}
+{% block content %}
+<body>
+	<article class="media content-section">
+				<img class = "rounded-circle article-img" src = "{{object.author.profile.image.url}}">
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="{% url 'profile-other' object.author.profile.id %}">{{ object.author }}</a>
+      <small class="text-muted">{{ object.date_posted }}</small>
+			{% if object.author == user %}
+				<a class="text-blue" href="{%url 'post-update' object.id%}">Update </a>
+				<a class="text-danger" href="{%url 'post-delete' object.id%}"> Delete </a>
+			{% endif %}
+    </div>
+    <h2>{{ object.title }}</h2>
+    <p class="article-content">{{ object.content }}</p>
+  </div>
+</article>
+<div class="content-section"> <p class="text-muted"> Comments ({{comments.count}}) </p>
+{% for comment in comments %}
+		<article class="media content-section">
+					<img class = "rounded-circle article-img" src = "{{comment.author.profile.image.url}}">
+		<div class="media-body">
+			<div class="article-metadata">
+				<a class="mr-2" href="{% url 'profile-other' comment.author.profile.id %}">{{ comment.author }}</a>
+				<small class="text-muted">{{ comment.date_posted }}</small>
+			</div>
+			<p class="article-content">{{ comment.content }}</p>
+		</div>
+		</article>
+{% endfor %}
+<p> <a href="{% url 'post-comment' object.id%}"> Continue the Conversation </a></p>
+</div>
+</body>
+{% endblock content %}
