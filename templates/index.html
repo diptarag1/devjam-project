@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+{% if  user.is_authenticated%}
+<a href="{% url 'profile' slug=user.username %}">
+<button type="button" name="button">profile</button>
+</a>
+<a href="{% url 'logout' %}">
+<button type="button" name="button">Logout</button>
+</a>
+{% else %}
+<a href="{% url 'login' %}">
+    <button type="button" name="button">Login!</button>
+</a>
+{% endif %}
+{% endblock %}
