@@ -1,0 +1,5 @@
+1)Intro
+2)login/signup
+3)forgot password
+double password wala nahi ho raha
+tum log se ho raha ho to kar lo
