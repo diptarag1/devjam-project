@@ -20,6 +20,13 @@ class PostListView(ListView):
     ordering = ['-date_posted']
 
 
+# def postdetail(request, slug):
+#     post = get_object_or_404(Post, slug=slug)
+#     context = {'post': post}
+#     if not request.user in post.views.all():
+#         post.views.add(request.user)
+#     return render(request, 'blog/post_detail.html', context)
+
 class PostDetailView(DetailView):
     model = Post
     def get_context_data(self, **kwargs):
@@ -31,6 +38,9 @@ class PostDetailView(DetailView):
         else:
             is_liked = False
         post = self.object
+        #
+        if not self.request.user in self.object.views.all():
+            self.object.views.add(self.request.user)
         # Add in a QuerySet of all the books
         context['comments'] = Comment.objects.filter(post = self.object)
         context['is_liked'] = is_liked
@@ -90,6 +100,22 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+def likepost(request):
+    post = get_object_or_404(Post, id = request.POST.get('id'))
+    is_liked = False
+    if (post.likers.filter(username = request.user.username).exists()):
+        post.likers.remove(request.user)
+        is_liked = False
+    else:
+        post.likers.add(request.user)
+        is_liked = True
+
+    context = {
+        'is_liked' : is_liked,
+        'post' : post
+    }
+    html = render_to_string('Post/like-section.html',context, request = request)
+    return JsonResponse({'form':html})
 #
 #
 # def about(request):

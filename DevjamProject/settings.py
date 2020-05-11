@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMP_DIR_user = os.path.join(BASE_DIR,'user/templates')
+TEMP_DIR_Post = os.path.join(BASE_DIR,'Post/templates')
 TEMP_DIR = os.path.join(BASE_DIR,'templates')
 MEDIA_ROOT=os.path.join(BASE_DIR,'Media')
 
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'user',
     'crispy_forms',
     'mathfilters',
-    'Post.apps.PostConfig'
+    # 'Post.apps.PostConfig',
+    'Post'
 
 ]
 
@@ -63,7 +65,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMP_DIR,
         TEMP_DIR_user,
-
+        TEMP_DIR_Post,
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -146,5 +148,5 @@ EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST ='smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "teamhypersins@gmail.com"
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = "divanimax@gmail.com"
+EMAIL_HOST_PASSWORD = "xedgeqtgxpzwfxpx"
