@@ -10,6 +10,7 @@ from django.views.generic import (
 from .models import Post, Comment
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
+from Tag.models import Tag
 
 
 
@@ -19,7 +20,10 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all
+        return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
 #     context = {'post': post}
@@ -45,6 +49,7 @@ class PostDetailView(DetailView):
         context['comments'] = Comment.objects.filter(post = self.object)
         context['is_liked'] = is_liked
         context['post']  = post
+        context['tags'] = post.tags.all
         return context
 
 
