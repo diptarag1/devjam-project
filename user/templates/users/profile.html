@@ -14,7 +14,7 @@
         <p> From: {{userd.profile.country}} </p>
         <p> Bio:{{userd.profile.bio}} </p>
     	</div>
-{% if user.is_authenthicated %}
+{% if user.is_authenticated %}
 {% if userd == user %}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Edit Profile
@@ -30,9 +30,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
             <div class="modal-body">
-                	<form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
             			<fieldset class="form-group">
                         {{pform|crispy}}
             			</fieldset>
@@ -46,7 +46,11 @@
     </div>
 </div>
       <div class="content-section">
-        <h1> My posts </h1>
+        {% if userd == user %}
+        <h2> My posts </h2>
+        {% else %}
+        <h2> Posts </h2>
+        {% endif %}
       {% for post in posts %}
       <article class="media content-section">
             <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
