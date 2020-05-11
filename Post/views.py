@@ -43,7 +43,7 @@ class PostDetailView(DetailView):
             is_liked = False
         post = self.object
         #
-        if not self.request.user in self.object.views.all():
+        if not self.request.user in self.object.views.all() and self.request.user.is_authenticated:
             self.object.views.add(self.request.user)
         # Add in a QuerySet of all the books
         context['comments'] = Comment.objects.filter(post = self.object)
@@ -121,6 +121,15 @@ def likepost(request):
     }
     html = render_to_string('Post/like-section.html',context, request = request)
     return JsonResponse({'form':html})
+
+
+def ExploreTagView(request, tag):
+    posts = Post.objects.filter(tags__name = tag)
+    context = {
+        'posts': posts,
+        'tag': tag,
+    }
+    return render(request, 'Post/explore-tag.html', context)
 #
 #
 # def about(request):

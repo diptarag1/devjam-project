@@ -15,7 +15,7 @@
     <h2>{{ object.title }}</h2>
 		<p>
 			{% for tag in tags %}
-			 <a href = "#"> #{{tag}} </a>
+			 <a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
 			 {% endfor %}
 		</p>
     <p class="article-content">{{ object.content }}</p>
