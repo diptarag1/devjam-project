@@ -9,6 +9,7 @@ class Post(models.Model):
 	content = models.TextField()
 	date_posted = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	views = models.ManyToManyField(User, related_name='post_views', blank = True)
 	likers = models.ManyToManyField(User, related_name = 'likers', blank = True)
 
 	def get_absolute_url(self):

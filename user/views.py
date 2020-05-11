@@ -43,10 +43,8 @@ def profile(request,slug):
 		'userd':userd[0],
 		'slug':slug
 	}
-	context['posts'] = Post.objects.filter(author__profile = request.user.profile)
+	context['posts'] = Post.objects.filter(author__username = slug)
 	return render(request, 'users/profile.html', context)
-
-
 
 
 class ProfileDetailView(DetailView):
