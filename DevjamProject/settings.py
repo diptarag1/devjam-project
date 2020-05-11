@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'user',
     'crispy_forms',
     'mathfilters',
-    'Post.apps.PostConfig'
+    # 'Post.apps.PostConfig',
+    'Post'
 
 ]
 
