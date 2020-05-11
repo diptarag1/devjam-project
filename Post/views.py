@@ -10,6 +10,7 @@ from django.views.generic import (
 from .models import Post, Comment
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
+from Tag.models import Tag
 
 
 
@@ -19,7 +20,10 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all
+        return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
 #     context = {'post': post}
@@ -39,12 +43,13 @@ class PostDetailView(DetailView):
             is_liked = False
         post = self.object
         #
-        if not self.request.user in self.object.views.all():
+        if not self.request.user in self.object.views.all() and self.request.user.is_authenticated:
             self.object.views.add(self.request.user)
         # Add in a QuerySet of all the books
         context['comments'] = Comment.objects.filter(post = self.object)
         context['is_liked'] = is_liked
         context['post']  = post
+        context['tags'] = post.tags.all
         return context
 
 
@@ -116,6 +121,15 @@ def likepost(request):
     }
     html = render_to_string('Post/like-section.html',context, request = request)
     return JsonResponse({'form':html})
+
+
+def ExploreTagView(request, tag):
+    posts = Post.objects.filter(tags__name = tag)
+    context = {
+        'posts': posts,
+        'tag': tag,
+    }
+    return render(request, 'Post/explore-tag.html', context)
 #
 #
 # def about(request):

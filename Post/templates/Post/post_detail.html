@@ -13,6 +13,11 @@
 			{% endif %}
     </div>
     <h2>{{ object.title }}</h2>
+		<p>
+			{% for tag in tags %}
+			 <a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
+			 {% endfor %}
+		</p>
     <p class="article-content">{{ object.content }}</p>
 	  <p> Views: {{object.views.count}} </p>
 	<div id = "like-section"> {% include 'Post/like-section.html' %} </div>

@@ -61,7 +61,13 @@
           <ul class="list-group">
             {% if user.is_authenticated%}
                 <li class="list-group-item list-group-item-light"> <h4 align = "center" ><a href = "{% url 'post-create' %}"> Create Post </a> </h4></li>
-            {% endif %}
+              {% endif %}
+              {% if tags %}
+                <h5> Explore Tags: </h5>
+                {% for tag in tags %}
+                <li class="list-group-item list-group-item-light"> <a href = "{% url 'explore-tag' tag %}"> #{{tag.name}} </a></li>
+                {% endfor %}
+                {% endif %}
           </ul>
         </p>
       </div>
