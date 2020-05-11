@@ -10,4 +10,5 @@ urlpatterns = [
     path(r'^post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path(r'^post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path(r'^post/<int:pk>/comment/new/', CommentCreateView.as_view(), name='post-comment'),
+    path(r'^like/$', views.likepost, name = 'like-post'),
 ]

@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMP_DIR_user = os.path.join(BASE_DIR,'user/templates')
+TEMP_DIR_Post = os.path.join(BASE_DIR,'Post/templates')
 TEMP_DIR = os.path.join(BASE_DIR,'templates')
 MEDIA_ROOT=os.path.join(BASE_DIR,'Media')
 
@@ -64,7 +65,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMP_DIR,
         TEMP_DIR_user,
-
+        TEMP_DIR_Post,
         ],
         'APP_DIRS': True,
         'OPTIONS': {

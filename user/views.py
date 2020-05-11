@@ -29,20 +29,26 @@ def register(request):
 @login_required
 def profile(request,slug):
 	userd = User.objects.filter(username__iexact=slug)
-	if(request.method == 'POST'):
-		p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
-		if(p_form.is_valid()):
-			p_form.save()
-			messages.success(request, 'Account has been updated.')
-			return redirect('profile',slug=slug)
-	else:
-		p_form = ProfileUpdateForm(instance = request.user.profile)
+	if request.user.is_authenticated:
+		if(request.method == 'POST'):
+			p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
+			if(p_form.is_valid()):
+				p_form.save()
+				messages.success(request, 'Account has been updated.')
+				return redirect('profile',slug=slug)
+		else:
+			p_form = ProfileUpdateForm(instance = request.user.profile)
 
-	context = {
+		context = {
 		'pform':p_form,
 		'userd':userd[0],
 		'slug':slug
-	}
+		}
+	else:
+		context = {
+		'userd':userd[0],
+		'slug':slug
+		}
 	context['posts'] = Post.objects.filter(author__username = slug)
 	return render(request, 'users/profile.html', context)
 

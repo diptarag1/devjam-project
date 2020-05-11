@@ -15,6 +15,7 @@
     <h2>{{ object.title }}</h2>
     <p class="article-content">{{ object.content }}</p>
 	<button class="small" type="button" name="button">Views</button> :{{object.views.count}}
+	<div id = "like-section"> {% include 'Post/like-section.html' %} </div>
   </div>
 </article>
 <div class="content-section"> <p class="text-muted"> Comments ({{comments.count}}) </p>
@@ -34,3 +35,29 @@
 </div>
 </body>
 {% endblock content %}
+{% block js %}
+<script type="text/javascript">
+    	$(document).ready(function(event) {
+    		$(document).on('click', '#like', function(event) {
+    			event.preventDefault();
+
+    			var pk = $(this).attr('value');
+
+    			$.ajax ({
+    				type		:		'POST'	,
+    				url			: 	'{% url "like-post" %}'	,
+    				data 		: 	{'id': pk, 'csrfmiddlewaretoken': '{{csrf_token}}'}	,
+    				success	: function(response) {
+    					$('#like-section').html(response['form'])
+    					console.log('Success');
+    				}	,
+    				error: function(rs,e) {
+    					console.log(rs.responseText);
+    				}
+    			});
+
+    		});
+    	});
+    </script>
+
+{% endblock %}
