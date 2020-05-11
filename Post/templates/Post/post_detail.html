@@ -14,7 +14,7 @@
     </div>
     <h2>{{ object.title }}</h2>
     <p class="article-content">{{ object.content }}</p>
-	<button class="small" type="button" name="button">Views</button> :{{object.views.count}}
+	  <p> Views: {{object.views.count}} </p>
 	<div id = "like-section"> {% include 'Post/like-section.html' %} </div>
   </div>
 </article>

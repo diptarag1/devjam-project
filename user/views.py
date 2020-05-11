@@ -28,7 +28,7 @@ def register(request):
 
 @login_required
 def profile(request,slug):
-	userd = User.objects.filter(username__iexact=slug)
+	userd = User.objects.filter(username__iexact=slug).first()
 	if request.user.is_authenticated:
 		if(request.method == 'POST'):
 			p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
@@ -41,12 +41,12 @@ def profile(request,slug):
 
 		context = {
 		'pform':p_form,
-		'userd':userd[0],
+		'userd':userd,
 		'slug':slug
 		}
 	else:
 		context = {
-		'userd':userd[0],
+		'userd':userd,
 		'slug':slug
 		}
 	context['posts'] = Post.objects.filter(author__username = slug)
