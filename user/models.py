@@ -17,7 +17,7 @@ class Profile(models.Model):
     # point = models.IntegerField(unique=False,default=0)
 
     def __str__(self):
-        return self.country
+        return self.user.username
 
     def get_absolute_url(self):
         return reverse('profile', kwargs={'slug': self.user.username})

@@ -133,23 +133,3 @@ def ExploreTagView(request, tag):
 #
 # def about(request):
 #     return render(request, 'Post/about.html', {'title': 'About'})
-
-#@login_required
-# def likepost(request):
-#     post = get_object_or_404(Post, id = request.POST.get('id'))
-#     is_liked = False
-#     if (post.likers.filter(username = request.user.username).exists()):
-#         post.likers.remove(request.user)
-#         is_liked = False
-#     else:
-#         post.likers.add(request.user)
-#         is_liked = True
-#
-#     context = {
-#         'is_liked' : is_liked,
-#         'post' : post
-#     }
-#     html = render_to_string('Blog/like-section.html',context, request = request)
-#     return JsonResponse({'form':html})
-    # else:
-    #      return HttpResponseRedirect(post.get_absolute_url())
