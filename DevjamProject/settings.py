@@ -17,7 +17,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMP_DIR_user = os.path.join(BASE_DIR,'user/templates')
 TEMP_DIR_Post = os.path.join(BASE_DIR,'Post/templates')
 TEMP_DIR = os.path.join(BASE_DIR,'templates')
-MEDIA_ROOT=os.path.join(BASE_DIR,'Media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -45,7 +44,7 @@ INSTALLED_APPS = [
     'mathfilters',
     # 'Post.apps.PostConfig',
     'Post',
-    'Tag'
+    'Tag',
 
 ]
 
@@ -129,8 +128,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
