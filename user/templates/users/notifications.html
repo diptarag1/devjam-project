@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+{% for post in posts %}
+<article class="media content-section">
+            <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
+<div class="media-body">
+<div class="article-metadata">
+  <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
+  <small class="text-muted">{{ post.date_posted }}</small>
+</div>
+{% if not user in post.views.all %}
+<u><h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></u>
+{% else %}
+<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+{% endif %}
+    <p>
+        {% for tag in post.tags.all %}
+        <a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
+        {% endfor %}
+    </p>
+</div>
+</article>
+{% endfor %}
+{% endblock %}
