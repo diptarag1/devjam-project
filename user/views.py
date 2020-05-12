@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from datetime import datetime
+from django.utils import timezone
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, ProfileCreateForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView, ListView
@@ -51,6 +53,15 @@ def profile(request,slug):
 		}
 	context['posts'] = Post.objects.filter(author__username = slug)
 	return render(request, 'users/profile.html', context)
+
+def notification(request):
+	context={}
+	print(datetime.now())
+	print(request.user.profile.notif)
+	context['posts'] = Post.objects.filter(date_posted__gte=request.user.profile.notif)
+	request.user.profile.notif=timezone.now()
+	request.user.profile.save()
+	return render(request,'users/notifications.html', context)
 
 
 class ProfileDetailView(DetailView):

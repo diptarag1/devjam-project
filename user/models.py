@@ -1,6 +1,8 @@
 from django import forms
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
+from django.utils import timezone
 from PIL import Image
 from Post.models import Post
 SEX = ((0, "Not Defined"), (1, "Male"), (2, "Female"))
@@ -11,6 +13,7 @@ class Profile(models.Model):
     bio = models.TextField(unique=False, default=" ")
     country = models.CharField(max_length=50, default=" ")
     gender = models.IntegerField(choices=SEX, default=0)
+    notif = models.DateTimeField(blank=True, default=timezone.now)
     # point = models.IntegerField(unique=False,default=0)
 
     def __str__(self):

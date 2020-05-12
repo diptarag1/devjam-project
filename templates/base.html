@@ -33,6 +33,7 @@
         <!-- Navbar Right Side -->
         <div class="navbar-nav">
           {% if user.is_authenticated%}
+                      <a class="nav-item nav-link" href="{%url 'notifications'%}">Notifications</a>
                       <a class="nav-item nav-link" href="{% url 'profile' slug=user.username %}"> {{user.username }}</a>
                       <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>
           {% else %}
