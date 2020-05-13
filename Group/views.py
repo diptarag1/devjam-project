@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -27,6 +28,13 @@ class CreateGroup(LoginRequiredMixin, CreateView):
 
 class SingleGroup(DetailView):
     model = Group
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['gmember'] = GroupMember.objects.filter(group=self.object)
+        context['tags'] = Tag.objects.all
+        if self.request.user in self.object.members.all():
+            context['cgmember'] = get_object_or_404(GroupMember,group=self.object,user=self.request.user)
+        return context
 
 class ListGroups(ListView):
     model = Group
@@ -43,6 +51,21 @@ def addmember(request,slug):
     else:
         messages.success(request,"You are now a member of the {} group.".format(group.title))
     return render(request,"Group/add.html")
+
+def accept(request,userd,slug):
+    group = get_object_or_404(Group,slug=slug)
+    user = get_object_or_404(User,username=userd)
+    member = GroupMember.objects.get(user=user,group=group)
+    member.status = 1
+    member.save()
+    return render(request,"Group/ex.html")
+
+def reject(request,userd,slug):
+    group = get_object_or_404(Group,slug=slug)
+    user = get_object_or_404(User,username=userd)
+    print(user.username)
+    GroupMember.objects.get(user=user,group=group).delete()
+    return render(request,"Group/ex.html")
 
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))

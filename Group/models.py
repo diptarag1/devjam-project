@@ -12,10 +12,9 @@ class Group(models.Model):
     members = models.ManyToManyField(User,through="GroupMember")
     tags =models.ManyToManyField(Tag, related_name='group_tag' , blank = True)
 
-    # def get_absolute_url(self,**kwargs):
-	# 	return redirect('group-detail', kwargs={'slug':self.slug} )
     def get_absolute_url(self,**kwargs):
         return reverse('group-detail', kwargs={'slug':self.slug})
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         # self.description_html = misaka.html(self.description)
@@ -24,10 +23,14 @@ class Group(models.Model):
     def __str__(self):
         return self.title
 
+STATUS =((0,"Pending"),(1,"Approved"),(2,"Declined"))
+AUTH =((0,"President"),(1,"Core-Members"),(2,"Elder"),(3,"Member"))
+
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE,related_name="memberships")
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_groups')
-
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_groups")
+    status = models.IntegerField(choices=STATUS, default=0)
+    auth = models.IntegerField(choices=AUTH, default=3)
     def __str__(self):
         return self.user.username
 
