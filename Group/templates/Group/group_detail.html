@@ -2,5 +2,11 @@
 {%block content%}
 <h1>{{group.title}}</h1>
 <h2>{{group.description}}</h2>
-<button type="button" name="button">Join</button>
+<h3>{{group.members.count}} w</h3>
+{% if not user in group.members.all %}
+<a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
+{% else %}
+<a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
+{% endif %}
 {%endblock%}
+{% url 'profile' slug=user.username %}
