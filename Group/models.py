@@ -19,9 +19,20 @@ class Group(models.Model):
         self.slug = slugify(self.title)
         # self.description_html = misaka.html(self.description)
         super().save(*args, **kwargs)
+        c = Channel.objects.create(parentgroup = self, name = "General")
+        d = Channel.objects.create(parentgroup = self, name = "Announcements")
+        c.save()
+        d.save()
 
     def __str__(self):
         return self.title
+
+class Channel(models.Model):
+    parentgroup = models.ForeignKey(Group, related_name = "parent_group", on_delete = models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.parentgroup.title}.{self.name}"
 
 STATUS =((0,"Pending"),(1,"Approved"),(2,"Declined"))
 AUTH =((0,"President"),(1,"Core-Members"),(2,"Elder"),(3,"Member"))

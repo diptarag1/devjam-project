@@ -1,4 +1,18 @@
 {% extends "base.html" %}
+{% block left %}
+<div class="content-section">
+  <h3>Channels</h3>
+  <p class='text-muted'>Placeholder Text</p>
+    <ul class="list-group">
+      {% if user.is_authenticated%}
+          <li class="list-group-item list-group-item-light"> <h5 align = "center" ><a href = "{% url 'post-create' %}"> Create Group Post </a> </h5></li>
+        {% endif %}
+        {% for c in channels %}
+          <li class="list-group-item list-group-item-light"> <a href = "{% url 'group-detail' slug=group.title activechannel=c.name %}"> <p> {{c.name}} </p> </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
 {%block content%}
 <h1>{{group.title}}</h1>
 <h2>description:{{group.description}}</h2>
@@ -24,6 +38,31 @@
   Request List
 </button>
 {% endif %}
+
+<br><br>
+{% for post in posts %}
+<article class="media content-section">
+      <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
+<div class="media-body">
+  <div class="article-metadata">
+    <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
+    <small class="text-muted">{{ post.date_posted }}</small>
+  </div>
+{% if not user in post.views.all %}
+  <u><h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></u>
+{% else %}
+<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+{% endif %}
+  <p>
+    {% for tag in post.tags.all %}
+    <a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
+    {% endfor %}
+  </p>
+</div>
+</article>
+{% endfor %}
+
+
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">

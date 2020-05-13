@@ -15,7 +15,8 @@ from django.views.generic import (
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
 from Tag.models import Tag
-from .models import Group, GroupMember
+from .models import Group, GroupMember, Channel
+from Post.models import GroupPost
 
 class CreateGroup(LoginRequiredMixin, CreateView):
     model = Group
@@ -26,15 +27,34 @@ class CreateGroup(LoginRequiredMixin, CreateView):
         # self.object.membership.add(self.request.user)
         return super().form_valid(form)
 
-class SingleGroup(DetailView):
-    model = Group
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['gmember'] = GroupMember.objects.filter(group=self.object)
-        context['tags'] = Tag.objects.all
-        if self.request.user in self.object.members.all():
-            context['cgmember'] = get_object_or_404(GroupMember,group=self.object,user=self.request.user)
-        return context
+# class SingleGroup(DetailView):
+#     model = Group
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['gmember'] = GroupMember.objects.filter(group=self.object)
+#         context['tags'] = Tag.objects.all
+#         if self.request.user in self.object.members.all():
+#             context['cgmember'] = get_object_or_404(GroupMember,group=self.object,user=self.request.user)
+#         context['channels'] = Channel.objects.filter(parentgroup = self.object)
+#         return context
+
+
+def SingleGroup(request, slug, activechannel):
+    group = Group.objects.filter(title__iexact=slug).first()
+    achannel = Channel.objects.filter(parentgroup = group, name = activechannel).first()
+    context = {
+        'gmember' : GroupMember.objects.filter(group=group),
+        'tags': Tag.objects.all,
+        'channels' : Channel.objects.filter(parentgroup = group),
+        'group' : group,
+        'activechannel' : achannel,
+    }
+    if request.user in group.members.all() and request.user.is_authenticated:
+        context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
+    context['posts'] = GroupPost.objects.filter(parentchannel = achannel)
+
+    return render(request, 'Group/group_detail.html', context)
+
 
 class ListGroups(ListView):
     model = Group

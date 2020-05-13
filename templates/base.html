@@ -49,7 +49,11 @@
 </header>
 <main role="main" class="container">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-3">
+      {% block left %}
+      {% endblock %}
+    </div>
+    <div class="col-md-6">
 		{% for message in messages %}
 		<div class="alerts alert-{{message.tags}}">
 		{{message}}
@@ -57,7 +61,7 @@
 		{% endfor %}
       {% block content %}{% endblock %}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="content-section">
         <h3>Sidebar</h3>
         <p class='text-muted'>Placeholder Text</p>

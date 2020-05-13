@@ -1,4 +1,15 @@
 {%  extends "base.html" %}
+{% block left %}
+<div class="content-section">
+  <h3>Groups</h3>
+  <p class='text-muted'>Placeholder Text</p>
+    <ul class="list-group">
+        {% for g in groups %}
+          <li class="list-group-item list-group-item-light"><a href = "{% url 'group-detail' slug=g.title activechannel='General' %}"> <p> {{g.title}} </p> </a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
 {% block content %}
 <body>
 	{% for post in posts %}

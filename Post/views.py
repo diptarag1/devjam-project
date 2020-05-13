@@ -11,6 +11,7 @@ from .models import Post, Comment
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
 from Tag.models import Tag
+from Group.models import Group
 
 
 
@@ -23,6 +24,7 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all
+        context['groups'] = Group.objects.all
         return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
