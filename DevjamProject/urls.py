@@ -18,6 +18,7 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='users/login.html'),name='password_reset_complete'),
     path('user/',include('user.urls')),
+    path('group/',include('Group.urls')),
 ]
 
 if settings.DEBUG:
