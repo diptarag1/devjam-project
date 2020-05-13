@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {%block content%}
 <h1>{{group.title}}</h1>
-<h2>{{group.description}}</h2>
-<h3>{{group.members.count}} w</h3>
+<h2>description:{{group.description}}</h2>
+<h3>Members Count:{{group.members.count}}</h3>
 {% for mem in gmember %}
-{% if  mem.status == 0 and cgmember.auth < 2%}
-<h3>{{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a></h3>
-{% elif mem.status == 1 and cgmember.auth < 2%}
+
+{% if mem.status == 1 and cgmember.auth < 2%}
 <h3>{{mem.user.username}}:<a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a></h3>
-{% else %}
+{% elif mem.status == 1 %}
 <h3>{{mem.user}}</h3>
 {% endif %}
 {% endfor %}
@@ -19,5 +18,39 @@
 {% else %}
 <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
 {% endif %}
+
+{% if cgmember.auth < 2 %}
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Request List
+</button>
+{% endif %}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Pending List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {% for mem in gmember %}
+          {% if  mem.status == 0 %}
+          <li>
+              <ul>
+                   {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+              </ul>
+
+          </li>
+          {%endif%}
+          {%endfor%}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 {%endblock%}
 {% url 'profile' slug=user.username %}

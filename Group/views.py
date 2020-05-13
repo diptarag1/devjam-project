@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404 , redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -46,11 +46,14 @@ def addmember(request,slug):
 
     except IntegrityError:
         GroupMember.objects.get(user=request.user,group=group).delete()
-        messages.warning(request,("left successfully {}".format(group.title)))
+        if(group.members.count==0):
+            group.delete()
+        else:
+            messages.warning(request,("left successfully {}".format(group.title)))
 
     else:
         messages.success(request,"You are now a member of the {} group.".format(group.title))
-    return render(request,"Group/add.html")
+    return redirect('group-detail',slug=slug)
 
 def accept(request,userd,slug):
     group = get_object_or_404(Group,slug=slug)
@@ -58,14 +61,14 @@ def accept(request,userd,slug):
     member = GroupMember.objects.get(user=user,group=group)
     member.status = 1
     member.save()
-    return render(request,"Group/ex.html")
+    return redirect('group-detail',slug=slug)
 
 def reject(request,userd,slug):
     group = get_object_or_404(Group,slug=slug)
     user = get_object_or_404(User,username=userd)
     print(user.username)
     GroupMember.objects.get(user=user,group=group).delete()
-    return render(request,"Group/ex.html")
+    return redirect('group-detail',slug=slug)
 
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))
