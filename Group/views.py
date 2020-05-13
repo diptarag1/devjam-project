@@ -48,6 +48,7 @@ def SingleGroup(request, slug, activechannel):
         'channels' : Channel.objects.filter(parentgroup = group),
         'group' : group,
         'activechannel' : achannel,
+        'countmem': GroupMember.objects.filter(group=group).filter(status=1)
     }
     if request.user in group.members.all() and request.user.is_authenticated:
         context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
@@ -73,7 +74,7 @@ def addmember(request,slug):
 
     else:
         messages.success(request,"You are now a member of the {} group.".format(group.title))
-    return redirect('group-detail',slug=slug)
+    return redirect('group-detail',slug=slug,activechannel='General')
 
 def accept(request,userd,slug):
     group = get_object_or_404(Group,slug=slug)
@@ -81,14 +82,14 @@ def accept(request,userd,slug):
     member = GroupMember.objects.get(user=user,group=group)
     member.status = 1
     member.save()
-    return redirect('group-detail',slug=slug)
+    return redirect('group-detail',slug=slug,activechannel='General')
 
 def reject(request,userd,slug):
     group = get_object_or_404(Group,slug=slug)
     user = get_object_or_404(User,username=userd)
     print(user.username)
     GroupMember.objects.get(user=user,group=group).delete()
-    return redirect('group-detail',slug=slug)
+    return redirect('group-detail',slug=slug,activechannel='General')
 
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))

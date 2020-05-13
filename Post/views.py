@@ -25,6 +25,7 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all
         context['groups'] = Group.objects.all
+        context['posts'] = Post.objects.filter(grouppost__isnull=True)
         return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
@@ -125,7 +126,7 @@ def likepost(request):
 
 
 def ExploreTagView(request, tag):
-    posts = Post.objects.filter(tags__name = tag)
+    posts = Post.objects.filter(tags__name = tag).filter(grouppost__isnull=True)
     context = {
         'posts': posts,
         'tag': tag,

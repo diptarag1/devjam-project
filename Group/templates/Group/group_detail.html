@@ -8,7 +8,7 @@
           <li class="list-group-item list-group-item-light"> <h5 align = "center" ><a href = "{% url 'post-create' %}"> Create Group Post </a> </h5></li>
         {% endif %}
         {% for c in channels %}
-          <li class="list-group-item list-group-item-light"> <a href = "{% url 'group-detail' slug=group.title activechannel=c.name %}"> <p> {{c.name}} </p> </li>
+          <li class="list-group-item list-group-item-light"> <a href = "{% url 'group-detail' slug=group.title activechannel=c.name %}"> <p> {{c.name}} </p></a> </li>
         {% endfor %}
     </ul>
 </div>
@@ -16,9 +16,8 @@
 {%block content%}
 <h1>{{group.title}}</h1>
 <h2>description:{{group.description}}</h2>
-<h3>Members Count:{{group.members.count}}</h3>
+<h3>Members Count:{{countmem.count}}</h3>
 {% for mem in gmember %}
-
 {% if mem.status == 1 and cgmember.auth < 2%}
 <h3>{{mem.user.username}}:<a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a></h3>
 {% elif mem.status == 1 %}
