@@ -1,94 +1,187 @@
 {% extends "base.html" %}
-{% block left %}
-<div class="content-section">
-  <h3>Channels</h3>
-  <p class='text-muted'>Placeholder Text</p>
-    <ul class="list-group">
-      {% if user.is_authenticated%}
-          <li class="list-group-item list-group-item-light"> <h5 align = "center" ><a href = "{% url 'post-create' %}"> Create Group Post </a> </h5></li>
-        {% endif %}
-        {% for c in channels %}
-          <li class="list-group-item list-group-item-light"> <a href = "{% url 'group-detail' slug=group.title activechannel=c.name %}"> <p> {{c.name}} </p></a> </li>
-        {% endfor %}
-    </ul>
-</div>
-{% endblock %}
+{% load static %}
+
 {%block content%}
-<h1>{{group.title}}</h1>
-<h2>description:{{group.description}}</h2>
-<h3>Members Count:{{countmem.count}}</h3>
-{% for mem in gmember %}
-{% if mem.status == 1 and cgmember.auth < 2%}
-<h3>{{mem.user.username}}:<a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a></h3>
-{% elif mem.status == 1 %}
-<h3>{{mem.user}}</h3>
-{% endif %}
-{% endfor %}
-{% if not user in group.members.all %}
-<a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
-{% elif user in group.members.all and cgmember.status == 0 %}
-<h3>Your application is Pending!!</h3>
-{% else %}
-<a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
-{% endif %}
+<style media="screen">
+    /* .circular--portrait {
+  position: relative;
+  width: auto;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+}
 
-{% if cgmember.auth < 2 %}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Request List
-</button>
-{% endif %}
+.circular--portrait img {
+  width: 100%;
+  height: auto;
+} */
+    .circular--square {
+        border-radius: 50% !important;
+    }
 
-<br><br>
-{% for post in posts %}
-<article class="media content-section">
-      <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
-<div class="media-body">
-  <div class="article-metadata">
-    <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
-    <small class="text-muted">{{ post.date_posted }}</small>
-  </div>
-{% if not user in post.views.all %}
-  <u><h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></u>
-{% else %}
-<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-{% endif %}
-  <p>
-    {% for tag in post.tags.all %}
-    <a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
-    {% endfor %}
-  </p>
+    .circular--landscape {
+        margin: 4vh;
+        display: inline-block;
+        position: relative;
+        max-width: 10vh;
+        max-height: 10vh;
+        /* width: 200px; */
+        height: 10vh;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .circular--landscape img {
+
+        width: auto;
+        height: 100%;
+        /* margin-left: -50px; */
+    }
+</style>
+<div class="row">
+    <div class="col col s12 l2">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title"><h4>Channels</h4> </span>
+                {% if user.is_authenticated%}
+                <li class="">
+                    <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
+                </li>
+                {% endif %}
+                <ul class="collection">
+
+                    {% for c in channels %}
+                    <li class= "collection-item"> <a href="{% url 'group-detail' slug=group.title activechannel=c.name %}">
+                            <p> {{c.name}} </p>
+                        </a> </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 l7">
+        <div class="card">
+            <div class="card-image">
+                <img src="{% static 'sn.jpg' %}">
+                <!-- <h1 class="card-title"></h1> -->
+                <span class="card-title">
+                    <h1>{{group.title}}</h1>
+                </span>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s8 l8">
+                        <h4>Description:</h4>
+                        <p class="flow-text">{{group.description}}</p>
+                    </div>
+                    <div class="col s4 l4">
+                        <h3>Members:{{countmem.count}}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l12">
+                        {% for mem in gmember %}
+                        {% if mem.status == 1 and cgmember.auth < 2%}
+                        <div class="chip">
+                            <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                            {{mem.user.username}}  <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
+                        </div>
+
+                        {% elif mem.status == 1 %}
+                        <div class="chip">
+                            <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                            {{mem.user.username}}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+                <div class="divider"></div>
+                {% if not user in group.members.all %}
+                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
+                {% elif user in group.members.all and cgmember.status == 0 %}
+                <h3>Your application is Pending!!</h3>
+                {% else %}
+                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
+                {% endif %}
+
+                {% if cgmember.auth < 2 %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Request List
+                </button>
+                {% endif %}
+
+                <div class="divider"></div>
+                {% if posts %}
+                {% for post in posts %}
+                <article class="media content-section">
+                    <img class="rounded-circle article-img" src="{{post.author.profile.image.url}}">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
+                            <small class="text-muted">{{ post.date_posted }}</small>
+                        </div>
+                        {% if not user in post.views.all %}
+                        <u>
+                            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                        </u>
+                        {% else %}
+                        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                        {% endif %}
+                        <p>
+                            {% for tag in post.tags.all %}
+                            <a href="{% url 'explore-tag' tag %}"> #{{tag}} </a>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </article>
+                {% endfor %}
+                {% else %}
+                <h1>No Posts yet</h1>
+                {% endif %}
+            </div>
+            <div class="card-action">
+                <a href="#">This is a link</a>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col s12 l3">
+
+    </div>
 </div>
-</article>
-{% endfor %}
-
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Pending List</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          {% for mem in gmember %}
-          {% if  mem.status == 0 %}
-          <li>
-              <ul>
-                   {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
-              </ul>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Pending List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for mem in gmember %}
+                {% if  mem.status == 0 %}
+                <li>
+                    <ul>
+                        {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                    </ul>
 
-          </li>
-          {%endif%}
-          {%endfor%}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+                </li>
+                {%endif%}
+                {%endfor%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {%endblock%}
 {% url 'profile' slug=user.username %}
