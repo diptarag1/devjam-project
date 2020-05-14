@@ -62,7 +62,7 @@ class ListGroups(ListView):
     model = Group
 
 def addmember(request,slug):
-    group = get_object_or_404(Group,slug=slug)
+    group = Group.objects.filter(title__iexact=slug).first()
     try:
         GroupMember.objects.create(user=request.user,group=group)
 
@@ -73,12 +73,12 @@ def addmember(request,slug):
         else:
             messages.warning(request,("left successfully {}".format(group.title)))
 
-    else:
-        messages.success(request,"You are now a member of the {} group.".format(group.title))
+    #else:
+        #messages.success(request,"You are now a member of the {} group.".format(group.title))
     return redirect('group-detail',slug=slug,activechannel='General')
 
 def accept(request,userd,slug):
-    group = get_object_or_404(Group,slug=slug)
+    group = Group.objects.filter(title__iexact=slug).first()
     user = get_object_or_404(User,username=userd)
     member = GroupMember.objects.get(user=user,group=group)
     member.status = 1
@@ -86,7 +86,7 @@ def accept(request,userd,slug):
     return redirect('group-detail',slug=slug,activechannel='General')
 
 def reject(request,userd,slug):
-    group = get_object_or_404(Group,slug=slug)
+    group = Group.objects.filter(title__iexact=slug).first()
     user = get_object_or_404(User,username=userd)
     print(user.username)
     GroupMember.objects.get(user=user,group=group).delete()
@@ -98,7 +98,7 @@ def promote_demote(request):
     choice = request.POST.get('choice')
     print(slug)
     print(userd)
-    group = get_object_or_404(Group,slug=slug)
+    group = Group.objects.filter(title__iexact=slug).first()
     user = get_object_or_404(User,username=userd)
     member = GroupMember.objects.get(user=user,group=group)
     if choice == '1':
