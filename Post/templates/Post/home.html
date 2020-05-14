@@ -9,9 +9,9 @@
 			<div class="card-content">
 				<h3>Groups</h3>
 				<p class='text-muted'>Placeholder Text</p>
-				<ul class="list-group">
+				<ul class="collection">
 					{% for g in groups %}
-					<li class="list-group-item list-group-item-light"><a href="{% url 'group-detail' slug=g.title activechannel='General' %}">
+					<li class="collection-item flow-text"><a href="{% url 'group-detail' slug=g.title activechannel='General' %}">
 							<p> {{g.title}} </p>
 						</a></li>
 					{% endfor %}

@@ -42,7 +42,9 @@
     <div class="col col s12 l2">
         <div class="card">
             <div class="card-content">
-                <span class="card-title"><h4>Channels</h4> </span>
+                <span class="card-title">
+                    <h4>Channels</h4>
+                </span>
                 {% if user.is_authenticated%}
                 <li class="">
                     <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
@@ -51,7 +53,7 @@
                 <ul class="collection">
 
                     {% for c in channels %}
-                    <li class= "collection-item"> <a href="{% url 'group-detail' slug=group.title activechannel=c.name %}">
+                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.title activechannel=c.name %}">
                             <p> {{c.name}} </p>
                         </a> </li>
                     {% endfor %}
@@ -84,7 +86,7 @@
                         {% if mem.status == 1 and cgmember.auth < 2%}
                         <div class="chip">
                             <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                            {{mem.user.username}}  <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
+                            {{mem.user.username}} <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
                         </div>
 
                         {% elif mem.status == 1 %}
@@ -109,9 +111,12 @@
                 {% endif %}
 
                 {% if cgmember.auth < 2 %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <a  class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter">
                     Request List
-                </button>
+                </a>
+
+
+
                 {% endif %}
 
                 <div class="divider"></div>
@@ -155,7 +160,33 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- Modal Structure -->
+<div id="exampleModalCenter" class="modal">
+    <div class="modal-content">
+        <h4>Pending List</h4>
+
+        <div class="modal-body">
+            {% for mem in gmember %}
+            {% if  mem.status == 0 %}
+            <li>
+                <ul>
+                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                </ul>
+
+            </li>
+            {%endif%}
+            {%endfor%}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -182,6 +213,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 {%endblock%}
 {% url 'profile' slug=user.username %}
