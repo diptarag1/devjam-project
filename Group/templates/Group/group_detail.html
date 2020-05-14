@@ -43,13 +43,12 @@
         <div class="card">
             <div class="card-content">
                 <span class="card-title">
+                  {% if user.is_authenticated and user in group.members.all%}
                     <h4>Channels</h4>
                 </span>
-                {% if user.is_authenticated%}
                 <li class="">
                     <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
                 </li>
-                {% endif %}
                 <ul class="collection">
 
                     {% for c in channels %}
@@ -58,6 +57,7 @@
                         </a> </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -97,6 +97,7 @@
                 <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
                 {% endif %}
 
+                {% if user in group.members.all %}
                 {% if cgmember.auth < 2 %}
                 <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter1">
                     Request List
@@ -181,12 +182,12 @@
                 {% else %}
                 <h1>No Posts yet</h1>
                 {% endif %}
+            {% endif %}
             </div>
             <div class="card-action">
                 <a href="#">This is a link</a>
             </div>
         </div>
-
 
     </div>
     <div class="col s12 l3">
