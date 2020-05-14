@@ -1,0 +1,33 @@
+<script>
+    $(document).ready(function() {
+
+        $('.sidenav').sidenav();
+        $('.materialboxed').materialbox();
+        $('.parallax').parallax();
+        $('.tabs').tabs();
+        $('.modal').modal();
+        $('.tooltipped').tooltip();
+        $('.fixed-action-btn').floatingActionButton({
+            hoverEnabled: false
+        });
+        $('.scrollspy').scrollSpy();
+
+        $('.modal-overlay').addClass('baapbaap');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+        $(document).ready(function(){
+        $('select').not('.disabled').formSelect();
+        });
+        var elems = document.getElementById('slide-out');
+        var rightNav = M.Sidenav.init(elems, {
+            edge: 'right'
+        });
+        // $("#notificationsButton").sideNav();
+        document.getElementById('notificationsButton').addEventListener("click", function() {
+            rightNav.open();
+        });
+    });
+</script>

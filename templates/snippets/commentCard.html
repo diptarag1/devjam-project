@@ -1,0 +1,25 @@
+<div class="card horizontal">
+    <div class="card-image">
+        <div class="circular--landscape">
+            <img src="{{comment.author.profile.image.url}}">
+            <p>ff</p>
+        </div>
+
+    </div>
+    <div class="card-stacked ">
+        <div class="card-content">
+            <a class="card-title    " href="{% url 'profile' slug=comment.author.username %}">{{ comment.author }}</a>
+            <p class="right">{{ comment.date_posted }}</p>
+            <p> {{comment.content }}</p>
+
+
+
+            <a href="" class=" btn-floating pink   right">
+                <i class="material-icons">favorite</i>
+            </a>
+        </div>
+        <!-- <div class="card-action">
+            <a href="">This is a link</a>
+        </div> -->
+    </div>
+</div>

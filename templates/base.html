@@ -73,7 +73,7 @@
 
     {%block new%}
     {%endblock%}
-    {% include 'mainNav.html' %}
+    {% include 'snippets/mainNav.html' %}
 
     <div id="slide-out" class="sidenav">
         {% for post in notifications %}
@@ -136,23 +136,13 @@
             </div>
         </div>
 
-
-
         {% endfor %}
     </div>
 
-    <!-- <a href="#" id="rightNavOpener" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
-
     {% block content %}
     {% endblock %}
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script> -->
 
-    {% include 'mainFooter.html' %}
+    {% include 'snippets/mainFooter.html' %}
     <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'materialize.min.js' %}"></script>
     {%block js%}
@@ -177,31 +167,11 @@
         var rightNav = M.Sidenav.init(elems, {
             edge: 'right'
         });
-        // $("#notificationsButton").sideNav();
+
         document.getElementById('notificationsButton').addEventListener("click", function() {
             rightNav.open();
         });
-        // $('.button-collapse').sideNav('show');
-        // (function($){
-        //   $(function(){
-        //
-        //     $('.my-btn').sideNav({
-        //       edge: 'left', // Choose the horizontal origin
-        //       closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-        //       draggable: true // Choose whether you can drag to open on touch screens
-        //     }
-        //     );
-        //
-        //   }); // end of document ready
-        // })(jQuery);
-        // $("").onClick(function() {
-        //     console.log("sdffsdfsfsd");
-        //      // $('#slide-out').sidenav();
-        // });
-        // .sideNav('show');
-        // sidenav('methodName');
-        // var instance = M.Sidenav.getInstance(document.getElementById('slide-out'));
-        // instanceedge='right';
+
     });
 </script>
 

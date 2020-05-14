@@ -596,14 +596,14 @@
             });
             $('.modal-overlay').addClass('baapbaap');
 
-            document.addEventListener('DOMContentLoaded', function() {
-                var elems = document.querySelectorAll('select');
-                var instances = M.FormSelect.init(elems);
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     var elems = document.querySelectorAll('select');
+            //     var instances = M.FormSelect.init(elems);
+            // });
+
+                $('select').not('.disabled').formSelect();
             });
-            $(document).ready(function(){
-    $('select').not('.disabled').formSelect();
-});
-        });
+
     </script>
 </body>
 
