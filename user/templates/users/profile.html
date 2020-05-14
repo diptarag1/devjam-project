@@ -11,10 +11,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="{% static 'materialize.min.css' %}">
-    <!-- <link rel="stylesheet" src="{% static 'materialize.min.css' %}"> -->
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
-    <title>Photo Ninja</title>
+    <title>ProfilePage</title>
     <style>
         .gallery-image {
             margin-bottom: 10%;
@@ -154,7 +152,8 @@
         .tabs .tab a:focus.active {
             background: transparent;
         }
-        .fixed-action-btn{
+
+        .fixed-action-btn {
             z-index: 1000;
         }
     </style>
@@ -533,16 +532,7 @@
                         <option value="1">Male</option>
                         <option value="2">Female</option>
                     </select>
-                    <!-- <div class="container">
-                        <div class="input-field ">
-                            <label for="id_gender">Gender:</label> <select name="gender" id="id_gender">
-                                <option value="0" selected>Not Defined</option>
-                                <option value="1">Male</option>
-                                <option value="2">Female </option>
-                            </select>
-                            <label>Materialize Select</label>
-                        </div>
-                    </div> -->
+
                     <div class="container">
                         <div class="file-field input-field">
                             <div class="btn">
@@ -557,21 +547,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <p><label for="id_image">Image:</label> Currently: <a href="/media/default.jpg">default.jpg</a><br>
 
-                        <input type="file" name="image" accept="image/*" id="id_image">
-                    </p> -->
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
+                    <button type="button" class="btn btn-large " data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-large">Save Changes</button>
                 </div>
             </form>
 
-            <div class="modal-footer">
-                <!-- <a href="#!" class="modal-close btn orange">Agree</a> -->
-            </div>
         </div>
 
     </div>
@@ -580,8 +564,7 @@
     <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'materialize.min.js' %}"></script>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script> -->
+
     <script>
         $(document).ready(function() {
 
@@ -596,14 +579,8 @@
             });
             $('.modal-overlay').addClass('baapbaap');
 
-            // document.addEventListener('DOMContentLoaded', function() {
-            //     var elems = document.querySelectorAll('select');
-            //     var instances = M.FormSelect.init(elems);
-            // });
-
-                $('select').not('.disabled').formSelect();
-            });
-
+            $('select').not('.disabled').formSelect();
+        });
     </script>
 </body>
 
