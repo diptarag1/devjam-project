@@ -1,37 +1,133 @@
 {%  extends "base.html" %}
-{% block left %}
-<div class="content-section">
-  <h3>Groups</h3>
-  <p class='text-muted'>Placeholder Text</p>
-    <ul class="list-group">
-        {% for g in groups %}
-          <li class="list-group-item list-group-item-light"><a href = "{% url 'group-detail' slug=g.title activechannel='General' %}"> <p> {{g.title}} </p> </a></li>
-        {% endfor %}
-    </ul>
-</div>
-{% endblock %}
 {% block content %}
-<body>
-	{% for post in posts %}
+<!-- <div class="container"> -->
+
+<div class="row">
+	<div class="col s12 l2">
+		<div class="card   light-green accent-4">
+			<div class="card-content">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+			</div>
+		</div>
+	</div>
+	<div class="col s12 l7">
+		<h2>Recent Posts</h2>
+		{% for post in posts %}
+		<div class="row">
+
+			<div class="col s12 l12">
+				<div class="card orange lighten-5">
+					<!-- <div class="card-image">
+							<img src="img/curry.jpg" alt="">
+							<a href="" class="halfway-fab btn-floating pink pulse">
+								<i class="material-icons">favorite</i>
+							</a>
+						</div> -->
+					<div class="card-content">
+						<div class="row">
+							<div class="col s11 l11">
+								<!-- <small class="text-muted">{{ post.date_posted }}</small> -->
+								{% if not user in post.views.all %}
+								<h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+								<!-- <h2><a class= href="{% url 'post-detail' post.id %}"><span class="card-title">{{ post.title }}</span></a></h2> -->
+								{% else %}
+								<h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+								{% endif %}
+							</div>
+							<div class="col s1 l1 right">
+								<span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+
+							</div>
+						</div>
+
+
+
+						<p class="floating-text"><a class="mr-2" href="{% url 'profile' slug=post.author.username %}">By {{ post.author }}</a></p>
+						<p class="right">{{ post.date_posted }}</p>
+						<p>{{post.content}}</p>
+					</div>
+					<div class="card-reveal">
+						<span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>
+						<p><a href="" class=" btn btn-large red left">Dont Show this Post</a></p>
+						<p><a href="" class=" btn btn-large amber left">Add to Favorites</a></p>
+						<p><a href="" class=" btn btn-large blue left">Share</a></p>
+					</div>
+					<div class="card-action">
+						<!-- halfway-fab -->
+
+						<a href="" class=" btn-floating pink pulse right">
+							<i class="material-icons">favorite</i>
+						</a>
+						<p>
+							{% for tag in post.tags.all %}
+							<a href="{% url 'explore-tag' tag %}"> #{{tag}} </a>
+							{% endfor %}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="col s12 l3 ">
+		<div class="card pink accent-2">
+			<div class="card-content">
+				<h3 class="card-title">Our Sidebar</h3>
+				<p class='text-muted'>You can put any information here you'd like.
+					<ul class="list-group">
+						{% if user.is_authenticated%}
+						<li class="list-group-item list-group-item-light">
+							<h4 align="center"><a href="{% url 'post-create' %}"> Create Post </a> </h4>
+						</li>
+						{% endif %}
+					</ul>
+				</p>
+				<div class="divider">
+
+				</div>
+				<ul class="collection with-header">
+
+					{% if tags %}
+					<li class="collection-header">
+						<h4> Explore Tags:</h4>
+					</li>
+
+					{% for tag in tags %}
+					<li class="collection-item"> <a href="{% url 'explore-tag' tag %}" class="orange-text"> #{{tag.name}} </a></li>
+					{% endfor %}
+					{% endif %}
+
+
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+
+<!-- {% for post in posts %}
 	<article class="media content-section">
-				<img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
-  <div class="media-body">
-    <div class="article-metadata">
-      <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
-      <small class="text-muted">{{ post.date_posted }}</small>
-    </div>
-	{% if not user in post.views.all %}
-    <u><h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></u>
-	{% else %}
-	<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-	{% endif %}
-		<p>
-			{% for tag in post.tags.all %}
-			<a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
-			{% endfor %}
-		</p>
-  </div>
-</article>
-	{% endfor %}
-</body>
+		<img class="rounded-circle article-img" src="{{post.author.profile.image.url}}">
+		<div class="media-body">
+			<div class="article-metadata">
+				<a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
+				<small class="text-muted">{{ post.date_posted }}</small>
+			</div>
+			{% if not user in post.views.all %}
+			<u>
+				<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+			</u>
+			{% else %}
+			<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+			{% endif %}
+			<p>
+				{% for tag in post.tags.all %}
+				<a href="{% url 'explore-tag' tag %}"> #{{tag}} </a>
+				{% endfor %}
+			</p>
+		</div>
+	</article>
+	{% endfor %} -->
 {% endblock content %}

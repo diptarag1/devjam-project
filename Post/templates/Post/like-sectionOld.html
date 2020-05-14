@@ -1,0 +1,12 @@
+{% if user.is_authenticated %}
+<form action = "{% url 'like-post'%}" method = "post">
+  {% csrf_token %}
+  {% if not is_liked %}
+<button name = "post_id" id = "like" class = "btn-primary" value = "{{post.id}}" type = "submit"> Like {{post.likers.count}}</button>
+ {% else %}
+ <button name = "post_id" id = "like" class = "btn-danger" value = "{{post.id}}" type = "submit"> Unlike {{post.likers.count}}</button>
+ {% endif %}
+</form>
+{% else %}
+<button> {{post.likers.count}} Likes </button>
+{% endif %}

@@ -2,16 +2,36 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-	<div class="content-section">
-		<form method="POST">
-			{% csrf_token %}
-			<fieldset class="form-group">
-				<legend class="border-bottom mb-4"> Post </legend>
-				{{form|crispy}}
-			</fieldset>
-			<div class="form-group">
-			<button class="btn btn-outline-info" type="submit"> Post </button>
+<div class="content-section">
+
+	<form method="POST">
+		{% csrf_token %}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4"> Post </legend>
+			<div id="div_id_title" class="form-group"> <label for="id_title" class=" requiredField">
+					Title<span class="asteriskField">*</span> </label>
+				<div class=""> <input type="text" name="title" maxlength="100" class="textinput textInput form-control" required id="id_title"> </div>
 			</div>
-		</form>
-	</div>
+			<div id="div_id_tags" class="form-group"> <label for="id_tags" class="">
+					Tags
+				</label>
+				<div class=""> <select name="tags" class="selectmultiple form-control" id="id_tags" multiple>
+						<option value="1">memes</option>
+						<option value="2">dreams</option>
+						<option value="3">teams</option>
+
+					</select> </div>
+			</div>
+			<div id="div_id_content" class="form-group"> <label for="id_content" class=" requiredField">
+					Content<span class="asteriskField">*</span> </label>
+				<div class=""> <textarea name="content" cols="40" rows="10" class="textarea form-control" required id="id_content">
+				</textarea> </div>
+			</div>
+
+		</fieldset>
+		<div class="form-group">
+			<button class="btn btn-outline-info" type="submit"> Post </button>
+		</div>
+	</form>
+</div>
 {% endblock content %}

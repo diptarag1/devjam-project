@@ -1,78 +1,451 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-{% block content %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{userd.profile.image.url}}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ userd.username }}</h2>
-          <p class="text-secondary">{{ userd.email }}</p>
-        </div>
-      </div>
-      <div class="content-section">
-        <p> {{userd.profile.get_gender_display}} </p>
-        <p> From: {{userd.profile.country}} </p>
-        <p> Bio:{{userd.profile.bio}} </p>
-    	</div>
-{% if user.is_authenticated %}
-{% if userd == user %}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Edit Profile
-</button>
-{% endif %}
-{% endif %}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'materialize.min.css' %}">
+    <!-- <link rel="stylesheet" src="{% static 'materialize.min.css' %}"> -->
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
+    <title>Photo Ninja</title>
+    <style>
+        /* body{
+            background: url({% static 'sn.jpg' %});
+              background-size: cover;
+              background-position: center;
+        } */
+        /*
+        @media screen and (max-width: 670px) {
+            header {
+                min-height: 500px;
+            }
+        } */
+
+        /* .section {
+            padding-top: 4vw;
+            padding-bottom: 4vw;
+        } */
+        /* .parallax-container{
+            max-width: 800px;
+            align-self: center;
+        } */
+        .my {
+            width: 95%;
+
+        }
+
+        .pp {
+            max-width: 180px;
+            z-index: 1000;
+            position: relative;
+            /* top:49%; */
+            /* top: -100; */
+            /* border: 490px; */
+            transform: translateY(-49%);
+            /* border-radius: 100%; */
+            border-radius: 50%;
+        }
+
+        .circular--portrait {
+            /* max-width: 180px; */
+            z-index: 1000;
+            position: relative;
+            /* top:49%; */
+            /* top: -100; */
+            /* border: 490px; */
+
+            position: relative;
+            width: 16vw;
+            height: 16vw;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            /* transform: translateX(1vw); */
+        }
+
+        .circular--portrait img {
+            /* width: 100%;
+            height: auto; */
+        }
+
+        .goUp {
+            transform: translateY(-13vh);
+        }
+
+        @media screen and (max-width: 670px) {
+            header {
+                /* min-height: 500px; */
+            }
+
+            .circular--portrait {
+                margin-left: auto;
+                margin-right: auto;
+                width: 36vw;
+                height: 36vw;
+            }
+
+            .goUp {
+                transform: translateY(-18vh);
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <header>
+        <!-- <nav class="nav-wrapper transparent">
+            <div class="container">
+                <a href="" class="brand-logo">Photo Ninja</a>
+                <a href="" class="sidenav-trigger" data-target="mobile-menu">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="">Photo's</a></li>
+                    <li><a href="">Services</a></li>
+                    <li><a href="">Contact</a></li>
+                </ul>
+                <ul class="sidenav grey lighten-2" id="mobile-menu">
+                    <li><a href="">Photo's</a></li>
+                    <li><a href="">Services</a></li>
+                    <li><a href="">Contact</a></li>
+                </ul>
             </div>
+        </nav> -->
+    </header>
+
+    <!-- photo / grid -->
+    <!-- <section class="container section" id="photos">
+    <div class="row">
+      <div class="col s12 l4">
+          <img src="test.webp"  alt="" class="responsive-img materialboxed">
+      </div>
+      <div class="col s12 l6 offset-l1">
+        <h2 class="indigo-text text-darken-4">Portraits</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 l4 offset-l1 push-l7">
+          <img src="test.webp" alt="" class="responsive-img materialboxed">
+      </div>
+      <div class="col s12 l6 offset-l1 pull-l5 right-align">
+        <h2 class="indigo-text text-darken-4">Cityscapes</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 l4">
+          <img src="test.webp"  alt="" class="responsive-img materialboxed">
+      </div>
+      <div class="col s12 l6 offset-l1">
+        <h2 class="indigo-text text-darken-4">Nature</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+      </div>
+    </div>
+  </section> -->
+
+    <!-- parallax -->
+    <div class="container my">
+        <div class="parallax-container">
+            <nav class="nav-wrapper transparent">
+                <div class="container black-text">
+                    <a href="{% url 'blog-home' %}" class="center brand-logo black-text">BRUH!!</a>
+                    <a href="" class="sidenav-trigger" data-target="mobile-menu">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="" class=" black-text">Home</a></li>
+
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="" class=" black-text">Photo's</a></li>
+                        <li><a href="" class=" black-text">Services</a></li>
+                        <li><a href="" class=" black-text">Contact</a></li>
+                    </ul>
+                    <ul class="sidenav grey lighten-2" id="mobile-menu">
+                        <li><a href="" class=" black-text">Photo's</a></li>
+                        <li><a href="" class=" black-text">Services</a></li>
+                        <li><a href="" class=" black-text">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="parallax">
+                <img src="{% static 'sn.jpg' %}" alt="" class="responsive-img">
+            </div>
+        </div>
+    </div>
+
+    <!-- services / tabs -->
+    <div class="container my">
+        <div class="row">
+            <div class="col s12 l4 goUp">
+                <div class="row">
+                    <div class="col s12 l12  ">
+                        <!-- <a href="" class="halfway-fab btn-floating pink pulse">
+                            <i class="material-icons">favorite</i>
+                        </a> -->
+                        <div class="container center">
+                            <div class="circular--portrait">
+                                <img src="{{userd.profile.image.url}}" alt="">
+                            </div>
+                            <h3 class="center-align">{{ userd.username }}</h3>
+                            <div class="row">
+                                <div class="col s6 l6">
+                                    <span>
+                                        <h5 class="btn btn-large center-align amber lighten-1">Followers</h5>
+                                        <p class="center-align">67</p>
+                                    </span>
+                                </div>
+                                <div class="col s6 l6">
+                                    <span>
+                                        <h5 class="btn btn-large center-align deep-purple lighten-1">Following
+
+                                        </h5>
+                                    </span>
+                                    <p class="center-align">69</p>
+
+
+                                </div>
+                                <div class="divider">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col s12 l12 light-blue lighten-4">
+                        <h4>Bio</h4>
+                        <p class="floating-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                            aliquip
+                            ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                    </div>
+                    <div class="col s12 l12 purple lighten-4">
+
+                        <h4>Gallery</h4>
+                        <!-- <div class="row">
+                            <div class="">
+
+                            </div>
+                        </div> -->
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="col s12 l6">
+
+                <!-- tabs -->
+                <div class="row">
+                    <div class="col s12 l12">
+                        <ul class="tabs">
+                            <li class="tab col s3">
+                                <a href="#photography" class="active indigo-text text-darken-4">Photography</a>
+                            </li>
+                            <li class="tab col s3">
+                                <a href="#editing" class="indigo-text text-darken-4">Editing</a>
+                            </li>
+                            <li class="tab col s3">
+                                <a href="#info" class="active indigo-text text-darken-4">info</a>
+                            </li>
+                            <li class="tab col s3">
+                                <a href="#stuff" class="indigo-text text-darken-4">stuff</a>
+                            </li>
+                        </ul>
+                        <div id="photography" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">Photography</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
+                        </div>
+                        <div id="editing" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">Editing</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
+                        </div>
+                        <div id="info" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">info</p>
+                            <p> {{userd.profile.get_gender_display}} </p>
+                            <p> From: {{userd.profile.country}} </p>
+                            <p> Bio:{{userd.profile.bio}} </p>
+                        </div>
+                        <div id="stuff" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">stuff</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
+                        </div>
+
+                    </div>
+                </div>
+                {% if userd == user %}
+                <h2> My posts </h2>
+                {% else %}
+                <h2> Posts </h2>
+                {% endif %}
+                {% for post in posts %}
+                <div class="row">
+                    <div class="col s10 l0 offset-l1 offset-s1 ">
+                        <!-- offset-l1 offset-s1 -->
+                        <div class="card amber lighten-4 hoverable">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col s11 l11">
+                                        <a href="{% url 'post-detail' post.id %}"><span class="card-title">{{ post.title }}</span></a>
+                                        <p class="right">{{ post.date_posted }}</p>
+                                        <p>{{ post.content }}</p>
+                                    </div>
+                                    <div class="col s1 l1">
+                                        <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>
+                                <p>no ideawhat to Put Here</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="">More details</a>
+                                <a href=""> Litelo</a>
+                                <a href="" class="halfway-fab btn-floating pink pulse">
+                                    <i class="material-icons">favorite</i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+
+            </div>
+            <div class="col s12 l2">
+                <div class="card  red accent-1">
+                    <div class="card-content">
+                        {% if user.is_authenticated %}
+                        {% if userd == user %}
+
+
+                        <div class="fixed-action-btn">
+                            <a class="btn-floating btn-large red">
+                                <i class="large material-icons">settings</i>
+                            </a>
+                            <ul>
+                                <li><a href="{% url 'post-create' %}" data-position="left" class="tooltipped btn-floating btn-large  red" data-tooltip="Create Post" ><i class="material-icons">add</i></a></li>
+                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1"  data-tooltip="ResetPassword" ><i class="material-icons">edit</i></a></li>
+                                <li><a data-position="left" class="tooltipped btn-floating  btn-large green"  data-tooltip="Create Post" ><i class="material-icons">publish</i></a></li>
+                                <li><a data-position="left" class="tooltipped btn-floating  btn-large blue"  data-tooltip="Create Post" ><i class="material-icons">attach_file</i></a></li>
+                            </ul>
+                        </div>
+                        <a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit Profile
+                        </a>
+
+                        {% endif %}
+                        {% endif %}
+                        {% if userd == user %}
+                        <a href="{% url 'post-create' %}" class="btn btn-large waves-effect waves-light green">
+                            <p>Create Post</p>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card  red accent-1">
+                    <div class="card-content">
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p> -->
+    </div>
+    <div id="exampleModal" class="modal">
+        <div class="modal-content">
+            <h4>Terms & Conditions</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae finibus mi, egestas dignissim metus. Fusce tempus elementum metus. Donec eu nibh fringilla, dignissim arcu eu, ultrices ante. Cras consectetur risus id mi condimentum
+                aliquam.</p>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-            <div class="modal-body">
-            			<fieldset class="form-group">
-                        {{pform|crispy}}
-            			</fieldset>
-            </div>
+                <div class="modal-body">
+                    <fieldset class="form-group">
+                        {{pform.as_p}}
+
+
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
+                </div>
+            </form>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
-                </form>
+                <a href="#!" class="modal-close btn orange">Agree</a>
             </div>
         </div>
+
     </div>
-</div>
-      <div class="content-section">
-        {% if userd == user %}
-        <h2> My posts </h2>
-        {% else %}
-        <h2> Posts </h2>
-        {% endif %}
-      {% for post in posts %}
-      <article class="media content-section">
-            <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
-      <div class="media-body">
-        <div class="article-metadata">
-          <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
-          <small class="text-muted">{{ post.date_posted }}</small>
-        </div>
-        <h3><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
-        <p class="article-content">{{ post.content }}</p>
-      </div>
-    </article>
-        {% endfor %}
-    </div>
-      <div class="content-section">
-    		<form method="POST" enctype="multipart/form-data">
-    			{% csrf_token %}
-    			<fieldset class="form-group">
-    			</fieldset>
-    			<div class="form-group">
-    			</div>
-    		</form>
-    	</div>
-    </div>
-{% endblock content %}
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'materialize.min.js' %}"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script> -->
+    <script>
+        $(document).ready(function() {
+
+            $('.sidenav').sidenav();
+            $('.materialboxed').materialbox();
+            $('.parallax').parallax();
+            $('.tabs').tabs();
+            $('.modal').modal();
+            $('.tooltipped').tooltip();
+            $('.fixed-action-btn').floatingActionButton({
+                hoverEnabled:false
+            });
+
+          });
+    </script>
+</body>
+
+</html>

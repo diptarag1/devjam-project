@@ -2,10 +2,18 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="border-top pt-3">
-  <h2> Logged Out Successfully </h2>
-			<small class="text-muted">
-				<a href="{% url 'login' %}"> Log In Again </a>
-			</small>
-		</div>
+<style media="screen">
+    #logoutMessage{
+        min-height: 60vh;
+    }
+</style>
+<div id="logoutMessage" class=" container border-top pt-3 center">
+    <div class="card">
+        <div class="content">
+            <h2> Logged Out Successfully </h2>
+        </div>
+    </div>
+
+
+</div>
 {% endblock content %}
