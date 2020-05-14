@@ -1,0 +1,28 @@
+{% for mem in countmem %}
+  <li>
+        <ul>
+            {% if cgmember.auth < 2 and cgmember.auth < mem.auth %}
+            <div class="chip">
+                <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                Username:{{mem.user.username}} <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
+                <form action = "{% url 'promote_demote' %}" method = "post">
+                  {% csrf_token %}
+               <button name = "1" id = "promote" class = "btn-primary" slug = {{group.title}} userd = "{{mem.user}}" choice = '1' type = "submit">Promote</button>
+                {% if  mem.auth < 3 %}
+                <button name = "2" id = "promote" class = "btn-primary" slug = {{group.title}} userd = "{{mem.user}}" choice = '0' type = "submit">Demote</button>
+                {% endif %}
+                <br>
+                Designation:{{mem.get_auth_display}}
+                </form>
+            </div>
+            {% else %}
+            <div class="chip">
+                <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
+                Username:{{mem.user.username}}
+                <br>
+                Designation:{{mem.get_auth_display}}
+            </div>
+            {%endif%}
+        </ul>
+    </li>
+{% endfor %}

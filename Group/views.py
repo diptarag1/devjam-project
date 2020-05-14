@@ -25,6 +25,7 @@ class CreateGroup(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # form.instance.members.add(self.request.user)
         # self.object.membership.add(self.request.user)
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
 
 # class SingleGroup(DetailView):
@@ -91,16 +92,32 @@ def reject(request,userd,slug):
     GroupMember.objects.get(user=user,group=group).delete()
     return redirect('group-detail',slug=slug,activechannel='General')
 
-def promote_demote(request,userd,slug,choice):
+def promote_demote(request):
+    slug = request.POST.get('slug')
+    userd = request.POST.get('userd')
+    choice = request.POST.get('choice')
+    print(slug)
+    print(userd)
     group = get_object_or_404(Group,slug=slug)
     user = get_object_or_404(User,username=userd)
     member = GroupMember.objects.get(user=user,group=group)
-    if choice == 1:
+    if choice == '1':
         member.auth=member.auth-1
     else:
         member.auth=member.auth+1
     member.save()
-    return redirect('group-detail',slug=slug,activechannel='General')
+    context = {
+        'countmem' : GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),
+        'group' : group,
+
+    }
+    if request.user in group.members.all() and request.user.is_authenticated:
+        context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
+    if request.is_ajax():
+        html = render_to_string('Group/member-list.html',context, request = request)
+        return JsonResponse({'form':html})
+    else:
+        return HttpResponse('Meme')
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))
 #       try:

@@ -51,14 +51,14 @@ def profile(request,slug):
 		'userd':userd,
 		'slug':slug
 		}
-	context['posts'] = Post.objects.filter(author__username = slug)
+	context['posts'] = Post.objects.filter(author__username = slug,  grouppost__isnull=True)
 	return render(request, 'users/profile.html', context)
 
 def notification(request):
 	context={}
 	print(datetime.now())
 	print(request.user.profile.notif)
-	context['posts'] = Post.objects.filter(date_posted__gte=request.user.profile.notif)
+	context['posts'] = Post.objects.filter(date_posted__gte=request.user.profile.notif, grouppost__isnull=True)
 	request.user.profile.notif=timezone.now()
 	request.user.profile.save()
 	return render(request,'users/notifications.html', context)
@@ -70,5 +70,5 @@ class ProfileDetailView(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['posts'] = Post.objects.filter(author__profile = self.object)
+		context['posts'] = Post.objects.filter(author__profile = self.object, grouppost__isnull=True)
 		return context

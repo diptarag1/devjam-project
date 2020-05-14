@@ -225,32 +225,10 @@
         <h4>Members List</h4>
 
         <div class="modal-body">
-            <li>
-                {% for mem in countmem %}
-                <ul>
-                    {% if cgmember.auth < 2 and cgmember.auth < mem.auth %}
-                    <div class="chip">
-                        <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                        Username:{{mem.user.username}} <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
-                        <a href="{% url 'promote_demote' slug=group.title userd=mem.user choice=1 %}">Promote</a>
-                        {% if  mem.auth < 3 %}
-                        <a href="{% url 'promote_demote' slug=group.title userd=mem.user choice=0 %}">Demote</a>
-                        {% endif %}
-                        <br>
-                        Designation:{{mem.get_auth_display}}
-                    </div>
-                    {% else %}
-                    <div class="chip">
-                        <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
-                        Username:{{mem.user.username}}
-                        <br>
-                        Designation:{{mem.get_auth_display}}
-                    </div>
-                    {%endif%}
-                </ul>
-            </li>
-            {% endfor %}
-        </div>
+        <div id = "memberlist">
+           {% include 'Group/member-list.html' %}
+          </div>
+    </div>
         <div class="modal-footer">
 
             <a href="" class="btn btn-small green">Save changes</a>
@@ -288,4 +266,39 @@
     </div>
 </div> -->
 {%endblock%}
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(event) {
+        $(document).on('click', '#promote', function(event) {
+            event.preventDefault();
+
+
+            var slug = $(this).attr('slug');
+            var userd = $(this).attr('userd');
+            var choice = $(this).attr('choice');
+
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "promote_demote" %}',
+                data: {
+                    'slug': slug,
+                    'userd': userd,
+                    'choice': choice,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#memberlist').html(response['form'])
+                    console.log('Success');
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}
 {% url 'profile' slug=user.username %}
