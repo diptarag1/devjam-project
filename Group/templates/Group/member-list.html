@@ -1,28 +1,48 @@
-{% for mem in countmem %}
-  <li>
-        <ul>
+<style media="screen">
+    /* .myChip{
+        transform:scale(1.3);
+    } */
+</style>
+<ul class="collection">
+    {% for mem in countmem %}
+    <li class="collection-item">
+        <div class="row">
             {% if cgmember.auth < 2 and cgmember.auth < mem.auth %}
-            <div class="chip">
-                <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                Username:{{mem.user.username}} <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
-                <form action = "{% url 'promote_demote' %}" method = "post">
-                  {% csrf_token %}
-               <button name = "1" id = "promote" class = "btn-primary" slug = {{group.title}} userd = "{{mem.user}}" choice = '1' type = "submit">Promote</button>
-                {% if  mem.auth < 3 %}
-                <button name = "2" id = "promote" class = "btn-primary" slug = {{group.title}} userd = "{{mem.user}}" choice = '0' type = "submit">Demote</button>
-                {% endif %}
-                <br>
-                Designation:{{mem.get_auth_display}}
+            <div class="col s4 l4">
+                <div class="myChip chip">
+                    <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                    Username:{{mem.user.username}}
+                </div>
+            </div>
+            <div class="col s6 l6">
+                <form action="{% url 'promote_demote' %}" method="post">
+                    {% csrf_token %}
+                    <button name="1" id="promote" class="btn" slug={{group.title}} userd="{{mem.user}}" choice='1' type="submit">Promote</button>
+                    {% if  mem.auth < 3 %}
+                    <button name="2" id="promote" class="btn" slug={{group.title}} userd="{{mem.user}}" choice='0' type="submit">Demote</button>
+                    {% endif %}
+                    <br>
+                    Designation:{{mem.get_auth_display}}
                 </form>
             </div>
+            <div class="col s2 l2">
+                <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
+            </div>
             {% else %}
-            <div class="chip">
-                <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
-                Username:{{mem.user.username}}
-                <br>
-                Designation:{{mem.get_auth_display}}
+            <div class="col s4 l4">
+                <div class="chip">
+                    <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
+                    Username:{{mem.user.username}}
+                    <br>
+                    Designation:{{mem.get_auth_display}}
+                </div>
             </div>
             {%endif%}
-        </ul>
+
+        </div>
+
+
     </li>
-{% endfor %}
+    {% endfor %}
+
+</ul>

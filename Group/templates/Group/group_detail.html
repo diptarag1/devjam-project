@@ -1,45 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {%block content%}
-<style media="screen">
-    .circular--portrait {
-        position: relative;
-        width: auto;
-        height: 40px;
-        overflow: hidden;
-        border-radius: 50%;
-    }
-
-    .circular--portrait img {
-        width: 100%;
-        height: auto;
-    }
-
-    .circular--square {
-        border-radius: 50% !important;
-    }
-
-    .circular--landscape {
-        margin: 4vh;
-        display: inline-block;
-        position: relative;
-        max-width: 10vh;
-        max-height: 10vh;
-        /* width: 200px; */
-        height: 10vh;
-        overflow: hidden;
-        border-radius: 50%;
-    }
-
-    .circular--landscape img {
-
-        width: auto;
-        height: 100%;
-        /* margin-left: -50px; */
-    }
-</style>
+{% include 'snippets/circularImageStyle.html' %}
 <div class="row">
-    <div class="col col s12 l2">
+    <div id="leftMostColumn" class="col s12 l2">
         <div class="card">
             <div class="card-content">
                 <span class="card-title">
@@ -61,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="col s12 l7">
+    <div id="centerMostColumn" class="col s12 l7">
         <div class="card">
             <div class="card-image">
                 <img src="{% static 'sn.jpg' %}">
@@ -110,7 +74,21 @@
                 </a>
 
                 <div class="divider"></div>
-
+                <style media="screen">
+                    .bigButton{
+                        position: absolute;
+                        top: 8%;
+                        right:4%;
+                        transform: scale(3.0);
+                    }
+                </style>
+                <div class="bigButton"  >
+                    <span class="card-title activator grey-text text-darken-4"><i class="material-icons ">more_vert</i></span>
+                </div>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4 ">Card Title<i class="material-icons right">close</i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
             </div>
             <div class="card-action">
                 <a href="#">This dis a link</a>
@@ -130,7 +108,7 @@
         {% endif %}
         {% endif %}
     </div>
-    <div class="col s12 l3">
+    <div id="rightMostColumn" class="col s12 l3">
 
     </div>
 </div>
@@ -164,7 +142,6 @@
 <div id="exampleModalCenter2" class="modal">
     <div class="modal-content">
         <h4>Members List</h4>
-
         <div class="modal-body">
             <div id="memberlist">
                 {% include 'Group/member-list.html' %}
