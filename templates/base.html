@@ -20,6 +20,9 @@
     <title> Blog </title>
     {% endif %}
     <style>
+        body,html{
+            overflow-x:auto;
+        }
         nav .badge {
             position: relative;
             top: 20px;
@@ -104,6 +107,12 @@
 
 
                         <p class="floating-text"><a class="mr-2" href="{% url 'profile' slug=post.author.username %}">By {{ post.author }}</a></p>
+
+                        <div class="chip">
+                            <img src="{{ post.author.profile.image.url }}" alt="Contact Person">
+                            {{ post.author }}
+                        </div>
+
                         <p class="right">{{ post.date_posted }}</p>
                         <p>{{post.content}}</p>
                     </div>
