@@ -82,20 +82,7 @@
                 </div>
                 <div class="row">
                     <div class="col s12 l12">
-                        {% for mem in gmember %}
-                        {% if mem.status == 1 and cgmember.auth < 2%}
-                        <div class="chip">
-                            <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                            {{mem.user.username}} <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
-                        </div>
 
-                        {% elif mem.status == 1 %}
-                        <div class="chip">
-                            <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                            {{mem.user.username}}
-                        </div>
-                        {% endif %}
-                        {% endfor %}
                     </div>
 
                 </div>
@@ -111,13 +98,15 @@
                 {% endif %}
 
                 {% if cgmember.auth < 2 %}
-                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter">
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter1">
                     Request List
                 </a>
-
-
-
                 {% endif %}
+
+
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter2">
+                    Members List
+                </a>
 
                 <div class="divider"></div>
                 {% if posts %}
@@ -206,7 +195,7 @@
 </div>
 
 <!-- Modal Structure -->
-<div id="exampleModalCenter" class="modal">
+<div id="exampleModalCenter1" class="modal">
     <div class="modal-content">
         <h4>Pending List</h4>
 
@@ -228,7 +217,46 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
+<div id="exampleModalCenter2" class="modal">
+    <div class="modal-content">
+        <h4>Members List</h4>
+
+        <div class="modal-body">
+            <li>
+                {% for mem in countmem %}
+                <ul>
+                    {% if cgmember.auth < 2 and cgmember.auth < mem.auth %}
+                    <div class="chip">
+                        <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                        Username:{{mem.user.username}} <a href="{% url 'reject' slug=group.title userd=mem.user %}">Remove</a>
+                        <a href="{% url 'promote_demote' slug=group.title userd=mem.user choice=1 %}">Promote</a>
+                        {% if  mem.auth < 3 %}
+                        <a href="{% url 'promote_demote' slug=group.title userd=mem.user choice=0 %}">Demote</a>
+                        {% endif %}
+                        <br>
+                        Designation:{{mem.get_auth_display}}
+                    </div>
+                    {% else %}
+                    <div class="chip">
+                        <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
+                        Username:{{mem.user.username}}
+                        <br>
+                        Designation:{{mem.get_auth_display}}
+                    </div>
+                    {%endif%}
+                </ul>
+            </li>
+            {% endfor %}
+        </div>
+        <div class="modal-footer">
+
+            <a href="" class="btn btn-small green">Save changes</a>
+        </div>
+    </div>
+    <div class="modal-footer">
     </div>
 </div>
 <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

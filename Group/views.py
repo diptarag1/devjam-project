@@ -43,12 +43,12 @@ def SingleGroup(request, slug, activechannel):
     group = Group.objects.filter(title__iexact=slug).first()
     achannel = Channel.objects.filter(parentgroup = group, name = activechannel).first()
     context = {
-        'gmember' : GroupMember.objects.filter(group=group),
+        'gmember' : GroupMember.objects.filter(group=group).filter(status=0),
         'tags': Tag.objects.all,
         'channels' : Channel.objects.filter(parentgroup = group),
         'group' : group,
         'activechannel' : achannel,
-        'countmem': GroupMember.objects.filter(group=group).filter(status=1)
+        'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth')
     }
     if request.user in group.members.all() and request.user.is_authenticated:
         context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
@@ -91,6 +91,16 @@ def reject(request,userd,slug):
     GroupMember.objects.get(user=user,group=group).delete()
     return redirect('group-detail',slug=slug,activechannel='General')
 
+def promote_demote(request,userd,slug,choice):
+    group = get_object_or_404(Group,slug=slug)
+    user = get_object_or_404(User,username=userd)
+    member = GroupMember.objects.get(user=user,group=group)
+    if choice == 1:
+        member.auth=member.auth-1
+    else:
+        member.auth=member.auth+1
+    member.save()
+    return redirect('group-detail',slug=slug,activechannel='General')
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))
 #       try:
