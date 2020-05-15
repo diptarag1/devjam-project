@@ -123,7 +123,7 @@
             {% if  mem.status == 0 %}
             <li>
                 <ul>
-                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.slug userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.slug userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.slug userd=mem.user %}">Reject</a>
                 </ul>
 
             </li>
@@ -155,34 +155,7 @@
     <div class="modal-footer">
     </div>
 </div>
-<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Pending List</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {% for mem in gmember %}
-                {% if  mem.status == 0 %}
-                <li>
-                    <ul>
-                        {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
-                    </ul>
 
-                </li>
-                {%endif%}
-                {%endfor%}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 {%endblock%}
 {% block js %}
 <script type="text/javascript">

@@ -46,7 +46,7 @@ class GroupMember(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     auth = models.IntegerField(choices=AUTH, default=3)
     def __str__(self):
-        return self.user.username
+        return self.user.username +","+ self.group.title
 
     class Meta:
         unique_together = ("group", "user")
