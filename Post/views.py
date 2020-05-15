@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 from .models import Post, Comment
 from django.template.loader import render_to_string
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
 from Group.models import Group
 
@@ -66,22 +66,31 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
-    model = Comment
-    fields = ['content']
-    template_name = 'Post/comment.html'
+# class CommentCreateView(LoginRequiredMixin, CreateView):
+#     model = Comment
+#     fields = ['content']
+#     template_name = 'Post/comment.html'
+#
+#     def get_context_data(self, **kwargs):
+#         # Call the base implementation first to get a context
+#         context = super().get_context_data(**kwargs)
+#         # Add in a QuerySet of all the books
+#         context['posty'] = Post.objects.filter(pk = self.kwargs['pk']).first()
+#         return context
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         form.instance.post=Post.objects.filter(pk = self.kwargs['pk']).first()
+#         return super().form_valid(form)
+def commentFunc(request,pk):
+    if (request.method=='POST'):
+        the_content = request.POST.get('the_content')
+        com=Comment(content=the_content,post=Post.objects.filter(pk = pk).first(),author=request.user)
+        com.save()
+        # a['job']="done"
+        return HttpResponse("helo")
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['posty'] = Post.objects.filter(pk = self.kwargs['pk']).first()
-        return context
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        form.instance.post=Post.objects.filter(pk = self.kwargs['pk']).first()
-        return super().form_valid(form)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
