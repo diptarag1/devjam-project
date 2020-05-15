@@ -156,6 +156,16 @@
         .fixed-action-btn {
             z-index: 1000;
         }
+        #coolButton{
+            z-index: 8000;
+            position: fixed;
+            left: 40px;
+            bottom: 40px;
+
+        }
+        #menu{
+            transform: scale(2.0);
+        }
     </style>
 </head>
 
@@ -411,37 +421,7 @@
                     <div id="postCalone" class="col s12 l12">
 
                         {% for post in posts %}
-                        <div class="row">
-                            <div class="col s10 l0 offset-l1 offset-s1 ">
-                                <!-- offset-l1 offset-s1 -->
-                                <div class="card amber lighten-4 hoverable">
-                                    <div class="card-content">
-                                        <div class="row">
-                                            <div class="col s11 l11">
-                                                <a href="{% url 'post-detail' post.id %}"><span class="card-title">{{ post.title }}</span></a>
-                                                <p class="right">{{ post.date_posted }}</p>
-                                                <p>{{ post.content }}</p>
-                                            </div>
-                                            <div class="col s1 l1">
-                                                <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-reveal">
-                                        <span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>
-                                        <p>no ideawhat to Put Here</p>
-                                    </div>
-                                    <div class="card-action">
-                                        <a href="">More details</a>
-                                        <a href=""> Litelo</a>
-                                        <!-- <a href="" class="halfway-fab btn-floating pink pulse">
-                                            <i class="material-icons">favorite</i>
-                                        </a> -->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        {% include 'snippets/postCardMini.html' %}
                         {% endfor %}
                         {% else %}
                         <h3>No posts yet</h3>
@@ -560,6 +540,20 @@
 
     </div>
 
+    <div id="coolButton">
+        <a id="menu" class="waves-effect waves-light btn btn-floating"><i class="material-icons">menu</i></a>
+
+        <!-- Tap Target Structure -->
+        <div id="fd"class="tap-target blue lighten-2" data-target="menu">
+            <div class="tap-target-content ">
+                <h5>Want to show </h5>
+                <h5>something intresting</h5>
+                <p>A bunch of dssjfnskdfnjsf
+                sdfjsfnsfnlsdkfsldf</p>
+            </div>
+        </div>
+
+    </div>
     <!-- Compiled and minified JavaScript -->
     <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'materialize.min.js' %}"></script>
@@ -580,6 +574,15 @@
             $('.modal-overlay').addClass('baapbaap');
 
             $('select').not('.disabled').formSelect();
+            $('.tap-target').tapTarget();
+
+
+            $('#menu').on('click',function () {
+                var instance = M.TapTarget.getInstance(document.getElementById('fd'));
+                instance.open();
+                // console.log("dfsdfsdfsd");
+                  // $('.tap-target').tapTarget('next');
+            });
         });
     </script>
 </body>

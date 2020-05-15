@@ -88,8 +88,9 @@
 
                 </div>
             </div>
-            <p class="text-muted"> Comments ({{comments.count}}) </p>
+
             <div id="comment-section"class="">
+                <p class="text-muted"> Comments ({{comments.count}}) </p>
                 {% for comment in comments %}
                 {% include 'snippets/commentCard.html' %}
                 {% endfor %}
