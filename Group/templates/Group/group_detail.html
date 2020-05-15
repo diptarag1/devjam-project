@@ -16,7 +16,7 @@
                 <ul class="collection">
 
                     {% for c in channels %}
-                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.title activechannel=c.name %}">
+                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.slug activechannel=c.name %}">
                             <p> {{c.name}} </p>
                         </a> </li>
                     {% endfor %}
@@ -54,11 +54,11 @@
 
                 <div class="divider"></div>
                 {% if not user in group.members.all %}
-                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
+                <a href="{%url 'addmember' slug=group.slug%}"><button type="button" name="button">Join</button></a>
                 {% elif user in group.members.all and cgmember.status == 0 %}
                 <h3>Your application is Pending!!</h3>
                 {% else %}
-                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
+                <a href="{%url 'addmember' slug=group.slug%}"><button type="button" name="button">Leave</button></a>
                 {% endif %}
 
                 {% if user in group.members.all %}
@@ -123,7 +123,7 @@
             {% if  mem.status == 0 %}
             <li>
                 <ul>
-                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.slug userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
                 </ul>
 
             </li>

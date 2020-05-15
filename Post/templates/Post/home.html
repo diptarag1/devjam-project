@@ -16,7 +16,7 @@
 				<p class='text-muted'>Placeholder Text</p>
 				<ul class="collection">
 					{% for g in groups %}
-					<li class="collection-item flow-text"><a href="{% url 'group-detail' slug=g.title activechannel='General' %}">
+					<li class="collection-item flow-text"><a href="{% url 'group-detail' slug=g.slug activechannel='General' %}">
 							<p> {{g.title}} </p>
 						</a></li>
 					{% endfor %}

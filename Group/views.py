@@ -41,7 +41,7 @@ class CreateGroup(LoginRequiredMixin, CreateView):
 
 
 def SingleGroup(request, slug, activechannel):
-    group = Group.objects.filter(title__iexact=slug).first()
+    group = Group.objects.filter(slug=slug).first()
     achannel = Channel.objects.filter(parentgroup = group, name = activechannel).first()
     context = {
         'gmember' : GroupMember.objects.filter(group=group).filter(status=0),
