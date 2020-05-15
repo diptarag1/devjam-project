@@ -1,0 +1,73 @@
+body{
+    padding: 0px;
+    margin: 0px;
+    font-family:Abel ;
+    background-image: url(https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+
+ .container{
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%,-50%);
+     width: 28%;
+     margin: auto;
+     background-color: rgba(0, 0, 0, 0.1);
+     color:white;
+     padding: 30px;
+     box-shadow: 0px 2px 8px 2px #555;
+     border-radius: 6px;
+     box-sizing: border-box;
+ }
+  
+ .container h2{
+     padding:10px 15px;
+     letter-spacing: 1px;
+ }
+
+ .form-container label{
+     text-transform: uppercase;
+     font-size: 12px;
+     letter-spacing: 1px;
+ }
+
+ input[type=text], input[type=password], button{
+     width: 100%;
+     padding: 8px 12px;
+     margin: 8px 0px;
+     display: inline-block;
+     box-sizing: border-box;
+     color:white;
+     background-color: transparent;
+     border: 1px solid white;
+ }
+ input[type=text]:focus, input[type=password]:focus{
+    outline: none
+}
+ input[type=email], input[type=email], button{
+    width: 100%;
+    padding: 8px 12px;
+    margin: 8px 0px;
+    display: inline-block;
+    box-sizing: border-box;
+    color:white;
+    background-color: transparent;
+    border: 1px solid white;
+}
+     input[type=text]:focus, input[type=email]:focus{
+        outline: none}
+ button{
+     padding: 12px 20px;
+     cursor: pointer;
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: 14px;
+     letter-spacing: 1px;
+ }
+
+ button:hover{
+     background: rgba(0, 0, 0, 0.5);
+ }

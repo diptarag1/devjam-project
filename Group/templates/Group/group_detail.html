@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+{% include 'snippets/circularImageStyle.html' %}
+<div class="row">
+    <div id="leftMostColumn" class="col s12 l2">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">
+                    {% if user.is_authenticated and user in group.members.all%}
+                    <h4>Channels</h4>
+                </span>
+                <li class="">
+                    <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
+                </li>
+                <ul class="collection">
+
+                    {% for c in channels %}
+                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.title activechannel=c.name %}">
+                            <p> {{c.name}} </p>
+                        </a> </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div id="centerMostColumn" class="col s12 l7">
+        <div class="card">
+            <div class="card-image">
+                <img src="{% static 'sn.jpg' %}">
+                <!-- <h1 class="card-title"></h1> -->
+                <span class="card-title">
+                    <h1>{{group.title}}</h1>
+                </span>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s8 l8">
+                        <h4>Description:</h4>
+                        <p class="flow-text">{{group.description}}</p>
+                    </div>
+                    <div class="col s4 l4">
+                        <h3>Members:{{countmem.count}}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l12">
+
+                    </div>
+
+                </div>
+
+
+                <div class="divider"></div>
+                {% if not user in group.members.all %}
+                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
+                {% elif user in group.members.all and cgmember.status == 0 %}
+                <h3>Your application is Pending!!</h3>
+                {% else %}
+                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
+                {% endif %}
+
+                {% if user in group.members.all %}
+                {% if cgmember.auth < 2 %}
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter1">
+                    Request List
+                </a>
+                {% endif %}
+
+
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter2">
+                    Members List
+                </a>
+
+                <div class="divider"></div>
+                <style media="screen">
+                    .bigButton{
+                        position: absolute;
+                        top: 8%;
+                        right:4%;
+                        transform: scale(3.0);
+                    }
+                </style>
+                <div class="bigButton"  >
+                    <span class="card-title activator grey-text text-darken-4"><i class="material-icons ">more_vert</i></span>
+                </div>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4 ">Card Title<i class="material-icons right">close</i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+            <div class="card-action">
+                <a href="#">This dis a link</a>
+            </div>
+        </div>
+        {% if posts %}
+        {% for post in posts %}
+        <div class="row">
+            <div class="col s12 l12">
+                {% include 'snippets/postCard.html' %}
+
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h1>No Posts yet</h1>
+        {% endif %}
+        {% endif %}
+    </div>
+    <div id="rightMostColumn" class="col s12 l3">
+
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="exampleModalCenter1" class="modal">
+    <div class="modal-content">
+        <h4>Pending List</h4>
+
+        <div class="modal-body">
+            {% for mem in gmember %}
+            {% if  mem.status == 0 %}
+            <li>
+                <ul>
+                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                </ul>
+
+            </li>
+            {%endif%}
+            {%endfor%}
+        </div>
+        <div class="modal-footer">
+
+            <a href="" class="btn btn-large green">Save changes</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
+<div id="exampleModalCenter2" class="modal">
+    <div class="modal-content">
+        <h4>Members List</h4>
+        <div class="modal-body">
+            <div id="memberlist">
+                {% include 'Group/member-list.html' %}
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <a href="" class="btn btn-small green">Save changes</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Pending List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for mem in gmember %}
+                {% if  mem.status == 0 %}
+                <li>
+                    <ul>
+                        {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                    </ul>
+
+                </li>
+                {%endif%}
+                {%endfor%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+{%endblock%}
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(event) {
+        $(document).on('click', '#promote', function(event) {
+            event.preventDefault();
+
+
+            var slug = $(this).attr('slug');
+            var userd = $(this).attr('userd');
+            var choice = $(this).attr('choice');
+
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "promote_demote" %}',
+                data: {
+                    'slug': slug,
+                    'userd': userd,
+                    'choice': choice,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#memberlist').html(response['form'])
+                    console.log('Success');
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}
+{% url 'profile' slug=user.username %}

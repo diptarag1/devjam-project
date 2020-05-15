@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from Tag.models import Tag
+from Group.models import Channel
 
 # Create your models here.
 class Post(models.Model):
@@ -17,7 +18,8 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		return reverse('post-detail', kwargs = {'pk':self.pk})
 
-
+class GroupPost(Post):
+	parentchannel = models.ForeignKey(Channel, related_name = "parent_channel", on_delete=models.CASCADE)
 
 class Comment(models.Model):
 	content = models.TextField()

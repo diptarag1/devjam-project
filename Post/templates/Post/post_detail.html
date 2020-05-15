@@ -1,68 +1,201 @@
 {%  extends "base.html" %}
 {% block content %}
-<body>
-	<article class="media content-section">
-				<img class = "rounded-circle article-img" src = "{{object.author.profile.image.url}}">
-  <div class="media-body">
-    <div class="article-metadata">
-      <a class="mr-2" href="{% url 'profile' slug=object.author.username %}">{{ object.author }}</a>
-      <small class="text-muted">{{ object.date_posted }}</small>
-			{% if object.author == user %}
-				<a class="text-blue" href="{%url 'post-update' object.id%}">Update </a>
-				<a class="text-danger" href="{%url 'post-delete' object.id%}"> Delete </a>
-			{% endif %}
+
+<style media="screen">
+    /* .circular--portrait {
+  position: relative;
+  width: auto;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circular--portrait img {
+  width: 100%;
+  height: auto;
+} */
+    .circular--square {
+        border-radius: 50% !important;
+    }
+
+    .circular--landscape {
+        margin: 4vh;
+        display: inline-block;
+        position: relative;
+        max-width: 10vh;
+        max-height: 10vh;
+        /* width: 200px; */
+        height: 10vh;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .circular--landscape img {
+
+        width: auto;
+        height: 100%;
+        /* margin-left: -50px; */
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s10 l10 ">
+                            <h2>{{ object.title }}</h2>
+
+                        </div>
+
+                        <div class="col s1 l1 ">
+                            <div class="center-align">
+                                <div id="like-section"> {% include 'Post/like-section.html' %} </div>
+                            </div>
+
+                        </div>
+                        <div class="col s1 l1 ">
+                            <div class="right-align">
+                                {% if object.author == user %}
+                                <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                    <a class="mr-2" href="{% url 'profile' slug=object.author.username %}">{{ object.author }}</a>
+                    <p class="right">{{ object.date_posted }}</p>
+
+
+                    <p>
+                        {% for tag in tags %}
+                        <a href="{% url 'explore-tag' tag %}"> #{{tag}} </a>
+                        {% endfor %}
+                    </p>
+                    <p class="article-content">{{ object.content }}</p>
+                    <p> Views: {{object.views.count}} </p>
+
+
+                </div>
+                <div class="card-reveal">
+                    {% if object.author == user %}
+                    <span class="card-title grey-text text-darken-4">What to do<i class="material-icons right">close</i></span>
+
+                    <a class="btn btn-large orange waves-effect waves-light red" href="{%url 'post-update' object.id%}">Update </a>
+                    <a class="btn btn-large red waves-effect waves-light red" href="{%url 'post-delete' object.id%}"> Delete </a>
+
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <div id="comment-section"class="">
+                <p class="text-muted"> Comments ({{comments.count}}) </p>
+                {% for comment in comments %}
+                {% include 'snippets/commentCard.html' %}
+                {% endfor %}
+            </div>
+
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>Continue the Conversation</div>
+                    <div class="collapsible-body">
+                        <!-- <form > -->
+                        <form method="POST" id="post-form">
+
+
+                            <div class="input-field">
+                                <i class="material-icons prefix">message</i>
+                                <textarea id="id_content" class="materialize-textarea" cols="20" rows="20"></textarea>
+                                <label for="message">Your Message</label>
+                            </div>
+
+                            <div class="input-field center">
+                                <button id="sendButton" class="btn" type="submit" >Submit</button>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <p> <a href="{% url 'post-comment' object.id%}"> ff</a></p>
+
+        </div>
     </div>
-    <h2>{{ object.title }}</h2>
-		<p>
-			{% for tag in tags %}
-			 <a href = "{% url 'explore-tag' tag %}"> #{{tag}} </a>
-			 {% endfor %}
-		</p>
-    <p class="article-content">{{ object.content }}</p>
-	  <p> Views: {{object.views.count}} </p>
-	<div id = "like-section"> {% include 'Post/like-section.html' %} </div>
-  </div>
-</article>
-<div class="content-section"> <p class="text-muted"> Comments ({{comments.count}}) </p>
-{% for comment in comments %}
-		<article class="media content-section">
-					<img class = "rounded-circle article-img" src = "{{comment.author.profile.image.url}}">
-		<div class="media-body">
-			<div class="article-metadata">
-				<a class="mr-2" href="{% url 'profile' slug=comment.author.username %}">{{ comment.author }}</a>
-				<small class="text-muted">{{ comment.date_posted }}</small>
-			</div>
-			<p class="article-content">{{ comment.content }}</p>
-		</div>
-		</article>
-{% endfor %}
-<p> <a href="{% url 'post-comment' object.id%}"> Continue the Conversation </a></p>
+
+
 </div>
-</body>
+
 {% endblock content %}
 {% block js %}
 <script type="text/javascript">
-    	$(document).ready(function(event) {
-    		$(document).on('click', '#like', function(event) {
-    			event.preventDefault();
+    $(document).ready(function(event) {
+        $(document).on('click', '#like', function(event) {
+            event.preventDefault();
 
-    			var pk = $(this).attr('value');
 
-    			$.ajax ({
-    				type		:		'POST'	,
-    				url			: 	'{% url "like-post" %}'	,
-    				data 		: 	{'id': pk, 'csrfmiddlewaretoken': '{{csrf_token}}'}	,
-    				success	: function(response) {
-    					$('#like-section').html(response['form'])
-    					console.log('Success');
-    				}	,
-    				error: function(rs,e) {
-    					console.log(rs.responseText);
-    				}
-    			});
+            var pk = $(this).val();
 
-    		});
-    	});
-    </script>
+            console.log(pk);
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "like-post" %}',
+                data: {
+                    'id': pk,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#like-section').html(response['form'])
+                    console.log('Success');
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+
+
+        function create_post() {
+            console.log("create post is working!") // sanity check
+            $.ajax({
+                url: "{% url 'post-detail' object.id %}comment/new/", // the endpoint
+                type: "POST", // http method
+                data: {
+                    the_content: $('#id_content').val(),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                }, // data sent with the post request
+
+                // handle a successful response
+                success: function(json) {
+
+                    $('#comment-section').load("{% url 'post-detail' object.id %} #comment-section", function() {
+                       /// can add another function here
+                    });
+
+                    console.log("success"); // another sanity check
+                },
+
+                // handle a non-successful response
+                error: function(xhr, errmsg, err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg +
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        };
+        $('#post-form').on('submit', function(event) {
+            event.preventDefault();
+            console.log("form submitted!") // sanity check
+            create_post();
+        });
+
+    });
+</script>
 
 {% endblock %}

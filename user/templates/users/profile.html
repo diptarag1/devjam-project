@@ -1,78 +1,590 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-{% block content %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{userd.profile.image.url}}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ userd.username }}</h2>
-          <p class="text-secondary">{{ userd.email }}</p>
-        </div>
-      </div>
-      <div class="content-section">
-        <p> {{userd.profile.get_gender_display}} </p>
-        <p> From: {{userd.profile.country}} </p>
-        <p> Bio:{{userd.profile.bio}} </p>
-    	</div>
-{% if user.is_authenticated %}
-{% if userd == user %}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Edit Profile
-</button>
-{% endif %}
-{% endif %}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'materialize.min.css' %}">
+
+    <title>ProfilePage</title>
+    <style>
+        .gallery-image {
+            margin-bottom: 10%;
+        }
+
+        .baap {
+            z-index: 1000;
+        }
+
+        .my {
+            width: 95%;
+
+        }
+
+        .pp {
+            max-width: 180px;
+            z-index: 1000;
+            position: relative;
+            /* top:49%; */
+            /* top: -100; */
+            /* border: 490px; */
+            transform: translateY(-49%);
+            /* border-radius: 100%; */
+            border-radius: 50%;
+        }
+
+        .circular--portrait {
+            /* max-width: 180px; */
+            z-index: 1000;
+            position: relative;
+            /* top:49%; */
+            /* top: -100; */
+            /* border: 490px; */
+
+            position: relative;
+            width: 16vw;
+            height: 16vw;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            /* transform: translateX(1vw); */
+        }
+
+        .circular--portrait img {
+            /* width: 100%;
+            height: auto; */
+        }
+
+        .circular--square {
+            border-radius: 50% !important;
+        }
+
+        .circular--landscape {
+            margin: 4vh;
+            display: inline-block;
+            position: relative;
+            max-width: 40vh;
+            max-height: 40vh;
+            /* width: 200px; */
+            height: 40vh;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+
+        .circular--landscape img {
+
+            width: auto;
+            height: 100%;
+            /* margin-left: -50px; */
+        }
+
+        .goUp {
+            transform: translateY(-20vh);
+        }
+
+        @media screen and (max-width: 670px) {
+            header {
+                /* min-height: 500px; */
+            }
+
+            .circular--portrait {
+                margin-left: auto;
+                margin-right: auto;
+                width: 36vw;
+                height: 36vw;
+            }
+
+            .goUp {
+                transform: translateY(-18vh);
+            }
+
+            .circular--landscape {
+                margin: 4vh;
+                display: inline-block;
+                position: relative;
+                max-width: 60vh;
+                max-height: 60vh;
+                /* width: 200px; */
+                height: 60vh;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+
+            .circular--landscape img {
+
+                width: auto;
+                height: 100%;
+                /* margin-left: -50px; */
+            }
+
+            .goUp {
+                transform: translateY(-20vh);
+            }
+
+            .baapbaap {
+                z-index: 9000;
+            }
+
+        }
+
+        #postCalone {
+            max-height: 260vh !important;
+            overflow-y: scroll;
+        }
+
+        /* html,body{
+            max-height: 800px !important;
+            overflow-y: hidden;
+
+        } */
+        .tabs .indicator {
+            background-color: #1a237e;
+        }
+
+        .tabs .tab a:focus,
+        .tabs .tab a:focus.active {
+            background: transparent;
+        }
+
+        .fixed-action-btn {
+            z-index: 1000;
+        }
+        #coolButton{
+            z-index: 8000;
+            position: fixed;
+            left: 40px;
+            bottom: 40px;
+
+        }
+        #menu{
+            transform: scale(2.0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- parallax -->
+    <div class="container my">
+        <div class="parallax-container">
+            <nav class="nav-wrapper transparent">
+                <div class="container black-text">
+                    <a href="{% url 'blog-home' %}" class="center brand-logo black-text">BRUH!!</a>
+                    <a href="" class="sidenav-trigger" data-target="mobile-menu">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="" class=" black-text">Home</a></li>
+
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="" class="flow-text black-text">Photo's</a></li>
+                        <li><a href="" class="flow-text black-text">Services</a></li>
+                        <li><a href="" class="flow-text black-text">Contact</a></li>
+                    </ul>
+                    <ul class="sidenav grey lighten-2" id="mobile-menu">
+                        <li><a href="" class=" black-text">Photo's</a></li>
+                        <li><a href="" class=" black-text">Services</a></li>
+                        <li><a href="" class=" black-text">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="parallax">
+                <img src="{% static 'sn.jpg' %}" alt="" class="responsive-img">
             </div>
+        </div>
+    </div>
+
+    <!-- services / tabs -->
+    <div class="container my">
+        <div class="row">
+            <div class="col s12 l4 goUp baap">
+                <div class="row">
+                    <div class="col s12 l12  ">
+                        <!-- <a href="" class="halfway-fab btn-floating pink pulse">
+                            <i class="material-icons">favorite</i>
+                        </a> -->
+                        <div class="container center">
+                            <div class="circular--landscape">
+                                <img src="{{userd.profile.image.url}}" class="materialboxed" alt="">
+                            </div>
+                            <h3 class="center-align">{{ userd.username }}</h3>
+                            <div class="row">
+                                <div class="col s6 l6">
+                                    <span>
+                                        <h5 class="btn btn-large center-align amber lighten-1">Followers</h5>
+                                        <p class="center-align">67</p>
+                                    </span>
+                                </div>
+                                <div class="col s6 l6">
+                                    <span>
+                                        <h5 class="btn btn-large center-align deep-purple lighten-1">Following
+
+                                        </h5>
+                                    </span>
+                                    <p class="center-align">69</p>
+
+
+                                </div>
+                                <div class="divider">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col s12 l12 ">
+                        <div class="card light-blue lighten-4">
+                            <div class="card-content">
+                                <h4>Bio</h4>
+                                <p class="floating-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                    nisi ut
+                                    aliquip
+                                    ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                                    est
+                                    laborum.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 l12 ">
+                        <div class="card purple lighten-4">
+                            <div class="card-content">
+                                <h4>Gallery</h4>
+
+                                <div class="row">
+
+                                    <div class="col s6 m6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6 m6  l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6 m6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6  m6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6 m6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col s6 l4  ">
+
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                    commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                                    est
+                                    laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                    commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                                    est
+                                    laborum.</p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <div class="col s12 l6">
+
+                <!-- tabs -->
+                <div class="row">
+                    <div class="col s12 l12">
+                        <ul class="tabs">
+                            <li class="tab col s3">
+                                <a href="#photography" class="active indigo-text text-darken-4">Photography</a>
+                            </li>
+                            <li class="tab col s3">
+                                <a href="#editing" class="indigo-text text-darken-4">Editing</a>
+                            </li>
+                            <li class="tab col s3">
+                                <a href="#info" class="active indigo-text text-darken-4">info</a>
+                            </li>
+                            <li class="tab col s3">
+                                <a href="#stuff" class="indigo-text text-darken-4">stuff</a>
+                            </li>
+                        </ul>
+                        <div id="photography" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">Photography</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
+                        </div>
+                        <div id="editing" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">Editing</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
+                        </div>
+                        <div id="info" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">info</p>
+                            <p> {{userd.profile.get_gender_display}} </p>
+                            <p> From: {{userd.profile.country}} </p>
+                            <p> Bio:{{userd.profile.bio}} </p>
+                        </div>
+                        <div id="stuff" class="col s12">
+                            <p class="flow-text indigo-text text-darken-4">stuff</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
+                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l12 ">
+                        {% if posts %}
+                        {% if userd == user %}
+                        <h2> My posts </h2>
+                        {% else %}
+                        <h2> Posts </h2>
+                        {% endif %}
+                    </div>
+                    <div id="postCalone" class="col s12 l12">
+
+                        {% for post in posts %}
+                        {% include 'snippets/postCardMini.html' %}
+                        {% endfor %}
+                        {% else %}
+                        <h3>No posts yet</h3>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col s12 l2">
+                <div class="card  red accent-1">
+                    <div class="card-content">
+                        {% if user.is_authenticated %}
+                        {% if userd == user %}
+
+
+                        <div class="fixed-action-btn">
+                            <a class="btn-floating btn-large red">
+                                <i class="large material-icons">settings</i>
+                            </a>
+                            <ul>
+                                <li><a href="{% url 'post-create' %}" data-position="left" class="tooltipped btn-floating btn-large  red" data-tooltip="Create Post"><i class="material-icons">add</i></a></li>
+                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
+                                <li><a data-position="left" class="tooltipped btn-floating  btn-large green" data-tooltip="Create Post"><i class="material-icons">publish</i></a></li>
+                                <li><a data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Create Post"><i class="material-icons">attach_file</i></a></li>
+                            </ul>
+                        </div>
+                        <a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit Profile
+                        </a>
+
+                        {% endif %}
+                        {% endif %}
+                        {% if userd == user %}
+                        <a href="{% url 'post-create' %}" class="btn btn-large waves-effect waves-light green">
+                            <p>Create Post</p>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card  red accent-1">
+                    <div class="card-content">
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="exampleModal" class="modal  ">
+        <div class="modal-content">
+            <h4>Edit Profile</h4>
+
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-            <div class="modal-body">
-            			<fieldset class="form-group">
-                        {{pform|crispy}}
-            			</fieldset>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
-                </form>
+                <div class="modal-body">
+
+                    <div class="container">
+                        <div class="input-field ">
+                            <label for="id_country">Country:</label> <input type="text" name="country" value="d" maxlength="50" required id="id_country">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="input-field ">
+                            <label for="id_bio">Bio:</label> <textarea name="bio" cols="40" rows="10" class="materialize-textarea" required id="id_bio"> </textarea>
+                        </div>
+
+                    </div>
+                    <label for="id_gender">Gender:</label>
+
+                    <select name="gender" id="id_gender" <option value="0" selected>Not Defined</option>
+                        <option value="0" selected>Not Defined</option>
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                    </select>
+
+                    <div class="container">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>File</span>
+                                <p><label for="id_image">Image:</label> Currently: <a href="/media/default.jpg">default.jpg</a><br>
+
+                                    <input type="file" name="image" accept="image/*" id="id_image">
+                                </p>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-large " data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-large">Save Changes</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div id="coolButton">
+        <a id="menu" class="waves-effect waves-light btn btn-floating"><i class="material-icons">menu</i></a>
+
+        <!-- Tap Target Structure -->
+        <div id="fd"class="tap-target blue lighten-2" data-target="menu">
+            <div class="tap-target-content ">
+                <h5>Want to show </h5>
+                <h5>something intresting</h5>
+                <p>A bunch of dssjfnskdfnjsf
+                sdfjsfnsfnlsdkfsldf</p>
             </div>
         </div>
+
     </div>
-</div>
-      <div class="content-section">
-        {% if userd == user %}
-        <h2> My posts </h2>
-        {% else %}
-        <h2> Posts </h2>
-        {% endif %}
-      {% for post in posts %}
-      <article class="media content-section">
-            <img class = "rounded-circle article-img" src = "{{post.author.profile.image.url}}">
-      <div class="media-body">
-        <div class="article-metadata">
-          <a class="mr-2" href="{% url 'profile' slug=post.author.username %}">{{ post.author }}</a>
-          <small class="text-muted">{{ post.date_posted }}</small>
-        </div>
-        <h3><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
-        <p class="article-content">{{ post.content }}</p>
-      </div>
-    </article>
-        {% endfor %}
-    </div>
-      <div class="content-section">
-    		<form method="POST" enctype="multipart/form-data">
-    			{% csrf_token %}
-    			<fieldset class="form-group">
-    			</fieldset>
-    			<div class="form-group">
-    			</div>
-    		</form>
-    	</div>
-    </div>
-{% endblock content %}
+    <!-- Compiled and minified JavaScript -->
+    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'materialize.min.js' %}"></script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            $('.sidenav').sidenav();
+            $('.materialboxed').materialbox();
+            $('.parallax').parallax();
+            $('.tabs').tabs();
+            $('.modal').modal();
+            $('.tooltipped').tooltip();
+            $('.fixed-action-btn').floatingActionButton({
+                hoverEnabled: false
+            });
+            $('.modal-overlay').addClass('baapbaap');
+
+            $('select').not('.disabled').formSelect();
+            $('.tap-target').tapTarget();
+
+
+            $('#menu').on('click',function () {
+                var instance = M.TapTarget.getInstance(document.getElementById('fd'));
+                instance.open();
+                // console.log("dfsdfsdfsd");
+                  // $('.tap-target').tapTarget('next');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<div class="navbar-fixed ">
+    <nav class="nav-wrapper indigo lighten-1">
+        <div class="container">
+            <a href="{% url 'blog-home' %}" class="center brand-logo">Bruh</a>
+            <!-- <a href="" class="sidenav-trigger" data-target="mobile-links">
+                <i class="material-icons">menu</i>
+            </a> -->
+            <ul class="left hide-on-med-and-down ">
+                <li><a href="{% url 'blog-home' %}">Home</a></li>
+
+                <li><a href="{% url 'blog-home' %}admin/">ADMIN</a></li>
+
+                <li><a href="">About</a></li>
+                <li><a href="#mainFooter">Contact</a></li>
+
+
+            </ul>
+            <ul class="right hide-on-med-and-down ">
+                {% if user.is_authenticated%}
+                <!-- href="{%url 'notifications'%}" -->
+                <li><a id="notificationsButton" class=" btn-floating z-depth-0 indigo darken-4 ">
+                        <i class=" material-icons">notifications</i>
+                    </a></li>
+                <li><span class="badge white-text new pink">5</span></li>
+                <li><a href="{% url 'profile' slug=user.username %}" class="flow-text"> {{user.username }}</a></li>
+                <li><a class="btn white indigo-text" href="{% url 'logout' %}">Log Out</a></li>
+                {% else %}
+                <li><a class="btn white indigo-text" href="{% url 'login' %}">Login</a></li>
+
+                <li><a class="btn white indigo-text" href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<ul class="sidenav" id="mobile-links">
+    <li><a href="">Home</a></li>
+    <li><a href="">About</a></li>
+    <li><a href="">Contact</a></li>
+</ul>

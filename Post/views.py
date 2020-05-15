@@ -9,8 +9,9 @@ from django.views.generic import (
 )
 from .models import Post, Comment
 from django.template.loader import render_to_string
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
+from Group.models import Group
 
 
 
@@ -23,6 +24,8 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all
+        context['groups'] = Group.objects.all
+        context['posts'] = Post.objects.filter(grouppost__isnull=True)
         return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
@@ -63,22 +66,31 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
-    model = Comment
-    fields = ['content']
-    template_name = 'Post/comment.html'
+# class CommentCreateView(LoginRequiredMixin, CreateView):
+#     model = Comment
+#     fields = ['content']
+#     template_name = 'Post/comment.html'
+#
+#     def get_context_data(self, **kwargs):
+#         # Call the base implementation first to get a context
+#         context = super().get_context_data(**kwargs)
+#         # Add in a QuerySet of all the books
+#         context['posty'] = Post.objects.filter(pk = self.kwargs['pk']).first()
+#         return context
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         form.instance.post=Post.objects.filter(pk = self.kwargs['pk']).first()
+#         return super().form_valid(form)
+def commentFunc(request,pk):
+    if (request.method=='POST'):
+        the_content = request.POST.get('the_content')
+        com=Comment(content=the_content,post=Post.objects.filter(pk = pk).first(),author=request.user)
+        com.save()
+        # a['job']="done"
+        return HttpResponse("helo")
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['posty'] = Post.objects.filter(pk = self.kwargs['pk']).first()
-        return context
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        form.instance.post=Post.objects.filter(pk = self.kwargs['pk']).first()
-        return super().form_valid(form)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -123,7 +135,7 @@ def likepost(request):
 
 
 def ExploreTagView(request, tag):
-    posts = Post.objects.filter(tags__name = tag)
+    posts = Post.objects.filter(tags__name = tag).filter(grouppost__isnull=True)
     context = {
         'posts': posts,
         'tag': tag,
@@ -133,23 +145,3 @@ def ExploreTagView(request, tag):
 #
 # def about(request):
 #     return render(request, 'Post/about.html', {'title': 'About'})
-
-#@login_required
-# def likepost(request):
-#     post = get_object_or_404(Post, id = request.POST.get('id'))
-#     is_liked = False
-#     if (post.likers.filter(username = request.user.username).exists()):
-#         post.likers.remove(request.user)
-#         is_liked = False
-#     else:
-#         post.likers.add(request.user)
-#         is_liked = True
-#
-#     context = {
-#         'is_liked' : is_liked,
-#         'post' : post
-#     }
-#     html = render_to_string('Blog/like-section.html',context, request = request)
-#     return JsonResponse({'form':html})
-    # else:
-    #      return HttpResponseRedirect(post.get_absolute_url())

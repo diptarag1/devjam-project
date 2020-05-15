@@ -16,6 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMP_DIR_user = os.path.join(BASE_DIR,'user/templates')
 TEMP_DIR_Post = os.path.join(BASE_DIR,'Post/templates')
+TEMP_DIR_Group = os.path.join(BASE_DIR,'Group/templates')
 TEMP_DIR = os.path.join(BASE_DIR,'templates')
 
 # Quick-start development settings - unsuitable for production
@@ -42,9 +43,9 @@ INSTALLED_APPS = [
     'user',
     'crispy_forms',
     'mathfilters',
-    # 'Post.apps.PostConfig',
     'Post',
     'Tag',
+    'Group',
 
 ]
 
@@ -66,6 +67,7 @@ TEMPLATES = [
         'DIRS': [TEMP_DIR,
         TEMP_DIR_user,
         TEMP_DIR_Post,
+        TEMP_DIR_Group,
         ],
         'APP_DIRS': True,
         'OPTIONS': {
