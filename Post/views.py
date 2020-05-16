@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
@@ -25,7 +26,7 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all
         context['groups'] = Group.objects.all
-        context['posts'] = Post.objects.filter(grouppost__isnull=True)
+        context['posts'] = Post.objects.filter(grouppost__isnull=True).annotate(like_count=Count('likers')).order_by('-like_count')
         return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
@@ -141,7 +142,10 @@ def ExploreTagView(request, tag):
         'tag': tag,
     }
     return render(request, 'Post/explore-tag.html', context)
-#
+
+def pollnew(request):
+    return render(request,'Post/poll.html')
+
 #
 # def about(request):
 #     return render(request, 'Post/about.html', {'title': 'About'})
