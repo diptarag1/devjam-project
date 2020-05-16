@@ -12,10 +12,8 @@ from .models import Post, Comment ,Poll ,PollChoice
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
+from .forms import PollForm,PollChoiceFormset
 from Group.models import Group
-from .forms import GroupPostCreateForm
-from Group.models import Channel
-
 
 
 class PostListView(ListView):
@@ -162,7 +160,6 @@ def ExploreTagView(request, tag):
     return render(request, 'Post/explore-tag.html', context)
 
 def pollnew(request):
-    def pollnew(request):
     if request.method == 'GET':
         pollform = PollForm(request.GET or None)
         formset = PollChoiceFormset(queryset=PollChoice.objects.none())
@@ -174,6 +171,8 @@ def pollnew(request):
             id = poll.pk
             for form in formset:
                 pollob = form.save(commit=False)
+                if pollob.option=='':
+                    continue
                 pollob.poll = poll
                 pollob.save()
         return redirect('poll_detail',pk=id)

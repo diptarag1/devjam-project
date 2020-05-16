@@ -10,7 +10,7 @@
         {% if uchoice == '' %}
         <h2>{{poll.title}}</h2>
         {% for op in options.all %}
-            <h3>{{op.option}}:{{op.voters.count|div:total|floatformat:2}}</h3>
+            <h3>{{op.option}}</h3>
             <a href="{% url 'addpoll' pk=op.id pollid=poll.id%}">vote</a>
         {% endfor %}
         {% else %}

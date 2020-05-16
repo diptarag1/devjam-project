@@ -3,13 +3,17 @@
     <head>
         <meta charset="utf-8">
         <title></title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     </head>
     <body>
 <h1>create poll</h1>
+<h3>leave blank for unwanted poll option</h3>
 <form class="" action="" method="post">
     {%csrf_token%}
     {{pollform.as_p}}
@@ -17,14 +21,17 @@
 {% for form in formset %}
 <p>{{form}}</p>
 {% endfor %}
-<button class="add">+</button>
+<button class="addb">+</button>
 <button type="submit" class="btn btn-block btn-primary">Create</button>
 </form>
     </body>
-    <script type='text/javascript'>
-    $(".add").click(function() {
+<!-- <script type='text/javascript'>
+    $(document).ready(function(){
+    $(".addb").click(function(e) {
+        e.preventDefault();
         $("form > p:first-child").clone(true).insertBefore("form > p:last-child");
         return false;
     });
+}); -->
 </script>
 </html>

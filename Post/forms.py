@@ -12,7 +12,7 @@ class PollForm(forms.ModelForm):
 PollChoiceFormset = modelformset_factory(
     PollChoice,
     fields=('option', ),
-    extra=2,
+    extra=4,
     widgets={
         'name': forms.TextInput(
             attrs={
