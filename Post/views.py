@@ -13,6 +13,8 @@ from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
 from Group.models import Group
+from .forms import GroupPostCreateForm
+from Group.models import Channel
 
 
 
@@ -66,6 +68,22 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
+def GroupPostCreateView(request,channel,slug):
+        if(request.method == 'POST'):
+            form1 = GroupPostCreateForm(request.POST)
+            if(form1.is_valid()):
+                group = Group.objects.get(slug = slug)
+                form1.instance.parentchannel = Channel.objects.get(parentgroup = group, name = channel)
+                form1.instance.author = request.user
+                form1.save()
+                return redirect(group.get_channel_url(channel))
+        else:
+            form1 = GroupPostCreateForm()
+        context = {
+            'form': form1,
+        }
+        return render(request, 'Post/post_form.html', context)
 
 # class CommentCreateView(LoginRequiredMixin, CreateView):
 #     model = Comment

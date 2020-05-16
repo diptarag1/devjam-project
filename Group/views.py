@@ -58,6 +58,7 @@ def SingleGroup(request, slug, activechannel):
     return render(request, 'Group/group_detail.html', context)
 
 
+
 class ListGroups(ListView):
     model = Group
 

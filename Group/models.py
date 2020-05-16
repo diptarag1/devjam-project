@@ -16,6 +16,9 @@ class Group(models.Model):
     def get_absolute_url(self,**kwargs):
         return reverse('group-detail', kwargs={'slug':self.slug, 'activechannel' : "General"})
 
+    def get_channel_url(self,channel,**kwargs):
+        return reverse('group-detail', kwargs={'slug':self.slug, 'activechannel' : channel})
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         # self.description_html = misaka.html(self.description)
