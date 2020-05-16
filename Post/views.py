@@ -162,7 +162,23 @@ def ExploreTagView(request, tag):
     return render(request, 'Post/explore-tag.html', context)
 
 def pollnew(request):
-    return render(request,'Post/poll.html')
+    def pollnew(request):
+    if request.method == 'GET':
+        pollform = PollForm(request.GET or None)
+        formset = PollChoiceFormset(queryset=PollChoice.objects.none())
+    elif request.method == 'POST':
+        pollform = PollForm(request.POST)
+        formset = PollChoiceFormset(request.POST)
+        if pollform.is_valid() and formset.is_valid():
+            poll = pollform.save()
+            id = poll.pk
+            for form in formset:
+                pollob = form.save(commit=False)
+                pollob.poll = poll
+                pollob.save()
+        return redirect('poll_detail',pk=id)
+    return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
+
 
 def polldetail(request,pk):
     poll = Poll.objects.get(pk=pk)
