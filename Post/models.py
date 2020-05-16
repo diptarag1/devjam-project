@@ -33,6 +33,7 @@ class Comment(models.Model):
 
 class Poll(models.Model):
 	title=models.CharField(max_length=100)
+	# tags = models.ManyToManyField(Tag, related_name = 'tags', blank = True)
 
 	def __str__(self):
 		return self.title

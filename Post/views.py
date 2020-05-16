@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404 , redirect
 from django.db.models import Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -8,7 +8,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post, Comment
+from .models import Post, Comment ,Poll ,PollChoice
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
@@ -146,6 +146,28 @@ def ExploreTagView(request, tag):
 def pollnew(request):
     return render(request,'Post/poll.html')
 
-#
+def polldetail(request,pk):
+    poll = Poll.objects.get(pk=pk)
+    options = PollChoice.objects.filter(poll=poll)
+    uchoice = ''
+    total = 0
+    for index, op in enumerate(options):
+        total = total + op.voters.count()
+        if request.user in op.voters.all():
+            uchoice=op
+    context={}
+    context['poll']=poll
+    context['options']=options
+    context['uchoice']=uchoice
+    context['total']=total
+    return render(request,'Post/poll_detail.html',context)
+
+def addpoll(request,pk,pollid):
+    option = PollChoice.objects.get(pk=pk)
+    option.voters.add(request.user)
+    option.save()
+    return redirect('poll_detail',pk=pollid)
+
+
 # def about(request):
 #     return render(request, 'Post/about.html', {'title': 'About'})
