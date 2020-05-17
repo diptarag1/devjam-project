@@ -58,7 +58,7 @@
 			</li>
 			<li class="tab col s6">
 				<a href="#searchPosts" class="indigo-text text-darken-4">
-					Search Posts
+					Search
 				</a>
 			</li>
 		</ul>
@@ -72,11 +72,11 @@
 
 				</div>
 			</div>
-
 			{% endfor %}
 		</div>
 		<div id="searchPosts" class="col s12">
-			<h2>Search Posts</h2>
+			<h2>Search</h2>
+			<div id = "search"> {% include 'Post/searchresults.html' %} </div>
 		</div>
 
 
@@ -134,3 +134,33 @@
 </script>
 
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(event) {
+        $(document).on('click', '#searchterm', function(event) {
+
+            var searchterm  = $("#searchcontent").val();
+
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "search" %}',
+                data: {
+                    'searchterm': searchterm,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#search').html(response['form'])
+                    console.log(searchterm);
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}
