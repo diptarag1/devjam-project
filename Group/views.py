@@ -38,16 +38,16 @@ def SingleGroup(request, slug, activechannel):
         messages.success(request, f'Channel created')
         return redirect(group.get_channel_url(channelform.instance.name))
     context = {
-        'gmember' : GroupMember.objects.filter(group=group).filter(status=0),
+        'gmember' : GroupMember.objects.filter(group=group).filter(status=0),#list of pending members
         'tags': Tag.objects.all,
-        'channels' : Channel.objects.filter(parentgroup = group),
+        'channels' : Channel.objects.filter(parentgroup = group),#list of all channels of that group
         'group' : group,
         'activechannel' : achannel,
-        'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),
+        'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),#list of accepted member
         'channelform' : channelform,
     }
     if request.user in group.members.all() and request.user.is_authenticated:
-        context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
+        context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)#inctance of logged in user
     context['posts'] = GroupPost.objects.filter(parentchannel = achannel)
     return render(request, 'Group/group_detail.html', context)
 

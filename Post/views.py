@@ -192,12 +192,14 @@ def addpoll(request,pk,pollid):
 def Search(request):
     searchstring = request.POST.get('searchterm')
     users = User.objects.filter(username__icontains = searchstring)
+    groupse = Group.objects.filter(title__icontains = searchstring)
     posteys = Post.objects.filter(title__icontains = searchstring).filter(grouppost__isnull=True)
     form1 = SearchForm(request.POST)
     context = {
         'users' : users,
         'form' : form1,
         'posteys' : posteys,
+        'groupse' : groupse,
     }
     html = render_to_string('Post/searchresults.html',context, request = request)
     return JsonResponse({'form':html})
