@@ -11,12 +11,12 @@
                     <h4>Channels</h4>
                 </span>
                 <li class="">
-                    <h5 align="center"><a class="" href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}"> Create Group Post </a> </h5>
+                    <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
                 </li>
                 <ul class="collection">
 
                     {% for c in channels %}
-                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.slug activechannel=c.name %}">
+                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.title activechannel=c.name %}">
                             <p> {{c.name}} </p>
                         </a> </li>
                     {% endfor %}
@@ -54,11 +54,11 @@
 
                 <div class="divider"></div>
                 {% if not user in group.members.all %}
-                <a href="{%url 'addmember' slug=group.slug%}"><button type="button" name="button">Join</button></a>
+                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
                 {% elif user in group.members.all and cgmember.status == 0 %}
                 <h3>Your application is Pending!!</h3>
                 {% else %}
-                <a href="{%url 'addmember' slug=group.slug%}"><button type="button" name="button">Leave</button></a>
+                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
                 {% endif %}
 
                 {% if user in group.members.all %}
@@ -123,7 +123,7 @@
             {% if  mem.status == 0 %}
             <li>
                 <ul>
-                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.slug userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.slug userd=mem.user %}">Reject</a>
+                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
                 </ul>
 
             </li>
@@ -155,7 +155,34 @@
     <div class="modal-footer">
     </div>
 </div>
+<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Pending List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for mem in gmember %}
+                {% if  mem.status == 0 %}
+                <li>
+                    <ul>
+                        {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
+                    </ul>
 
+                </li>
+                {%endif%}
+                {%endfor%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div> -->
 {%endblock%}
 {% block js %}
 <script type="text/javascript">
