@@ -39,7 +39,7 @@ class Poll(models.Model):
 		return self.title
 
 class PollChoice(models.Model):
-	poll = models.ForeignKey(Poll,on_delete=models.CASCADE,related_name='poll_choice')
+	poll = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='poll_choice')
 	option = models.CharField(max_length=100,blank=True,default="")
 	voters = models.ManyToManyField(User,related_name='voters')
 

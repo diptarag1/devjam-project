@@ -162,13 +162,15 @@ def ExploreTagView(request, tag):
 
 def pollnew(request):
     if request.method == 'GET':
-        pollform = PollForm(request.GET or None)
+        pollform = PostCreateFrom(request.GET or None)
         formset = PollChoiceFormset(queryset=PollChoice.objects.none())
     elif request.method == 'POST':
-        pollform = PollForm(request.POST)
+        pollform = PostCreateFrom(request.POST)
         formset = PollChoiceFormset(request.POST)
         if pollform.is_valid() and formset.is_valid():
-            poll = pollform.save()
+            poll = pollform.save(commit=False)
+            poll.author = request.user
+            poll.save()
             id = poll.pk
             for form in formset:
                 pollob = form.save(commit=False)
@@ -181,7 +183,7 @@ def pollnew(request):
 
 
 def polldetail(request,pk):
-    poll = Poll.objects.get(pk=pk)
+    poll = Post.objects.get(pk=pk)
     options = PollChoice.objects.filter(poll=poll)
     uchoice = ''
     total = 0
