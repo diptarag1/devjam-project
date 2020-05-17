@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'Tag',
     'Group',
     'django_summernote',
-     'materializecssform',
 
 ]
 

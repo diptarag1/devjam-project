@@ -11,7 +11,6 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-# from .models import Post, Comment
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
 from Tag.models import Tag
@@ -23,21 +22,8 @@ class CreateGroup(LoginRequiredMixin, CreateView):
     fields = ['title','tags','description']
 
     def form_valid(self, form):
-        # form.instance.members.add(self.request.user)
-        # self.object.membership.add(self.request.user)
         form.instance.created_by = self.request.user
         return super().form_valid(form)
-
-# class SingleGroup(DetailView):
-#     model = Group
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['gmember'] = GroupMember.objects.filter(group=self.object)
-#         context['tags'] = Tag.objects.all
-#         if self.request.user in self.object.members.all():
-#             context['cgmember'] = get_object_or_404(GroupMember,group=self.object,user=self.request.user)
-#         context['channels'] = Channel.objects.filter(parentgroup = self.object)
-#         return context
 
 
 def SingleGroup(request, slug, activechannel):
@@ -54,9 +40,7 @@ def SingleGroup(request, slug, activechannel):
     if request.user in group.members.all() and request.user.is_authenticated:
         context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
     context['posts'] = GroupPost.objects.filter(parentchannel = achannel)
-
     return render(request, 'Group/group_detail.html', context)
-
 
 
 class ListGroups(ListView):

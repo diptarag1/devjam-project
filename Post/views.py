@@ -28,12 +28,6 @@ class PostListView(ListView):
         context['groups'] = Group.objects.all
         context['posts'] = Post.objects.filter(grouppost__isnull=True).annotate(like_count=Count('likers')).order_by('-like_count')
         return context
-# def postdetail(request, slug):
-#     post = get_object_or_404(Post, slug=slug)
-#     context = {'post': post}
-#     if not request.user in post.views.all():
-#         post.views.add(request.user)
-#     return render(request, 'blog/post_detail.html', context)
 
 class PostDetailView(DetailView):
     model = Post
@@ -46,7 +40,6 @@ class PostDetailView(DetailView):
         else:
             is_liked = False
         post = self.object
-        #
         if not self.request.user in self.object.views.all() and self.request.user.is_authenticated:
             self.object.views.add(self.request.user)
         # Add in a QuerySet of all the books
@@ -95,22 +88,6 @@ def GroupPostCreateView(request,channel,slug):
         }
         return render(request, 'Post/post_form.html', context)
 
-# class CommentCreateView(LoginRequiredMixin, CreateView):
-#     model = Comment
-#     fields = ['content']
-#     template_name = 'Post/comment.html'
-#
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         # Add in a QuerySet of all the books
-#         context['posty'] = Post.objects.filter(pk = self.kwargs['pk']).first()
-#         return context
-#
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         form.instance.post=Post.objects.filter(pk = self.kwargs['pk']).first()
-#         return super().form_valid(form)
 def commentFunc(request,pk):
     if (request.method=='POST'):
         the_content = request.POST.get('the_content')
@@ -118,9 +95,6 @@ def commentFunc(request,pk):
         com.save()
         # a['job']="done"
         return HttpResponse("helo")
-
-
-
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
