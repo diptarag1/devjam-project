@@ -189,7 +189,7 @@ def pollnew(request):
                     continue
                 pollob.poll = poll
                 pollob.save()
-        return redirect('poll_detail',pk=id)
+        return redirect('post-detail',pk=id)
     return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
 
 
@@ -197,7 +197,7 @@ def addpoll(request,pk,pollid):
     option = PollChoice.objects.get(pk=pk)
     option.voters.add(request.user)
     option.save()
-    return redirect('poll_detail',pk=pollid)
+    return redirect('post-detail',pk=pollid)
 
 
 # def about(request):
