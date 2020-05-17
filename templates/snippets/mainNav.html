@@ -18,16 +18,16 @@
             <ul class="right hide-on-med-and-down ">
                 {% if user.is_authenticated%}
                 <!-- href="{%url 'notifications'%}" -->
-                <li><a id="notificationsButton" class=" btn-floating z-depth-0  ">
-                        <i class=" material-icons indigo-text text-darken-4">notifications</i>
+                <li><a id="notificationsButton" class=" btn-floating z-depth-0 waves-effect waves-light  ">
+                        <i class="large material-icons indigo-text text-darken-4">notifications</i>
                     </a></li>
                 <li><span class="badge white-text new pink">5</span></li>
                 <li><a href="{% url 'profile' slug=user.username %}" class="flow-text"> {{user.username }}</a></li>
-                <li><a class="btn white indigo-text" href="{% url 'logout' %}">Log Out</a></li>
+                <li><a class="btn white indigo-text waves-effect waves-light" href="{% url 'logout' %}">Log Out</a></li>
                 {% else %}
-                <li><a class="btn white indigo-text" href="{% url 'login' %}">Login</a></li>
+                <li><a class="btn white indigo-text waves-effect waves-light" href="{% url 'login' %}">Login</a></li>
 
-                <li><a class="btn white indigo-text" href="{% url 'register' %}">Register</a></li>
+                <li><a class="btn white indigo-text waves-effect waves-light" href="{% url 'register' %}">Register</a></li>
                 {% endif %}
             </ul>
         </div>

@@ -2,6 +2,7 @@
 {% load static %}
 {%block content%}
 {% include 'snippets/circularImageStyle.html' %}
+
 <div class="row">
     <div id="leftMostColumn" class="col s12 l2">
         <div class="card">
@@ -10,9 +11,11 @@
                     {% if user.is_authenticated and user in group.members.all%}
                     <h4>Channels</h4>
                 </span>
-                <li class="">
-                    <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
-                </li>
+
+                <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
+
+                <h5 align="center">    <a href="{% url 'poll_create' %} "  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
+
                 <ul class="collection">
 
                     {% for c in channels %}
@@ -54,11 +57,11 @@
 
                 <div class="divider"></div>
                 {% if not user in group.members.all %}
-                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Join</button></a>
+                <a href="{%url 'addmember' slug=group.title%}" class="btn blue right">Join</a>
                 {% elif user in group.members.all and cgmember.status == 0 %}
                 <h3>Your application is Pending!!</h3>
                 {% else %}
-                <a href="{%url 'addmember' slug=group.title%}"><button type="button" name="button">Leave</button></a>
+                <a href="{%url 'addmember' slug=group.title%}" class="btn red right" >Leave</a>
                 {% endif %}
 
                 {% if user in group.members.all %}
@@ -120,14 +123,23 @@
 
         <div class="modal-body">
             {% for mem in gmember %}
-            {% if  mem.status == 0 %}
-            <li>
-                <ul>
-                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.title userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.title userd=mem.user %}">Reject</a>
-                </ul>
+            <div class="row">
+                <div class="col s8 l8">
+                    <div class="myChip chip">
+                        <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                        {% if  mem.status == 0 %}
+                            @{{mem.user.username}}
+                        {%endif%}
+                    </div>
 
-            </li>
-            {%endif%}
+
+                </div>
+                <div class="col s4 l4">
+                    <a href="{% url 'accept' slug=group.title userd=mem.user %}" class="btn green">Accept</a>
+                    <a href="{% url 'reject' slug=group.title userd=mem.user %}" class="btn red">Reject</a>
+                </div>
+
+            </div>
             {%endfor%}
         </div>
         <div class="modal-footer">
