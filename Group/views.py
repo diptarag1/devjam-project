@@ -36,7 +36,7 @@ def SingleGroup(request, slug, activechannel):
         channelform.instance.parentgroup = group
         channelform.save()
         messages.success(request, f'Channel created')
-        return redirect(group.get_channel_url("General"))
+        return redirect(group.get_channel_url(channelform.instance.name))
     context = {
         'gmember' : GroupMember.objects.filter(group=group).filter(status=0),
         'tags': Tag.objects.all,
