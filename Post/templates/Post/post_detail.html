@@ -1,4 +1,5 @@
 {%  extends "base.html" %}
+{% load mathfilters %}
 {% block content %}
 
 <style media="screen">
@@ -72,9 +73,9 @@
                         <a href="{% url 'explore-tag' tag %}"> #{{tag}} </a>
                         {% endfor %}
                     </p>
-                    <p class="article-content">{{ object.content }}</p>
+                    <p class="article-content">{{ object.content|safe }}</p>
                     <p> Views: {{object.views.count}} </p>
-
+                    {% include "Post/poll_detail.html" %}
 
                 </div>
                 <div class="card-reveal">
@@ -170,11 +171,9 @@
                     'csrfmiddlewaretoken': '{{csrf_token}}'
                 }, // data sent with the post request
 
-                // handle a successful response
                 success: function(json) {
 
                     $('#comment-section').load("{% url 'post-detail' object.id %} #comment-section", function() {
-                       /// can add another function here
                     });
 
                     console.log("success"); // another sanity check

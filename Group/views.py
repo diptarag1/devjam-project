@@ -41,7 +41,7 @@ class CreateGroup(LoginRequiredMixin, CreateView):
 
 
 def SingleGroup(request, slug, activechannel):
-    group = Group.objects.filter(title__iexact=slug).first()
+    group = Group.objects.filter(slug=slug).first()
     achannel = Channel.objects.filter(parentgroup = group, name = activechannel).first()
     context = {
         'gmember' : GroupMember.objects.filter(group=group).filter(status=0),
@@ -58,18 +58,20 @@ def SingleGroup(request, slug, activechannel):
     return render(request, 'Group/group_detail.html', context)
 
 
+
 class ListGroups(ListView):
     model = Group
 
 def addmember(request,slug):
-    group = Group.objects.filter(title__iexact=slug).first()
+    group = Group.objects.filter(slug=slug).first()
     try:
         GroupMember.objects.create(user=request.user,group=group)
 
     except IntegrityError:
         GroupMember.objects.get(user=request.user,group=group).delete()
-        if(group.members.count==0):
+        if(group.members.count()==0):
             group.delete()
+            return redirect('blog-home')
         else:
             messages.warning(request,("left successfully {}".format(group.title)))
 
@@ -78,7 +80,7 @@ def addmember(request,slug):
     return redirect('group-detail',slug=slug,activechannel='General')
 
 def accept(request,userd,slug):
-    group = Group.objects.filter(title__iexact=slug).first()
+    group = Group.objects.filter(slug__iexact=slug).first()
     user = get_object_or_404(User,username=userd)
     member = GroupMember.objects.get(user=user,group=group)
     member.status = 1
@@ -86,7 +88,7 @@ def accept(request,userd,slug):
     return redirect('group-detail',slug=slug,activechannel='General')
 
 def reject(request,userd,slug):
-    group = Group.objects.filter(title__iexact=slug).first()
+    group = Group.objects.filter(slug=slug).first()
     user = get_object_or_404(User,username=userd)
     print(user.username)
     GroupMember.objects.get(user=user,group=group).delete()
@@ -98,7 +100,7 @@ def promote_demote(request):
     choice = request.POST.get('choice')
     print(slug)
     print(userd)
-    group = Group.objects.filter(title__iexact=slug).first()
+    group = Group.objects.filter(slug__iexact=slug).first()
     user = get_object_or_404(User,username=userd)
     member = GroupMember.objects.get(user=user,group=group)
     if choice == '1':

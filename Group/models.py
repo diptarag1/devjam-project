@@ -16,6 +16,9 @@ class Group(models.Model):
     def get_absolute_url(self,**kwargs):
         return reverse('group-detail', kwargs={'slug':self.slug, 'activechannel' : "General"})
 
+    def get_channel_url(self,channel,**kwargs):
+        return reverse('group-detail', kwargs={'slug':self.slug, 'activechannel' : channel})
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         # self.description_html = misaka.html(self.description)
@@ -46,7 +49,7 @@ class GroupMember(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     auth = models.IntegerField(choices=AUTH, default=3)
     def __str__(self):
-        return self.user.username
+        return self.user.username +","+ self.group.title
 
     class Meta:
         unique_together = ("group", "user")

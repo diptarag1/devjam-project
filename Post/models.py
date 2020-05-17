@@ -30,3 +30,18 @@ class Comment(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('post-detail', kwargs = {'pk':self.post.pk})
+
+class Poll(models.Model):
+	title=models.CharField(max_length=100)
+	# tags = models.ManyToManyField(Tag, related_name = 'tags', blank = True)
+
+	def __str__(self):
+		return self.title
+
+class PollChoice(models.Model):
+	poll = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='poll_choice')
+	option = models.CharField(max_length=100,blank=True,default="")
+	voters = models.ManyToManyField(User,related_name='voters')
+
+	def __str__(self):
+		return self.poll.title + self.option
