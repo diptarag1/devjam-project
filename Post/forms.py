@@ -37,3 +37,6 @@ class GroupPostCreateForm(forms.ModelForm):
 	class Meta:
 		model = GroupPost
 		fields = ['title','tags','content']
+		widgets = {
+            'content': SummernoteWidget(),
+        }

@@ -1,4 +1,5 @@
 {%  extends "base.html" %}
+{% load mathfilters %}
 {% block content %}
 
 <style media="screen">
@@ -74,7 +75,7 @@
                     </p>
                     <p class="article-content">{{ object.content|safe }}</p>
                     <p> Views: {{object.views.count}} </p>
-
+                    {% include "Post/poll_detail.html" %}
 
                 </div>
                 <div class="card-reveal">

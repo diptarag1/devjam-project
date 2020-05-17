@@ -14,6 +14,5 @@ urlpatterns = [
     path('like/$', views.likepost, name = 'like-post'),
     path('<tag>/explore/', views.ExploreTagView, name = 'explore-tag'),
     path('poll/create/',views.pollnew,name='poll_create'),
-    path('poll/<int:pk>/',views.polldetail,name='poll_detail'),
     path('poll/add/<int:pk>/<int:pollid>/',views.addpoll,name='addpoll'),
 ]

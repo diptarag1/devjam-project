@@ -1,14 +1,5 @@
-<!DOCTYPE html>
 {% load mathfilters %}
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-    </head>
-    <body>
-        <h1>Poll</h1>
         {% if uchoice == '' %}
-        <h2>{{poll.title}}</h2>
         {% for op in options.all %}
             <h3>{{op.option}}</h3>
             <a href="{% url 'addpoll' pk=op.id pollid=poll.id%}">vote</a>
@@ -22,5 +13,3 @@
         {% endif %}
         {% endfor %}
         {% endif %}
-    </body>
-</html>

@@ -12,8 +12,8 @@ from .models import Post, Comment ,Poll ,PollChoice
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
-from .forms import PollForm,PollChoiceFormset,PostCreateFrom
-from Group.models import Group
+from .forms import PollForm,PollChoiceFormset,PostCreateFrom,GroupPostCreateForm
+from Group.models import Group,Channel
 
 
 class PostListView(ListView):
@@ -50,6 +50,17 @@ class PostDetailView(DetailView):
         if not self.request.user in self.object.views.all() and self.request.user.is_authenticated:
             self.object.views.add(self.request.user)
         # Add in a QuerySet of all the books
+        options = PollChoice.objects.filter(poll=self.object)
+        uchoice = ''
+        total = 0
+        for index, op in enumerate(options):
+            total = total + op.voters.count()
+            if self.request.user in op.voters.all():
+                uchoice=op
+        context['uchoice']=uchoice
+        context['total']=total
+        context['options']=options
+        context['poll']=self.object
         context['comments'] = Comment.objects.filter(post = self.object)
         context['is_liked'] = is_liked
         context['post']  = post
@@ -181,22 +192,6 @@ def pollnew(request):
         return redirect('poll_detail',pk=id)
     return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
 
-
-def polldetail(request,pk):
-    poll = Post.objects.get(pk=pk)
-    options = PollChoice.objects.filter(poll=poll)
-    uchoice = ''
-    total = 0
-    for index, op in enumerate(options):
-        total = total + op.voters.count()
-        if request.user in op.voters.all():
-            uchoice=op
-    context={}
-    context['poll']=poll
-    context['options']=options
-    context['uchoice']=uchoice
-    context['total']=total
-    return render(request,'Post/poll_detail.html',context)
 
 def addpoll(request,pk,pollid):
     option = PollChoice.objects.get(pk=pk)
