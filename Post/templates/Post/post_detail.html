@@ -72,7 +72,7 @@
                         <a href="{% url 'explore-tag' tag %}"> #{{tag}} </a>
                         {% endfor %}
                     </p>
-                    <p class="article-content">{{ object.content }}</p>
+                    <p class="article-content">{{ object.content|safe }}</p>
                     <p> Views: {{object.views.count}} </p>
 
 

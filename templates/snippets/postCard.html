@@ -17,7 +17,7 @@
         <p class="floating-text"><a class="mr-2" href="{% url 'profile' slug=post.author.username %}">By {{ post.author }}</a></p>
         <p class="right">{{ post.date_posted }}</p>
         <p class="">Like:{{ post.likers.count }}</p>
-        <p>{{post.content}}</p>
+        <p>{{post.content|safe}}</p>
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>

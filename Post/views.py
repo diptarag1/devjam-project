@@ -12,7 +12,7 @@ from .models import Post, Comment ,Poll ,PollChoice
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
-from .forms import PollForm,PollChoiceFormset
+from .forms import PollForm,PollChoiceFormset,PostCreateFrom
 from Group.models import Group
 
 
@@ -60,7 +60,8 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title','tags','content']
+    form_class = PostCreateFrom
+    # fields = ['title','tags','content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
