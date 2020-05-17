@@ -5,7 +5,7 @@ from Post import views as p_views
 
 urlpatterns=[
     path('create/',views.CreateGroup.as_view(),name='create_group'),
-    path('info/<slug:slug>/<activechannel>',views.SingleGroup,name='group-detail'),
+    path('info/<slug:slug>/<activechannel>/',views.SingleGroup,name='group-detail'),
     path('add-member/<slug:slug>/',views.addmember,name='addmember'),
     path('accept/<slug:userd>/<slug:slug>',views.accept,name='accept'),
     path('reject/<slug:userd>/<slug:slug>',views.reject,name='reject'),

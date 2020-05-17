@@ -11,28 +11,32 @@
             <div class="col s4 l4">
                 <div class="myChip chip">
                     <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                    Username:{{mem.user.username}}
+                    @{{mem.user.username}}
+                    <br>
+                    Designation:{{mem.get_auth_display}}
                 </div>
             </div>
             <div class="col s6 l6">
                 <form action="{% url 'promote_demote' %}" method="post">
                     {% csrf_token %}
-                    <button name="1" id="promote" class="btn" slug={{group.slug}} userd="{{mem.user}}" choice='1' type="submit">Promote</button>
+                    <button name="1" id="promote" class="btn green" slug={{group.slug}} userd="{{mem.user}}" choice='1' type="submit">Promote</button>
                     {% if  mem.auth < 3 %}
-                    <button name="2" id="promote" class="btn" slug={{group.slug}} userd="{{mem.user}}" choice='0' type="submit">Demote</button>
+                    <button name="2" id="promote" class="btn red" slug={{group.slug}} userd="{{mem.user}}" choice='0' type="submit">Demote</button>
                     {% endif %}
                     <br>
-                    Designation:{{mem.get_auth_display}}
+
                 </form>
             </div>
             <div class="col s2 l2">
-                <a href="{% url 'reject' slug=group.slug userd=mem.user %}">Remove</a>
+                <a href="{% url 'reject' slug=group.slug userd=mem.user %}" class="btn-large btn-floating red">
+                    <i class="large material-icons">remove</i>
+                </a>
             </div>
             {% else %}
             <div class="col s4 l4">
                 <div class="chip">
                     <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
-                    Username:{{mem.user.username}}
+                    @{{mem.user.username}}
                     <br>
                     Designation:{{mem.get_auth_display}}
                 </div>

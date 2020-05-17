@@ -1,6 +1,20 @@
 {%  extends "base.html" %}
+{% load static %}
 {% block content %}
+
+
 <!-- <div class="container"> -->
+<style media="screen">
+	.parallax-container {
+		height: 46vh;
+	}
+</style>
+<div class="parallax-container">
+	<div class="parallax">
+		<img src="{% static 'sn.jpg' %}" alt="" class="responsive-img">
+	</div>
+</div>
+
 
 <div class="row ">
 	<style media="screen">
@@ -10,20 +24,23 @@
 	</style>
 	<div class="col s12 l2">
 
-		<div class="card   light-green accent-4">
+		<div class="card  red lighten-5">
 			<div class="card-content">
 				<h3>Groups</h3>
 				<p class='text-muted'>Placeholder Text</p>
 				<ul class="collection">
 					{% for g in groups %}
-					<li class="collection-item flow-text"><a href="{% url 'group-detail' slug=g.slug activechannel='General' %}">
+					<li class="collection-item flow-text"><a href="{% url 'group-detail' slug=g.title activechannel='General' %}">
 							<p> {{g.title}} </p>
 						</a></li>
 					{% endfor %}
+					<li class="collection-item flow-text"><a href="{% url 'create_group'  %}">
+							<p> New Group </p>
+						</a>
 				</ul>
 			</div>
 		</div>
-		<div class="card   light-green accent-4">
+		<div class="card     lime accent-4">
 			<div class="card-content">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -31,34 +48,62 @@
 			</div>
 		</div>
 	</div>
-	<div id="postCalone"  class="col s12 l7 ">
-		<h2>Recent Posts</h2>
-		{% for post in posts %}
-		<div class="row">
 
-		    <div class="col s12 l12">
-				{% include 'snippets/postCard.html' %}
+	<div id="postCalone" class="col s12 l7 ">
+		<ul class="row tabs">
+			<li class="tab col s6">
+				<a href="#recentPosts" class="active indigo-text text-darken-4">
+					Recent Posts
+				</a>
+			</li>
+			<li class="tab col s6">
+				<a href="#searchPosts" class="indigo-text text-darken-4">
+					Search
+				</a>
+			</li>
+		</ul>
 
-		    </div>
+		<div id="recentPosts" class="col s12">
+			<h2>Recent Posts</h2>
+			{% for post in posts %}
+			<div class="row">
+				<div class="col s12 l12">
+					{% include 'snippets/postCard.html' %}
+
+				</div>
+			</div>
+			{% endfor %}
 		</div>
-
-		{% endfor %}
+		<div id="searchPosts" class="col s12">
+			<h2>Search</h2>
+			<div id = "search"> {% include 'Post/searchresults.html' %} </div>
+		</div>
 
 
 
 	</div>
 	<div class="col s12 l3 ">
-		<div class="card pink accent-2">
+		<div class="card red lighten-1">
 			<div class="card-content">
-				<h3 class="card-title">Our Sidebar</h3>
+				<h3 class="center">Our Sidebar</h3>
 				<p class='text-muted'>You can put any information here you'd like.
 					<ul class="list-group">
-						{% if user.is_authenticated%}
-						<li class="list-group-item list-group-item-light">
-							<h4 align="center"><a href="{% url 'post-create' %}"> Create Post </a> </h4>
-						</li>
-						{% endif %}
+
 					</ul>
+					<div class="center">
+						{% if user.is_authenticated%}
+						<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light" >Create Post </a>
+						<a href="{% url 'poll_create' %} "  class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Create Poll </a>
+
+						<!-- <ul class="collection" >
+							<li class="collection-item cyan darken-3">
+							</li>
+							<li class="collection-item cyan darken-3">
+							</li>
+						</ul> -->
+
+						{% endif %}
+					</div>
 				</p>
 				<div class="divider">
 
@@ -82,10 +127,40 @@
 	</div>
 </div>
 <script type="text/javascript">
-	  // $('.materialboxed').materialbox('onOpenStart', function () {
-	  // 		$('.card').fadeOut();
-	  // });
-	  $('bodt').addClass('grey');
+	// $('.materialboxed').materialbox('onOpenStart', function () {
+	// 		$('.card').fadeOut();
+	// });
+	$('bodt').addClass('grey');
 </script>
 
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(event) {
+        $(document).on('click', '#searchterm', function(event) {
+
+            var searchterm  = $("#searchcontent").val();
+
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "search" %}',
+                data: {
+                    'searchterm': searchterm,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#search').html(response['form'])
+                    console.log(searchterm);
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}

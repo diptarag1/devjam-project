@@ -1,18 +1,33 @@
+<style media="screen">
+.postCards{
+
+}
+.postCards-mainContent{
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+</style>
 <div class="row">
     <div class="col s10 l0 offset-l1 offset-s1 ">
         <!-- offset-l1 offset-s1 -->
-        <div class="card amber lighten-4 hoverable">
+        <div class="card amber lighten-4 hoverable postCards">
             <div class="card-content">
                 <div class="row">
                     <div class="col s11 l11">
-                        <a href="{% url 'post-detail' post.id %}"><span class="card-title">{{ post.title }}</span></a>
-                        <p class="right">{{ post.date_posted }}</p>
-                        <p>{{ post.content }}</p>
+                        <a href="{% url 'post-detail' post.id %}"><span class="card-title">{{ post.title }} <p class=black-text>{{ post.date_posted }}</p></span></a>
                     </div>
                     <div class="col s1 l1">
                         <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
                     </div>
                 </div>
+                <div class="postCards-mainContent">
+                    <p>{{ post.content }}</p>
+                </div>
+                <!-- <div class="row">
+                    <div class="col s12 l12 ">
+
+                    </div>
+                </div> -->
             </div>
             <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>

@@ -2,6 +2,8 @@
 {% load static %}
 {%block content%}
 {% include 'snippets/circularImageStyle.html' %}
+{% load crispy_forms_tags %}
+
 <div class="row">
     <div id="leftMostColumn" class="col s12 l2">
         <div class="card">
@@ -10,9 +12,13 @@
                     {% if user.is_authenticated and user in group.members.all%}
                     <h4>Channels</h4>
                 </span>
-                <li class="">
-                    <h5 align="center"><a class="" href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}"> Create Group Post </a> </h5>
-                </li>
+                {% if cgmember %}
+                {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
+                {% else %}
+                <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
+                <h5 align="center">    <a href="{% url 'poll_create' %} "  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
+                {% endif %}
+                {% endif %}
                 <ul class="collection">
 
                     {% for c in channels %}
@@ -21,6 +27,11 @@
                         </a> </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
+                {% if cgmember %}
+                {% if cgmember.auth < 2 %}
+                <h5 align="center">  <a  href = "#channelmodal" class="waves-effect waves-light btn modal-trigger"> Add Channel </a></h5>
+                {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -54,11 +65,11 @@
 
                 <div class="divider"></div>
                 {% if not user in group.members.all %}
-                <a href="{%url 'addmember' slug=group.slug%}"><button type="button" name="button">Join</button></a>
+                <a href="{%url 'addmember' slug=group.slug%}" class="btn blue right">Join</a>
                 {% elif user in group.members.all and cgmember.status == 0 %}
                 <h3>Your application is Pending!!</h3>
                 {% else %}
-                <a href="{%url 'addmember' slug=group.slug%}"><button type="button" name="button">Leave</button></a>
+                <a href="{%url 'addmember' slug=group.slug%}" class="btn red right" >Leave</a>
                 {% endif %}
 
                 {% if user in group.members.all %}
@@ -120,14 +131,23 @@
 
         <div class="modal-body">
             {% for mem in gmember %}
-            {% if  mem.status == 0 %}
-            <li>
-                <ul>
-                    {{mem.user.username}}:<a href="{% url 'accept' slug=group.slug userd=mem.user %}">Accept</a>/<a href="{% url 'reject' slug=group.slug userd=mem.user %}">Reject</a>
-                </ul>
+            <div class="row">
+                <div class="col s8 l8">
+                    <div class="myChip chip">
+                        <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                        {% if  mem.status == 0 %}
+                            @{{mem.user.username}}
+                        {%endif%}
+                    </div>
 
-            </li>
-            {%endif%}
+
+                </div>
+                <div class="col s4 l4">
+                    <a href="{% url 'accept' slug=group.slug userd=mem.user %}" class="btn green">Accept</a>
+                    <a href="{% url 'reject' slug=group.slug userd=mem.user %}" class="btn red">Reject</a>
+                </div>
+
+            </div>
             {%endfor%}
         </div>
         <div class="modal-footer">
@@ -150,6 +170,26 @@
         <div class="modal-footer">
 
             <a href="" class="btn btn-small green">Save changes</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
+<div id="channelmodal" class="modal">
+    <div class="modal-content">
+      <form method = "post">
+        {% csrf_token %}
+        <h4>Channel Name</h4>
+        <div class="modal-body">
+            <div id="memberlist">
+                {{ channelform|crispy }}
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <button type="submit" class="btn btn-large">Create</button>
+            </form>
         </div>
     </div>
     <div class="modal-footer">

@@ -40,3 +40,7 @@ class GroupPostCreateForm(forms.ModelForm):
 		widgets = {
             'content': SummernoteWidget(),
         }
+
+class SearchForm(forms.Form):
+
+	SearchTerm = forms.CharField(required = True)
