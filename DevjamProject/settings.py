@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Post',
     'Tag',
     'Group',
+    'django_summernote',
 
 ]
 
@@ -152,3 +153,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "divanimax@gmail.com"
 EMAIL_HOST_PASSWORD = "xedgeqtgxpzwfxpx"
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'

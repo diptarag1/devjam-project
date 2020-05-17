@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col s11 l11">
                 {% if not user in post.views.all %}
-                <h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+                <u><h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3></u>
                 {% else %}
                 <h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
                 {% endif %}
@@ -16,7 +16,8 @@
         </div>
         <p class="floating-text"><a class="mr-2" href="{% url 'profile' slug=post.author.username %}">By {{ post.author }}</a></p>
         <p class="right">{{ post.date_posted }}</p>
-        <p>{{post.content}}</p>
+        <p class="">Like:{{ post.likers.count }}</p>
+        <p>{{post.content|safe}}</p>
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>

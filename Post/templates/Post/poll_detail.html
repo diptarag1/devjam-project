@@ -1,0 +1,15 @@
+{% load mathfilters %}
+        {% if uchoice == '' %}
+        {% for op in options.all %}
+            <h3>{{op.option}}</h3>
+            <a href="{% url 'addpoll' pk=op.id pollid=poll.id%}">vote</a>
+        {% endfor %}
+        {% else %}
+        {% for op in options.all %}
+        {% if uchoice == op %}
+            <u><h3>{{op.option}}:{{op.voters.count|div:total|floatformat:2}}</h3></u>
+        {% else %}
+            <h3>{{op.option}}:{{op.voters.count|div:total|floatformat:2}}</h3>
+        {% endif %}
+        {% endfor %}
+        {% endif %}

@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from user import views as u_views
+from Post import views as p_views
 
 urlpatterns=[
     path('create/',views.CreateGroup.as_view(),name='create_group'),
@@ -9,6 +10,7 @@ urlpatterns=[
     path('accept/<slug:userd>/<slug:slug>',views.accept,name='accept'),
     path('reject/<slug:userd>/<slug:slug>',views.reject,name='reject'),
     path('promote_demote/$',views.promote_demote, name = 'promote_demote'),
+    path('/createpost/<slug:slug>/<channel>', p_views.GroupPostCreateView, name = "group-post-create"),
     #path('promote_demote/<userd>/<slug>/<int:choice>',views.promote_demote,name='promote_demote'),
     # url(r"^$", views.ListGroups.as_view(), name="all"),
     # url(r"^new/$", views.CreateGroup.as_view(), name="create"),

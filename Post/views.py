@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404 , redirect
+from django.db.models import Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
@@ -7,12 +8,12 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post, Comment
+from .models import Post, Comment ,Poll ,PollChoice
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
-from Group.models import Group
-
+from .forms import PollForm,PollChoiceFormset,PostCreateFrom,GroupPostCreateForm
+from Group.models import Group,Channel
 
 
 class PostListView(ListView):
@@ -25,7 +26,7 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all
         context['groups'] = Group.objects.all
-        context['posts'] = Post.objects.filter(grouppost__isnull=True)
+        context['posts'] = Post.objects.filter(grouppost__isnull=True).annotate(like_count=Count('likers')).order_by('-like_count')
         return context
 # def postdetail(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
@@ -49,6 +50,17 @@ class PostDetailView(DetailView):
         if not self.request.user in self.object.views.all() and self.request.user.is_authenticated:
             self.object.views.add(self.request.user)
         # Add in a QuerySet of all the books
+        options = PollChoice.objects.filter(poll=self.object)
+        uchoice = ''
+        total = 0
+        for index, op in enumerate(options):
+            total = total + op.voters.count()
+            if self.request.user in op.voters.all():
+                uchoice=op
+        context['uchoice']=uchoice
+        context['total']=total
+        context['options']=options
+        context['poll']=self.object
         context['comments'] = Comment.objects.filter(post = self.object)
         context['is_liked'] = is_liked
         context['post']  = post
@@ -59,12 +71,29 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title','tags','content']
+    form_class = PostCreateFrom
+    # fields = ['title','tags','content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
+def GroupPostCreateView(request,channel,slug):
+        if(request.method == 'POST'):
+            form1 = GroupPostCreateForm(request.POST)
+            if(form1.is_valid()):
+                group = Group.objects.get(slug = slug)
+                form1.instance.parentchannel = Channel.objects.get(parentgroup = group, name = channel)
+                form1.instance.author = request.user
+                form1.save()
+                return redirect(group.get_channel_url(channel))
+        else:
+            form1 = GroupPostCreateForm()
+        context = {
+            'form': form1,
+        }
+        return render(request, 'Post/post_form.html', context)
 
 # class CommentCreateView(LoginRequiredMixin, CreateView):
 #     model = Comment
@@ -141,7 +170,35 @@ def ExploreTagView(request, tag):
         'tag': tag,
     }
     return render(request, 'Post/explore-tag.html', context)
-#
-#
+
+def pollnew(request):
+    if request.method == 'GET':
+        pollform = PostCreateFrom(request.GET or None)
+        formset = PollChoiceFormset(queryset=PollChoice.objects.none())
+    elif request.method == 'POST':
+        pollform = PostCreateFrom(request.POST)
+        formset = PollChoiceFormset(request.POST)
+        if pollform.is_valid() and formset.is_valid():
+            poll = pollform.save(commit=False)
+            poll.author = request.user
+            poll.save()
+            id = poll.pk
+            for form in formset:
+                pollob = form.save(commit=False)
+                if pollob.option=='':
+                    continue
+                pollob.poll = poll
+                pollob.save()
+        return redirect('poll_detail',pk=id)
+    return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
+
+
+def addpoll(request,pk,pollid):
+    option = PollChoice.objects.get(pk=pk)
+    option.voters.add(request.user)
+    option.save()
+    return redirect('poll_detail',pk=pollid)
+
+
 # def about(request):
 #     return render(request, 'Post/about.html', {'title': 'About'})
