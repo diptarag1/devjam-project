@@ -2,6 +2,7 @@
 {% load static %}
 {%block content%}
 {% include 'snippets/circularImageStyle.html' %}
+{% load crispy_forms_tags %}
 
 <div class="row">
     <div id="leftMostColumn" class="col s12 l2">
@@ -11,11 +12,13 @@
                     {% if user.is_authenticated and user in group.members.all%}
                     <h4>Channels</h4>
                 </span>
-
+                {% if cgmember %}
+                {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
+                {% else %}
                 <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
-
                 <h5 align="center">    <a href="{% url 'poll_create' %} "  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
-
+                {% endif %}
+                {% endif %}
                 <ul class="collection">
 
                     {% for c in channels %}
@@ -24,6 +27,11 @@
                         </a> </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
+                {% if cgmember %}
+                {% if cgmember.auth < 2 %}
+                <h5 align="center">  <a  href = "#channelmodal" class="waves-effect waves-light btn modal-trigger"> Add Channel </a></h5>
+                {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -167,6 +175,27 @@
     <div class="modal-footer">
     </div>
 </div>
+
+<div id="channelmodal" class="modal">
+    <div class="modal-content">
+      <form method = "post">
+        {% csrf_token %}
+        <h4>Channel Name</h4>
+        <div class="modal-body">
+            <div id="memberlist">
+                {{ channelform|crispy }}
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <button type="submit" class="btn btn-large">Create</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
 {%endblock%}
 {% block js %}
 <script type="text/javascript">

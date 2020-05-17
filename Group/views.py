@@ -16,6 +16,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from Tag.models import Tag
 from .models import Group, GroupMember, Channel
 from Post.models import GroupPost
+from .forms import ChannelCreateForm
+
 
 class CreateGroup(LoginRequiredMixin, CreateView):
     model = Group
@@ -29,18 +31,27 @@ class CreateGroup(LoginRequiredMixin, CreateView):
 def SingleGroup(request, slug, activechannel):
     group = Group.objects.filter(slug=slug).first()
     achannel = Channel.objects.filter(parentgroup = group, name = activechannel).first()
+    channelform = ChannelCreateForm(request.POST)
+    if(channelform.is_valid()):
+        channelform.instance.parentgroup = group
+        channelform.save()
+        messages.success(request, f'Channel created')
+        return redirect(group.get_channel_url("General"))
     context = {
         'gmember' : GroupMember.objects.filter(group=group).filter(status=0),
         'tags': Tag.objects.all,
         'channels' : Channel.objects.filter(parentgroup = group),
         'group' : group,
         'activechannel' : achannel,
-        'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth')
+        'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),
+        'channelform' : channelform,
     }
     if request.user in group.members.all() and request.user.is_authenticated:
         context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)
     context['posts'] = GroupPost.objects.filter(parentchannel = achannel)
     return render(request, 'Group/group_detail.html', context)
+
+
 
 
 class ListGroups(ListView):
