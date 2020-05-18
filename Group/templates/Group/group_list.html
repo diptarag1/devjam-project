@@ -16,6 +16,9 @@
 </div>
 <div class="card-content">
   <span class="card-title activator grey-text text-darken-4">{{group.title}}<i class="material-icons right">more_vert</i></span>
+  {% for tag in group.tags.all %}
+  <a href="{% url 'explore-tag' tag %} " class="my-tag amber-text text-darken-2"> #{{tag}} </a>
+  {% endfor %}
   <p><a href="{% url 'group-detail' slug=group.slug activechannel="General" %}">Explore</a></p>
 </div>
 <div class="card-reveal">

@@ -52,8 +52,7 @@
                 <span class="card-title"><a href="{% url 'post-detail' post.id %}" class="card-title blue-grey-text text-lighten-4">{{ post.title }}</a><i class="material-icons right activator">more_vert</i></span>
                 {% endif %} -->
 
-                <p class="">Content:</p>
-                <p>{{post.content|safe}}</p>
+                <p>Content:{{post.content|safe}}</p>
             </div>
         </div>
     </div>

@@ -45,6 +45,7 @@ def SingleGroup(request, slug, activechannel):
         'activechannel' : achannel,
         'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),#list of accepted member
         'channelform' : channelform,
+        'gform' : ProfileUpdateForm(instance = group)
     }
     if request.user in group.members.all() and request.user.is_authenticated:
         context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)#inctance of logged in user
@@ -56,6 +57,9 @@ def SingleGroup(request, slug, activechannel):
 
 class ListGroups(ListView):
     model = Group
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 def addmember(request,slug):
     group = Group.objects.filter(slug=slug).first()
@@ -115,6 +119,11 @@ def promote_demote(request):
         return JsonResponse({'form':html})
     else:
         return HttpResponse('Meme')
+
+def updategroup(request):
+    form = request.POST
+    print(form.description)
+    return render(request,"Group.html")
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))
 #       try:
