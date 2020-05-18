@@ -52,7 +52,6 @@ def SingleGroup(request, slug, activechannel):
     if request.method == 'POST':
         gform = GroupUpdateForm(request.POST, request.FILES, instance = group)#form for updating group details
         if gform.is_valid():
-            gform.instance.created_by = group.created_by
             gform.save()
     context['posts'] = GroupPost.objects.filter(parentchannel = achannel)
     return render(request, 'Group/group_detail.html', context)
