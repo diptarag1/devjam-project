@@ -12,9 +12,13 @@
     <div class="card-content white-text">
         <div class="row">
             <div class="col s1">
+                <br>
                 <img src="{{ post.author.profile.image.url }}" class="circle responsive-img"alt="">
-                <p>69</p>
-                <p>69</p>
+                <br>
+                <i class="tiny material-icons  white-text">thumb_up</i>
+                <p>{{post.likers.count}}</p>
+                <i class="tiny material-icons  white-text">remove_red_eye</i>
+                <p>{{post.views.count}}</p>
 
             </div>
 
@@ -23,10 +27,10 @@
                         <div class="right">
                             <div class="row">
                                 <div class="col s1">
-                                    <i class="material-icons  white-text">thumb_up</i>
+
                                 </div>
                                 <div class="cl s1">
-                                    <i class="material-icons  white-text">remove_red_eye</i>
+
                                 </div>
                                 <div class="col s1">
                                     <i class="material-icons activator  white-text">more_vert</i>

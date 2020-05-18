@@ -18,6 +18,9 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		return reverse('post-detail', kwargs = {'pk':self.pk})
 
+	def __str__(self):
+		return self.title
+
 class GroupPost(Post):
 	parentchannel = models.ForeignKey(Channel, related_name = "parent_channel", on_delete=models.CASCADE)
 
