@@ -24,12 +24,12 @@ class Group(models.Model):
         self.slug = slugify(self.title)
         # self.description_html = misaka.html(self.description)
         super().save(*args, **kwargs)
-        c = Channel.objects.create(parentgroup = self, name = "General")
-        d = Channel.objects.create(parentgroup = self, name = "Announcements")
         if(not GroupMember.objects.filter(group = self, user = self.created_by).exists()):
             GroupMember.objects.create(group = self, user = self.created_by, auth = 0, status = 1)
-        c.save()
-        d.save()
+            c = Channel.objects.create(parentgroup = self, name = "General")
+            d = Channel.objects.create(parentgroup = self, name = "Announcements")
+            c.save()
+            d.save()
 
     def __str__(self):
         return self.title

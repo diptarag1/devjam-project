@@ -1,15 +1,18 @@
 {% load mathfilters %}
         {% if uchoice == '' %}
+        <ul>
         {% for op in options.all %}
-            <h3>{{op.option}}</h3>
-            <a href="{% url 'addpoll' pk=op.id pollid=poll.id%}">vote</a>
+        <li><a href="{% url 'addpoll' pk=op.id pollid=poll.id%}"><h5>{{op.option}}</h3></a></li>
         {% endfor %}
+        </ul>
         {% else %}
+        <ul>
         {% for op in options.all %}
         {% if uchoice == op %}
-            <u><h3>{{op.option}}:{{op.voters.count|div:total|floatformat:2}}</h3></u>
+            <li><u>{{op.option}}</u>: {{op.voters.count|div:total|mul:100|floatformat:2}}%</li>
         {% else %}
-            <h3>{{op.option}}:{{op.voters.count|div:total|floatformat:2}}</h3>
+            <li>{{op.option}}: {{op.voters.count|div:total|mul:100|floatformat:2}}%</li>
         {% endif %}
         {% endfor %}
+         </ul>
         {% endif %}
