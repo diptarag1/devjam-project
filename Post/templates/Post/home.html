@@ -23,19 +23,46 @@
 		} */
 	</style>
 	<div class="col s12 l2  ">
+		<br>
+		<div class="center">
+			{% if user.is_authenticated%}
+			<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">Post </a>
+			<br>
+			<a href="{% url 'poll_create' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Poll </a>
 
-		<h4>Groups</h4>
-		<ul class="collection">
-			{% for g in groups %}
-			<li class="collection-item flow-text"><a href="{% url 'group-detail' slug=g.title activechannel='General' %}">
-					<p> {{g.title}} </p>
-				</a></li>
-			{% endfor %}
-			<li class="collection-item flow-text"><a href="{% url 'create_group'  %}">
-					<p> New Group </p>
-				</a>
-		</ul>
+			<!-- <ul class="collection" >
+					<li class="collection-item cyan darken-3">
+					</li>
+					<li class="collection-item cyan darken-3">
+					</li>
+				</ul> -->
 
+			{% endif %}
+		</div>
+		<!-- <div class="card">
+			<div class="card-content">
+				<h4>Groups</h4>
+				<div class="row">
+
+					{% for g in groups %}
+					<div class="col s12 l12">
+						<a href="{% url 'group-detail' slug=g.title activechannel='General' %}" class="flow-text red-text text-accent-4">
+							<p> {{g.title}} </p>
+						</a>
+					</div>
+					{% endfor %}
+
+
+					<div class="col s12 l12">
+						<a href="{% url 'create_group'  %}" class="btn btn-large indigo darken-4">
+							<p> New Group </p>
+						</a>
+					</div>
+				</div>
+
+
+			</div>
+		</div> -->
 		<div class="card      ">
 			<div class="card-content">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -55,7 +82,9 @@
 			<li class="tab col s6">
 				<a href="#searchPosts" class="indigo-text text-darken-4">
 					Search Posts
+
 				</a>
+
 			</li>
 		</ul>
 
@@ -63,57 +92,55 @@
 			<!-- <h3 class="active indigo-text text-darken-4">Recent Posts</h3> -->
 			<br>
 			{% for post in posts %}
-			<div class="row">
-				<div class="col s12 l12">
-					{% include 'snippets/postCard.html' %}
 
-				</div>
-			</div>
+			{% include 'snippets/postCard.html' %}
 
 			{% endfor %}
 		</div>
 		<div id="searchPosts" class="col s12">
 			<!-- <h2 class="active indigo-text text-darken-4">Search Posts</h2> -->
+			<h2>Search</h2>
+			<div id = "search"> {% include 'Post/searchresults.html' %} </div>
 		</div>
 
 
 
 	</div>
 	<div class="col s12 l3 ">
-		<div class="card  ">
+		<style media="screen">
+			#sid-bar{
+				background: rgb(96, 125, 139);
+				background: linear-gradient(218deg, rgba(96, 125, 139, 1) 0%, rgba(38, 50, 56, 1) 100%);
+			}
+
+		</style>
+		<div id="sid-bar"class="card">
 			<div class="card-content">
 				<h4 class="center">Our Sidebar</h4>
 
 				<ul class="list-group">
 
 				</ul>
-				<div class="center">
-					{% if user.is_authenticated%}
-					<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">Create Post </a>
-					<a href="{% url 'poll_create' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Create Poll </a>
 
-					<!-- <ul class="collection" >
-							<li class="collection-item cyan darken-3">
-							</li>
-							<li class="collection-item cyan darken-3">
-							</li>
-						</ul> -->
-
-					{% endif %}
-				</div>
 
 				<div class="divider">
 
 				</div>
-				<ul class="collection with-header">
+				<style media="screen">
+				.myGradCard {
+					background: rgb(69, 90, 100);
+					background: linear-gradient(283deg, rgba(69, 90, 100, 1) 0%, rgba(38, 50, 56, 1) 100%);
+				}
+				</style>
+				<ul class="collection with-header ">
 
 					{% if tags %}
-					<li class="collection-header">
+					<li class="collection-headermyGradCard">
 						<h5> Explore Tags:</h5>
 					</li>
 
 					{% for tag in tags %}
-					<li class="collection-item"> <a href="{% url 'explore-tag' tag %}" class="orange-text"> #{{tag.name}} </a></li>
+					<li class="collection-item myGradCard"> <a href="{% url 'explore-tag' tag %}" class="orange-text"> #{{tag.name}} </a></li>
 					{% endfor %}
 					{% endif %}
 
@@ -131,3 +158,33 @@
 </script>
 
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(event) {
+        $(document).on('click', '#searchterm', function(event) {
+
+            var searchterm  = $("#searchcontent").val();
+
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "search" %}',
+                data: {
+                    'searchterm': searchterm,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#search').html(response['form'])
+                    console.log(searchterm);
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}

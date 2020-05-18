@@ -171,15 +171,18 @@
 
         #username {
             text-transform: capitalize;
+            font-weight: 100;
+            /* lighter; */
         }
-        #tabSection{
+
+        #tabSection {
             max-height: 40vh;
         }
     </style>
 
 </head>
 
-<body class="">
+<body class="indigo lighten-5">
 
     <!-- parallax -->
 
@@ -271,39 +274,128 @@
                     <div class="col s12 l12 ">
                         <!-- <div class="card ">
                             <div class="card-content"> -->
-                                <h4 class="blue-text text-darken-4">Bio</h4>
-                                <p class="grey-text text-darken-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                    nisi ut
-                                    aliquip
-                                    ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est
-                                    laborum.</p>
-                            <!-- </div>
+                        <h4 class="blue-text text-darken-4">Bio</h4>
+                        <p class="grey-text text-darken-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip
+                            ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                            est
+                            laborum.</p>
+                        <!-- </div>
                         </div> -->
-                            <div class="divider"></div>
+                        <div class="divider"></div>
                     </div>
 
 
                     <div class="col s12 l12 ">
-                        <div class="card ">
-                            <div class="card-content">
-                                <h4>Gallery</h4>
+                        <!-- <div class="card ">
+                            <div class="card-content"> -->
+                                <h4 class="indigo-text text-darken-4">Gallery</h4>
                                 <div id="" class="">
 
                                 </div>
+                                <style media="screen">
+                                    /* .frame-square {
+                                        background: #fff;
+                                        border: 2px solid #000;
+                                        display: inline-block;
+                                        vertical-align: top;
+                                        padding: 10px;
+                                        width: 130px;
+                                        height: 130px;
+
+                                    }
+
+                                    .image-cropper {
+                                        width: 100px;
+                                        height: 100px;
+                                        position: relative;
+                                        overflow: hidden;
+                                        border-radius: 50%;
+                                    }
+
+                                    .profile-pic {
+                                        display: inline;
+                                        margin: 0 auto;
+                                        margin-left: -25%; //centers the image
+                                        height: 100%;
+                                        width: auto;
+                                    } */
+                                    .myimg {
+                                        /* max-height: auto ;
+                                        max-width: 100% ;
+                                        object-fit: cover; */
+                                        /* width: 8vw;
+                                        height: 16vw;
+
+                                         */
+                                         border-radius: 1vw;
+                                        margin-bottom: 1vw;
+                                    }
+                                    /* .spaceOut{
+                                        padding-bottom: 1vw;
+                                    } */
+                                </style>
                                 <div class="row">
-                                    <div class="col s6 m6 l4  ">
-                                        <div class="gallery-image">
-                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
                                         </div>
                                     </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3  myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- <div class="frame-square">
+                                        <img src="{% static 'gallery/bb.jpg' %}" class="">
+                                    </div> -->
+                                    <!-- <div class="col s6 m6 l4  ">
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="myImage responsive-img materialboxed">
+                                        </div>
+                                    </div> -->
+                                    <!--
                                     <div class="col s6 m6 l4  ">
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/gv.jpg' %}" class="responsive-img materialboxed">
                                         </div>
                                     </div>
-                                    <div class="col s6 m6 l4  ">
+                                     <div class="co l s6 m6 l4  ">
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/lm.jpg' %}" class="responsive-img materialboxed">
                                         </div>
@@ -342,11 +434,13 @@
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/bb2.jpg' %}" class="responsive-img materialboxed">
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
                                 </div>
 
+                                <div class="divider"></div>
+
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                                     commodo
                                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
@@ -358,8 +452,9 @@
                                     est
                                     laborum.</p>
 
-                            </div>
-                        </div>
+                            <!-- </div>
+                        </div> -->
+
                     </div>
 
                 </div>
@@ -370,7 +465,7 @@
             <div class="col s12 l6">
                 <div class="row">
                     <div class="col s12 l12">
-                        <h3 id="username" class="flow-text left ">{{ userd.username }}</h3>
+                        <h2 id="username" class="left ">{{ userd.username }}</h2>
 
                     </div>
                 </div>
@@ -568,7 +663,7 @@
             $('.materialboxed').materialbox();
             $('.parallax').parallax();
             $('.tabs').tabs({
-                swipeable:true
+                swipeable: true
             });
             $('.modal').modal();
             $('.tooltipped').tooltip();

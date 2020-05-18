@@ -1,21 +1,22 @@
 <style media="screen">
-    /* .myChip{
+    .myChip{
         transform:scale(1.3);
-    } */
+    }
 </style>
 <ul class="collection">
     {% for mem in countmem %}
     <li class="collection-item">
         <div class="row">
-            {% if cgmember.auth < 2 and cgmember.auth < mem.auth %}
             <div class="col s4 l4">
                 <div class="myChip chip">
                     <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
-                    @{{mem.user.username}}
+                    <p>@{{mem.user.username}}</p>
                     <br>
                     Designation:{{mem.get_auth_display}}
                 </div>
             </div>
+            {% if cgmember.auth < 2 and cgmember.auth < mem.auth %}
+
             <div class="col s6 l6">
                 <form action="{% url 'promote_demote' %}" method="post">
                     {% csrf_token %}
@@ -28,18 +29,9 @@
                 </form>
             </div>
             <div class="col s2 l2">
-                <a href="{% url 'reject' slug=group.slug userd=mem.user %}" class="btn-large btn-floating red">
-                    <i class="large material-icons">remove</i>
+                <a href="{% url 'reject' slug=group.slug userd=mem.user %}" class="btn-floating red">
+                    <i class="material-icons">remove</i>
                 </a>
-            </div>
-            {% else %}
-            <div class="col s4 l4">
-                <div class="chip">
-                    <img src="{{mem.user.profile.image.url }}" alt="Contact Person">
-                    @{{mem.user.username}}
-                    <br>
-                    Designation:{{mem.get_auth_display}}
-                </div>
             </div>
             {%endif%}
 
