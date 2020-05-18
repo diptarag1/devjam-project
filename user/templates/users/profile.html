@@ -168,6 +168,13 @@
         #menu {
             transform: scale(2.0);
         }
+
+        #username {
+            text-transform: capitalize;
+        }
+        #tabSection{
+            max-height: 40vh;
+        }
     </style>
 
 </head>
@@ -209,6 +216,11 @@
                     </ul>
                 </div>
             </nav>
+            <style media="screen">
+                .parallax-container {
+                    height: 60vh;
+                }
+            </style>
             <div class="parallax">
                 <img src="{% static 'sn.jpg' %}" alt="" class="responsive-img">
             </div>
@@ -216,7 +228,7 @@
     </div>
 
     <!-- services / tabs -->
-    <div class="container my">
+    <div class="container my ">
         <div class="row">
             <div class="col s12 l4 goUp baap">
                 <div class="row">
@@ -228,49 +240,53 @@
                             <div class="circular--landscape">
                                 <img src="{{userd.profile.image.url}}" class="materialboxed" alt="">
                             </div>
-                            <h3 class="center-align">{{ userd.username }}</h3>
+
+                            <!-- <div class="row">
+                                <div class="col s6 l6">
+                                        <h5 class="grey-text">Followers</h5>
+                                </div>
+                                <div class="col s6 l6">
+                                    <h5 class="grey-text">Following
+                                    </h5>
+                                </div>
+
+                            </div>
                             <div class="row">
                                 <div class="col s6 l6">
-                                    <span>
-                                        <h5 class="btn btn-large center-align amber lighten-1">Followers</h5>
-                                        <p class="center-align">67</p>
-                                    </span>
+                                    <p class="deep-purple-text text-darken-4">69</p>
                                 </div>
                                 <div class="col s6 l6">
-                                    <span>
-                                        <h5 class="btn btn-large center-align deep-purple lighten-1">Following
-
-                                        </h5>
-                                    </span>
-                                    <p class="center-align">69</p>
-
-
+                                <p class="deep-purple-text text-darken-4">69</p>
                                 </div>
-                                <div class="divider">
+                            </div> -->
+                            <div class="divider"></div>
 
-                                </div>
-                            </div>
                         </div>
 
 
 
                     </div>
+                    <div class="divider"></div>
+
                     <div class="col s12 l12 ">
-                        <div class="card light-blue lighten-4">
-                            <div class="card-content">
-                                <h4>Bio</h4>
-                                <p class="floating-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                        <!-- <div class="card ">
+                            <div class="card-content"> -->
+                                <h4 class="blue-text text-darken-4">Bio</h4>
+                                <p class="grey-text text-darken-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                                     nisi ut
                                     aliquip
                                     ex ea commodo
                                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                                     est
                                     laborum.</p>
-                            </div>
-                        </div>
+                            <!-- </div>
+                        </div> -->
+                            <div class="divider"></div>
                     </div>
+
+
                     <div class="col s12 l12 ">
-                        <div class="card purple lighten-4">
+                        <div class="card ">
                             <div class="card-content">
                                 <h4>Gallery</h4>
                                 <div id="" class="">
@@ -352,13 +368,19 @@
 
             </div>
             <div class="col s12 l6">
+                <div class="row">
+                    <div class="col s12 l12">
+                        <h3 id="username" class="flow-text left ">{{ userd.username }}</h3>
+
+                    </div>
+                </div>
 
                 <!-- tabs -->
                 <div class="row">
-                    <div class="col s12 l12">
-                        <ul class="tabs">
+                    <div id="tabSection" class="col s12 l12 ">
+                        <ul class="tabs ">
                             <li class="tab col s3">
-                                <a href="#photography" class="active indigo-text text-darken-4">Photography</a>
+                                <a href="#photography" class=" active indigo-text text-darken-4">Photography</a>
                             </li>
                             <li class="tab col s3">
                                 <a href="#editing" class="indigo-text text-darken-4">Editing</a>
@@ -396,12 +418,12 @@
                 </div>
                 <div class="row">
                     <div class="col s10 l10 offset-s1 offset-l1 ">
-                        {% if posts %}
+                        <!-- {% if posts %}
                         {% if userd == user %}
                         <h3> My posts </h3>
                         {% else %}
                         <h3> Posts </h3>
-                        {% endif %}
+                        {% endif %} -->
                     </div>
                     <div id="postCalone" class="col s12 l12">
 
@@ -428,25 +450,20 @@
                             </a>
                             <ul>
                                 <li><a href="{% url 'post-create' %}" data-position="left" class="tooltipped btn-floating btn-large  red" data-tooltip="Create Post"><i class="material-icons">add</i></a></li>
-                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
+                                <li><a href="#exampleModal" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
                                 <li><a data-position="left" class="tooltipped btn-floating  btn-large green" data-tooltip="Create Post"><i class="material-icons">publish</i></a></li>
-                                <li><a data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Create Post"><i class="material-icons">attach_file</i></a></li>
+                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Reset Password"><i class="material-icons">attach_file</i></a></li>
                             </ul>
                         </div>
-                        <a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit Profile
-                        </a>
+                        <span><a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit</a></span>
 
                         {% endif %}
                         {% endif %}
-                        {% if userd == user %}
-                        <a href="{% url 'post-create' %}" class="btn btn-large waves-effect waves-light green">
-                            <p>Create Post</p>
-                        </a>
-                        {% endif %}
+
                     </div>
                 </div>
 
-                <div class="card  red lighten-3">
+                <div class="card  ">
                     <div class="card-content">
 
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -550,7 +567,9 @@
             $('.sidenav').sidenav();
             $('.materialboxed').materialbox();
             $('.parallax').parallax();
-            $('.tabs').tabs();
+            $('.tabs').tabs({
+                swipeable:true
+            });
             $('.modal').modal();
             $('.tooltipped').tooltip();
             $('.fixed-action-btn').floatingActionButton({
