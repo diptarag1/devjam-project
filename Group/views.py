@@ -39,10 +39,10 @@ def SingleGroup(request, slug, activechannel):
         return redirect(group.get_channel_url(channelform.instance.name))
     context = {
         'gmember' : GroupMember.objects.filter(group=group).filter(status=0),#list of pending members
-        'tags': Tag.objects.all,
+        'tags': Tag.objects.all,#list of tags
         'channels' : Channel.objects.filter(parentgroup = group),#list of all channels of that group
-        'group' : group,
-        'activechannel' : achannel,
+        'group' : group, #intance of group
+        'activechannel' : achannel,#inctance of current channel
         'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),#list of accepted member
         'channelform' : channelform,
         'gform' : GroupUpdateForm(instance = group)
@@ -50,7 +50,7 @@ def SingleGroup(request, slug, activechannel):
     if request.user in group.members.all() and request.user.is_authenticated:
         context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)#intance of logged in user
     if request.method == 'POST':
-        gform = GroupUpdateForm(request.POST, request.FILES, instance = group)
+        gform = GroupUpdateForm(request.POST, request.FILES, instance = group)#form for updating group details
         if gform.is_valid():
             gform.instance.created_by = group.created_by
             gform.save()
@@ -79,8 +79,6 @@ def addmember(request,slug):
         else:
             messages.warning(request,("left successfully {}".format(group.title)))
 
-    #else:
-        #messages.success(request,"You are now a member of the {} group.".format(group.title))
     return redirect('group-detail',slug=slug,activechannel='General')
 
 def accept(request,userd,slug):
@@ -98,6 +96,8 @@ def reject(request,userd,slug):
     GroupMember.objects.get(user=user,group=group).delete()
     return redirect('group-detail',slug=slug,activechannel='General')
 
+
+#method to promote and demote
 def promote_demote(request):
     slug = request.POST.get('slug')
     userd = request.POST.get('userd')
@@ -124,14 +124,3 @@ def promote_demote(request):
         return JsonResponse({'form':html})
     else:
         return HttpResponse('Meme')
-
-# def addgroup(request,slug):
-#       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))
-#       try:
-#             GroupMember.objects.create(user=self.request.user,group=group)
-#
-#         except IntegrityError:
-#             messages.warning(self.request,("Warning, already a member of {}".format(group.name)))
-#
-#         else:
-#             messages.success(self.request,"You are now a member of the {} group.".format(group.name))
