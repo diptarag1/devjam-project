@@ -16,7 +16,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from Tag.models import Tag
 from .models import Group, GroupMember, Channel
 from Post.models import GroupPost
-from .forms import ChannelCreateForm
+from .forms import ChannelCreateForm,GroupUpdateForm
 
 
 class CreateGroup(LoginRequiredMixin, CreateView):
@@ -45,10 +45,15 @@ def SingleGroup(request, slug, activechannel):
         'activechannel' : achannel,
         'countmem': GroupMember.objects.filter(group=group).filter(status=1).order_by('auth'),#list of accepted member
         'channelform' : channelform,
-        'gform' : ProfileUpdateForm(instance = group)
+        'gform' : GroupUpdateForm(instance = group)
     }
     if request.user in group.members.all() and request.user.is_authenticated:
-        context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)#inctance of logged in user
+        context['cgmember'] = get_object_or_404(GroupMember,group=group,user=request.user)#intance of logged in user
+    if request.method == 'POST':
+        gform = GroupUpdateForm(request.POST, request.FILES, instance = group)
+        if gform.is_valid():
+            gform.instance.created_by = group.created_by
+            gform.save()
     context['posts'] = GroupPost.objects.filter(parentchannel = achannel)
     return render(request, 'Group/group_detail.html', context)
 
@@ -120,10 +125,6 @@ def promote_demote(request):
     else:
         return HttpResponse('Meme')
 
-def updategroup(request):
-    form = request.POST
-    print(form.description)
-    return render(request,"Group.html")
 # def addgroup(request,slug):
 #       group = get_object_or_404(Group,slug=self.kwargs.get("slug"))
 #       try:

@@ -38,7 +38,7 @@
     <div id="centerMostColumn" class="col s12 l7">
         <div class="card">
             <div class="card-image">
-                <img src="{% static 'sn.jpg' %}">
+                <img src="{{group.logo.url}}">
                 <!-- <h1 class="card-title"></h1> -->
                 <span class="card-title">
                     <h1>{{group.title}}</h1>
@@ -179,19 +179,25 @@
 </div>
 <div id="exampleModalCenter3" class="modal">
     <div class="modal-content">
-        <h4>Edit group info</h4>
+        <h4>Members List</h4>
         <div class="modal-body">
-            <div id="">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="modal-body">
+                        <fieldset class="form-group">
+                        {{gform|crispy}}
+                        </fieldset>
             </div>
-        </div>
-        <div class="modal-footer">
-
-            <a href="" class="btn btn-small green">Save changes</a>
+            <div class="modal-footer">
+                <a href="">
+                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button></a>
+                </form>
         </div>
     </div>
     <div class="modal-footer">
     </div>
 </div>
+
 
 <div id="channelmodal" class="modal">
     <div class="modal-content">
