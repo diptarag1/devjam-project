@@ -3,6 +3,9 @@
 {%block content%}
 {% include 'snippets/circularImageStyle.html' %}
 {% load crispy_forms_tags %}
+{% load materializecss %}
+
+
 
 <div class="row">
     <div id="leftMostColumn" class="col s12 l2">
@@ -35,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div id="centerMostColumn" class="col s12 l7">
+    <div id="centerMostColumn" class="col s12 l9">
         <div class="card">
             <div class="card-image">
                 <img src="{{group.logo.url}}">
@@ -187,7 +190,7 @@
                 {% csrf_token %}
             <div class="modal-body">
                         <fieldset class="form-group">
-                        {{gform|crispy}}
+                        {{gform|materializecss}}
                         </fieldset>
             </div>
             <div class="modal-footer">
