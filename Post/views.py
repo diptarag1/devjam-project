@@ -34,7 +34,7 @@ from django.contrib.auth.decorators import login_required
 official_tag=['official','test1','test2']
 
 def PostListView(request):
-    if request.user.is_authenthicated:
+    if request.user.is_authenticated:
         posts = Post.objects.filter(grouppost__isnull=True).order_by('-date_posted')
     # .annotate(like_count=Count('likers')).order_by('-like_count')
         tags = Tag.objects.all

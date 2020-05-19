@@ -278,14 +278,16 @@
                     <div class="col s12 l12 ">
                         <!-- <div class="card ">
                             <div class="card-content"> -->
+                        <h4 class="blue-text text-darken-4"> @{{ userd.username }}</h4>
                         <h4 class="blue-text text-darken-4">Bio</h4>
-                        <p class="grey-text text-darken-3 thin-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut
-                            aliquip
-                            ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                            est
-                            laborum.</p>
+                        <p> {{userd.profile.get_gender_display}} </p>
+                        <p> From: {{userd.profile.country}} </p>
+                        <p> Bio:{{userd.profile.bio}} </p>
+                        {% if user.is_authenticated %}
+                        {% if userd == user %}
+                        <span><a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit</a></span>
+                        {% endif %}
+                        {% endif %}
                         <!-- </div>
                         </div> -->
                         <div class="divider"></div>
@@ -308,58 +310,12 @@
             <div class="col s12 l8  ">
                 <div class="row">
                     <div class="col s12 l12">
-                        <h2 id="username" class="left ">{{ userd.username }}</h2>
+                        <h2 id="username" class="left ">{{ userd.first_name }} {{userd.last_name}}</h2>
 
                     </div>
                 </div>
 
                 <!-- tabs -->
-                <div class="row">
-                    <div id="tabSection" class="col s12 l12 ">
-                        <ul class="tabs ">
-                            <li class="tab col s3">
-                                <a href="#photography" class=" active indigo-text text-darken-4">Photography</a>
-                            </li>
-                            <li class="tab col s3">
-                                <a href="#editing" class="indigo-text text-darken-4">Editing</a>
-                            </li>
-                            <li class="tab col s3">
-                                <a href="#info" class="active indigo-text text-darken-4">info</a>
-                            </li>
-                            <li class="tab col s3">
-                                <a href="#stuff" class="indigo-text text-darken-4">stuff</a>
-                            </li>
-                        </ul>
-                        <div id="photography" class="col s12">
-                            <p class="flow-text indigo-text text-darken-4">Photography</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
-                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
-                        </div>
-                        <div id="editing" class="col s12">
-                            <p class="flow-text indigo-text text-darken-4">Editing</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
-                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
-                        </div>
-                        <div id="info" class="col s12">
-                            <p class="flow-text indigo-text text-darken-4">info</p>
-                            <p> {{userd.profile.get_gender_display}} </p>
-                            <p> From: {{userd.profile.country}} </p>
-                            <p> Bio:{{userd.profile.bio}} </p>
-                            {% if user.is_authenticated %}
-                            {% if userd == user %}
-                            <span><a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit</a></span>
-                            {% endif %}
-                            {% endif %}
-
-                        </div>
-                        <div id="stuff" class="col s12">
-                            <p class="flow-text indigo-text text-darken-4">stuff</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec, tincidunt orci.</p>
-                            <p>Mauris dolor augue, vulputate in pharetra ac, facilisis nec libero. Fusce condimentum gravida urna, vitae scelerisque erat ornare nec.</p>
-                        </div>
-
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col s10 l10 offset-s1 offset-l1 ">
                         <!-- {% if posts %}
