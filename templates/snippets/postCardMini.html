@@ -14,14 +14,14 @@
             <div class="card-content">
                 <div class="row">
                     <div class="col s11 l11">
-                        <a href="{% url 'post-detail' post.id %}"><span class="card-title">{{ post.title }} <p class=black-text>{{ post.date_posted }}</p></span></a>
+                        <a href="{% url 'post-detail' post.id %}"><span class="card-title indigo-text text-darken-4">{{ post.title }} <p class=black-text>{{ post.date_posted }}</p></span></a>
                     </div>
                     <div class="col s1 l1">
                         <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
                     </div>
                 </div>
                 <div class="postCards-mainContent">
-                    <p>{{ post.content }}</p>
+                    <p>{{ post.content|safe }}</p>
                 </div>
                 <!-- <div class="row">
                     <div class="col s12 l12 ">
@@ -30,8 +30,14 @@
                 </div> -->
             </div>
             <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">Action<i class="material-icons right">close</i></span>
-                <p>no ideawhat to Put Here</p>
+
+                {% if userd == user %}
+                <span class="card-title grey-text text-darken-4">What to do<i class="material-icons right">close</i></span>
+
+                <a class="btn btn-large orange waves-effect waves-light red" href="{%url 'post-update' post.id%}">Update </a>
+                <a class="btn btn-large red waves-effect waves-light red" href="{%url 'post-delete' post.id%}"> Delete </a>
+
+                {% endif %}
             </div>
             <div class="card-action">
                 <a href="">More details</a>

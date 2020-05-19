@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{%block content%}
+<!-- {% include 'snippets/circularImageStyle.html' %} -->
+{% load crispy_forms_tags %}
+{% load materializecss %}
+
+<div class="row">
+    <div id="leftMostColumn" class="col s12 l2">
+
+    </div>
+    <div id="centerMostColumn" class="col s12 l7">
+        <div class="card">
+            <div class="card-image">
+                <img src="{{group.logo.url}}">
+                <!-- <h1 class="card-title"></h1> -->
+                <span class="card-title">
+                    <h1 class="blue-grey-text text-darken-4" ;>{{group.title}}</h1>
+
+                    <!-- <h1 class="text" style="color: #ffffff; background-color: #263238";>{{group.title}}</h1> -->
+                </span>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s8 l8">
+                        <h4>Description:</h4>
+                        <p class="flow-text">{{group.description}}</p>
+                    </div>
+                    <div class="col s4 l4">
+                        <h3>Members:{{countmem.count}}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l12">
+
+                    </div>
+
+                </div>
+
+                {# join and leave section#}
+                <div class="divider"></div>
+                {% if not user in group.members.all %}
+                <a href="{%url 'addmember' slug=group.slug%}" class="btn blue right">Join</a>
+                {% elif user in group.members.all and cgmember.status == 0 %}
+                <h3>Your application is Pending!!</h3>
+                {% else %}
+                <a href="{%url 'addmember' slug=group.slug%}" class="btn red right" >Leave</a>
+                {% endif %}
+
+                {% if cgmember.status == 1 %}
+                {% if cgmember.auth < 2 %}
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter1">
+                    Request List
+                </a>
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter3">
+                    Edit Group Info
+                </a>
+                {% endif %}
+
+
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter2">
+                    Members List
+                </a>
+
+                <div class="divider"></div>
+                <style media="screen">
+                    .bigButton{
+                        position: absolute;
+                        top: 8%;
+                        right:4%;
+                        transform: scale(3.0);
+                    }
+                </style>
+                <div class="bigButton"  >
+                    <span class="card-title activator grey-text text-darken-4"><i class="material-icons ">more_vert</i></span>
+                </div>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text tex   t-darken-4 ">Card Title<i class="material-icons right">close</i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+            <div class="card-action">
+                <a href="#">This dis a link</a>
+            </div>
+        </div>
+        <style media="screen">
+            .circular--portrait {
+                position: relative;
+                width: auto;
+                height: 40px;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+
+            .circular--portrait img {
+                width: 100%;
+                height: auto;
+            }
+
+            .circular--square {
+                border-radius: 50% !important;
+            }
+
+            .circular--landscape {
+                /* margin: 4vh; */
+
+                display: inline-block;
+                position: relative;
+
+                max-width: 4vh;
+                max-height: 4vh;
+                /* width: 200px; */
+                height: 10vh;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+
+            .circular--landscape img {
+
+                width: auto;
+                height: 100%;
+                /* margin-left: -50px; */
+            }
+
+            .myCard-left {
+                position: absolute;
+                top: 2vh;
+                left: 2vh;
+            }
+
+            .tag {
+                font-size: 1.1rem;
+            }
+            .card{
+                min-height: 30vh;
+            }
+            /* .tag-thin{
+                font-weight: 300;
+            } */
+        </style>
+        {% if posts %}
+        {% for post in posts %}
+        {% include 'snippets/postCard.html' %}
+        {% endfor %}
+        {% else %}
+        <h1>No Posts yet</h1>
+        {% endif %}
+        {% endif %}
+    </div>
+    <div id="rightMostColumn" class="col s12 l3">
+        <div class="card">
+            <div class="card-content center">
+                <span class="card-title">
+                    {% if user.is_authenticated and cgmember.status == 1%}
+                    <h4>Channels</h4>
+                </span>
+                {% if cgmember %}
+                {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
+                {% else %}
+                <a  href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}" class="btn btn-large " > Create  Post </a>
+                <a href="{% url 'group-poll-create' slug=group.slug channel=activechannel.name %}"  class="btn btn-large amber   	indigo-text text-darken-4 center"> Create Poll </a>
+                <h5 align="center">
+                    </h5>
+                <h5 align="center">    </h5>
+                {% endif %}
+                {% endif %}
+                <ul class="collection">
+                    {% for c in channels %}
+                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.slug activechannel=c.name %}">
+                            <p> {{c.name}} </p>
+                        </a> </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if cgmember %}
+                {% if cgmember.auth < 2 %}
+                <h5 align="center">  <a  href = "#channelmodal" class="waves-effect waves-light btn modal-trigger"> Add Channel </a></h5>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="channelmodal" class="modal">
+    <div class="modal-content">
+      <form method = "post">
+       {% csrf_token %}
+        <h4>Channel Name</h4>
+        <div class="modal-body">
+          {{ channelform|crispy }}
+          </div>
+          <div class = "modal-footer">
+            <button type="submit" class="btn btn-large">Create</button>
+            </div>
+        </form>
+</div>
+</div>
+
+
+<div id="exampleModalCenter1" class="modal">
+    <div class="modal-content">
+        <h4>Pending List</h4>
+
+        <div class="modal-body">
+            {% for mem in gmember %}
+            <div class="row">
+                <div class="col s8 l8">
+                    <div class="myChip chip">
+                        <img src="{{  mem.user.profile.image.url }}" alt="Contact Person">
+                        {% if  mem.status == 0 %}
+                            @{{mem.user.username}}
+                        {%endif%}
+                    </div>
+
+
+                </div>
+                <div class="col s4 l4">
+                    <a href="{% url 'accept' slug=group.slug userd=mem.user %}" class="btn green">Accept</a>
+                    <a href="{% url 'reject' slug=group.slug userd=mem.user %}" class="btn red">Reject</a>
+                </div>
+
+            </div>
+            {%endfor%}
+        </div>
+        <div class="modal-footer">
+
+            <a href="" class="btn green">Save changes</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
+<div id="exampleModalCenter2" class="modal">
+    <div class="modal-content">
+        <h4>Members List</h4>
+        <div class="modal-body">
+            <div id="memberlist">
+                {% include 'Group/member-list.html' %}
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <a href="" class="btn btn-small green">Save changes</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+<div id="exampleModalCenter3" class="modal">
+    <div class="modal-content">
+        <h4>Members List</h4>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="modal-body">
+                        <fieldset class="form-group">
+                        {{gform|materializecss}}
+                        </fieldset>
+            </div>
+            <div class="modal-footer">
+                <a href="">
+                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button></a>
+                </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
+
+{%endblock%}
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(event) {
+        $(document).on('click', '#promote', function(event) {
+            event.preventDefault();
+
+
+            var slug = $(this).attr('slug');
+            var userd = $(this).attr('userd');
+            var choice = $(this).attr('choice');
+
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "promote_demote" %}',
+                data: {
+                    'slug': slug,
+                    'userd': userd,
+                    'choice': choice,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success: function(response) {
+                    $('#memberlist').html(response['form'])
+                    console.log('Success');
+                    // $("#love").addClass("red-text");
+                },
+                error: function(rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}
+{% url 'profile' slug=user.username %}

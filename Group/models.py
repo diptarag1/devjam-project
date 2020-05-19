@@ -5,10 +5,12 @@ from django.urls import reverse
 import misaka
 from Tag.models import Tag
 # Create your models here.
+
 class Group(models.Model):
     title = models.CharField(max_length=100,unique=True)
     slug = models.SlugField(allow_unicode=True, unique=True)
     description =  models.TextField()
+    link = models.URLField(blank=True,unique=False)
     members = models.ManyToManyField(User,through="GroupMember")
     tags =models.ManyToManyField(Tag, related_name='group_tag' , blank = True)
     logo = models.ImageField(default='group_default.jpg', upload_to='group_logo')
@@ -24,16 +26,17 @@ class Group(models.Model):
         self.slug = slugify(self.title)
         # self.description_html = misaka.html(self.description)
         super().save(*args, **kwargs)
-        if(not GroupMember.objects.filter(group = self, user = self.created_by).exists()):
+        if(not GroupMember.objects.filter(group = self, user = self.created_by).exists()): #creating created by user President
             GroupMember.objects.create(group = self, user = self.created_by, auth = 0, status = 1)
-            c = Channel.objects.create(parentgroup = self, name = "General")
-            d = Channel.objects.create(parentgroup = self, name = "Announcements")
+            c = Channel.objects.create(parentgroup = self, name = "General")               #creating groupchannel General
+            d = Channel.objects.create(parentgroup = self, name = "Announcements")         #creating groupchannel Announcements upon creating of group
             c.save()
             d.save()
 
     def __str__(self):
         return self.title
 
+#channel model
 class Channel(models.Model):
     parentgroup = models.ForeignKey(Group, related_name = "parent_group", on_delete = models.CASCADE)
     name = models.CharField(max_length=50)
@@ -41,8 +44,8 @@ class Channel(models.Model):
     def __str__(self):
         return f"{self.parentgroup.title}.{self.name}"
 
-STATUS =((0,"Pending"),(1,"Approved"),(2,"Declined"))
-AUTH =((0,"President"),(1,"Core-Members"),(2,"Elder"),(3,"Member"))
+STATUS =((0,"Pending"),(1,"Approved"),(2,"Declined"))               #current joining status of members
+AUTH =((0,"President"),(1,"Core-Members"),(2,"Elder"),(3,"Member")) #authorities of members
 
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE,related_name="memberships")

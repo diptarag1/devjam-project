@@ -31,12 +31,13 @@
     </style>
 
 </head>
+{% include 'snippets/sitePreLoader.html' %}
+<body class="">
+     <!-- indigo lighten-5 -->
 
-<body class=" indigo lighten-5">
-    <!-- {% include 'snippets/sitePreLoader.html' %} -->
         {% include 'snippets/mainNav.html' %}
-    <div class="row">
-        <div class="col s10 offset-s1">
+    <!-- <div class="row">
+        <div class="col s10 offset-s1"> -->
             {%block new%}
             {%endblock%}
 
@@ -59,8 +60,8 @@
             <script src="{% static 'materialize.min.js' %}"></script>
             {%block js%}
             {%endblock%}
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
 
 </body>
 <script type="text/javascript">
