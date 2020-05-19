@@ -1,10 +1,11 @@
 from django import forms
 from .models import GroupPost
+from Tag.models import Tag
 from django.forms import formset_factory,modelformset_factory
 from .models import Poll,PollChoice,Post
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
-
+official_tag=['official']
 class PostCreateFrom(forms.ModelForm):
 	class Meta:
 		model = Post
@@ -12,6 +13,27 @@ class PostCreateFrom(forms.ModelForm):
 		widgets = {
             'content': SummernoteWidget(),
         }
+	def __init__(self, *args, **kwargs):
+		user = kwargs.pop('user',None)
+		super().__init__(*args,**kwargs)
+		print(user)
+		if not user.is_superuser:
+			self.fields['tags'].queryset=Tag.objects.exclude(name__in=official_tag)
+
+class PostUpdateFrom(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields=['title','tags','content']
+		widgets = {
+            'content': SummernoteWidget(),
+        }
+		def __init__(self, *args, **kwargs):
+			user = kwargs.pop('user',None)
+			super().__init__(*args,**kwargs)
+			print(user)
+			if not user.is_superuser:
+				self.fields['tags'].queryset=Tag.objects.exclude(name__in=official_tag)
+
 class PollForm(forms.ModelForm):
 
 	class Meta:
@@ -26,7 +48,7 @@ PollChoiceFormset = modelformset_factory(
         'name': forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'enteroption'
+                'placeholder': 'enter option'
             }
         )
     }
@@ -40,6 +62,12 @@ class GroupPostCreateForm(forms.ModelForm):
 		widgets = {
             'content': SummernoteWidget(),
         }
+	def __init__(self,user ,*args, **kwargs):
+		super().__init__(*args,**kwargs)
+		users = kwargs.pop('user',None)
+		print(users)
+		if not user.is_superuser:
+			self.fields['tags'].queryset=Tag.objects.exclude(name__in=official_tag)
 
 class SearchForm(forms.Form):
 
