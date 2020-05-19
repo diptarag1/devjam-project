@@ -22,13 +22,13 @@
 			z-index: 9999 !important;
 		} */
 	</style>
-	<div class="col s12 m2 offset-m1 ">
+	<div class="col s12 m3 l2 offset-l1 ">
 		<br>
 		<div class="center">
 			{% if user.is_authenticated%}
-			<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">Post </a>
+			<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">Create Post </a>
 			<br>
-			<a href="{% url 'poll_create' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Poll </a>
+			<a href="{% url 'poll_create' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Create Poll </a>
 
 			<!-- <ul class="collection" >
 					<li class="collection-item cyan darken-3">
@@ -64,7 +64,7 @@
 			</li>
 			<li class="tab col s4">
 				<a href="#announcements" class="indigo-text text-darken-4">
-					announcements
+					announcementsbrownbrown
 
 				</a>
 
@@ -88,7 +88,7 @@
 		<div id="announcements" class="col s12">
 			<!-- <h2 class="active indigo-text text-darken-4">Search Posts</h2> -->
 			<h2>announcements</h2>
-			{% for post in aposts %}
+			{% for post in aposts %}brown
 			{% include 'snippets/postCardHome.html' %}
 			{% endfor %}
 
@@ -97,7 +97,7 @@
 
 
 	</div>
-	<div class="col s12 l2 ">
+	<div class="col s12 m3 l2 ">
 		<style media="screen">
 			/* #sid-bar{
 				background: rgb(96, 125, 139);
