@@ -1,5 +1,6 @@
 {% load static %}
 {% load crispy_forms_tags %}
+{% load materializecss %}
 <html lang="en">
 
 <head>
@@ -292,12 +293,12 @@
                     <div class="col s12 l12 ">
                         <!-- <div class="card ">
                             <div class="card-content"> -->
-                                <h4 class="indigo-text text-darken-4">Gallery</h4>
-                                <div id="" class="">
+                        <h4 class="indigo-text text-darken-4">Gallery</h4>
+                        <div id="" class="">
 
-                                </div>
-                                <style media="screen">
-                                    /* .frame-square {
+                        </div>
+                        <style media="screen">
+                            /* .frame-square {
                                         background: #fff;
                                         border: 2px solid #000;
                                         display: inline-block;
@@ -323,74 +324,75 @@
                                         height: 100%;
                                         width: auto;
                                     } */
-                                    .myimg {
-                                        /* max-height: auto ;
+                            .myimg {
+                                /* max-height: auto ;
                                         max-width: 100% ;
                                         object-fit: cover; */
-                                        /* width: 8vw;
+                                /* width: 8vw;
                                         height: 16vw;
 
                                          */
-                                         border-radius: 1vw;
-                                        margin-bottom: 1vw;
-                                    }
-                                    /* .spaceOut{
+                                border-radius: 1vw;
+                                margin-bottom: 1vw;
+                            }
+
+                            /* .spaceOut{
                                         padding-bottom: 1vw;
                                     } */
-                                </style>
-                                <div class="row">
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3  myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
-                                    <div class="col s4 l4">
-                                        <div class="spaceOut">
-                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
-                                        </div>
-                                    </div>
+                        </style>
+                        <div class="row">
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3  myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
+                            <div class="col s4 l4">
+                                <div class="spaceOut">
+                                    <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed z-depth-3 myImg">
+                                </div>
+                            </div>
 
 
 
-                                    <!-- <div class="frame-square">
+                            <!-- <div class="frame-square">
                                         <img src="{% static 'gallery/bb.jpg' %}" class="">
                                     </div> -->
-                                    <!-- <div class="col s6 m6 l4  ">
+                            <!-- <div class="col s6 m6 l4  ">
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/bb.jpg' %}" class="myImage responsive-img materialboxed">
                                         </div>
                                     </div> -->
-                                    <!--
+                            <!--
                                     <div class="col s6 m6 l4  ">
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/gv.jpg' %}" class="responsive-img materialboxed">
@@ -438,22 +440,22 @@
                                     </div> -->
 
 
-                                </div>
+                        </div>
 
-                                <div class="divider"></div>
+                        <div class="divider"></div>
 
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est
-                                    laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est
-                                    laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                            commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                            est
+                            laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                            commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                            est
+                            laborum.</p>
 
-                            <!-- </div>
+                        <!-- </div>
                         </div> -->
 
                     </div>
@@ -463,7 +465,7 @@
 
 
             </div>
-            <div class="col s12 l6">
+            <div class="col s12 l8">
                 <div class="row">
                     <div class="col s12 l12">
                         <h2 id="username" class="left ">{{ userd.username }}</h2>
@@ -503,6 +505,12 @@
                             <p> {{userd.profile.get_gender_display}} </p>
                             <p> From: {{userd.profile.country}} </p>
                             <p> Bio:{{userd.profile.bio}} </p>
+                            {% if user.is_authenticated %}
+                            {% if userd == user %}
+                            <span><a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit</a></span>
+                            {% endif %}
+                            {% endif %}
+
                         </div>
                         <div id="stuff" class="col s12">
                             <p class="flow-text indigo-text text-darken-4">stuff</p>
@@ -533,28 +541,10 @@
                 </div>
 
             </div>
-            <div class="col s12 l2">
+            <!-- <div class="col s12 l2">
                 <div class="card  red accent-1">
                     <div class="card-content">
-                        {% if user.is_authenticated %}
-                        {% if userd == user %}
 
-
-                        <div class="fixed-action-btn">
-                            <a class="btn-floating btn-large red">
-                                <i class="large material-icons">settings</i>
-                            </a>
-                            <ul>
-                                <li><a href="{% url 'post-create' %}" data-position="left" class="tooltipped btn-floating btn-large  red" data-tooltip="Create Post"><i class="material-icons">add</i></a></li>
-                                <li><a href="#exampleModal" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
-                                <li><a data-position="left" class="tooltipped btn-floating  btn-large green" data-tooltip="Create Post"><i class="material-icons">publish</i></a></li>
-                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Reset Password"><i class="material-icons">attach_file</i></a></li>
-                            </ul>
-                        </div>
-                        <span><a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit</a></span>
-
-                        {% endif %}
-                        {% endif %}
 
                     </div>
                 </div>
@@ -578,36 +568,36 @@
                 </div>
 
 
-            </div>
+            </div> -->
 
         </div>
 
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-            <div class="modal-body">
-            			<fieldset class="form-group">
-                        {{pform|crispy}}
-            			</fieldset>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <fieldset class="form-group">
+                            {{pform|materializecss}}
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
                 </form>
             </div>
         </div>
     </div>
-</div>
+    </div>
 
 
     <div id="coolButton">
@@ -624,6 +614,24 @@
         </div>
 
     </div>
+    {% if user.is_authenticated %}
+    {% if userd == user %}
+
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">settings</i>
+        </a>
+        <ul>
+            <li><a href="{% url 'post-create' %}" data-position="left" class="tooltipped btn-floating btn-large  red" data-tooltip="Create Post"><i class="material-icons">add</i></a></li>
+            <li><a href="#exampleModal" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
+            <li><a data-position="left" class="tooltipped btn-floating  btn-large green" data-tooltip="Create Post"><i class="material-icons">publish</i></a></li>
+            <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Reset Password"><i class="material-icons">attach_file</i></a></li>
+        </ul>
+    </div>
+
+    {% endif %}
+    {% endif %}
     <!-- Compiled and minified JavaScript -->
     <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'materialize.min.js' %}"></script>
