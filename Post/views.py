@@ -31,7 +31,7 @@ from django.contrib.auth.decorators import login_required
 #         context['posts'] = Post.objects.filter(grouppost__isnull=True).annotate(like_count=Count('likers')).order_by('-like_count')
 #
 #         return context
-official_tag=['official','test1','test2']
+official_tag=['official','avishkar','freshers']
 
 def PostListView(request):
     if request.user.is_authenticated:

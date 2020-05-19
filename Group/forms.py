@@ -1,7 +1,7 @@
 from django import forms
 from .models import Channel, Group
 from Tag.models import Tag
-official_tag = ['official','test1','test2']
+official_tag=['official','avishkar','freshers']
 
 
 class ChannelCreateForm(forms.ModelForm):

@@ -5,7 +5,7 @@ from django.forms import formset_factory,modelformset_factory
 from .models import Poll,PollChoice,Post
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
-official_tag=['official','test1','test2']
+official_tag=['official','avishkar','freshers']
 class PostCreateFrom(forms.ModelForm):
 	class Meta:
 		model = Post
