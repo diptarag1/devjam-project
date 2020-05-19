@@ -51,9 +51,10 @@ def profile(request,slug):
 		'userd':userd,#instance of current user
 		'slug':slug
 		}
-	context['posts'] = Post.objects.filter(author__username = slug,grouppost__isnull=True)#getting post which user made publicily 
+	context['posts'] = Post.objects.filter(author__username = slug,grouppost__isnull=True)#getting post which user made publicily
 	return render(request, 'users/profile.html', context)
 
+@login_required
 def notification(request):
 	context={}
 	print(datetime.now())
@@ -62,13 +63,3 @@ def notification(request):
 	request.user.profile.notif=timezone.now()
 	request.user.profile.save()
 	return render(request,'users/notifications.html', context)
-
-
-class ProfileDetailView(DetailView):
-	model = Profile
-	template_name = 'users/profile_other.html'
-
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context['posts'] = Post.objects.filter(author__profile = self.object, grouppost__isnull=True)
-		return context
