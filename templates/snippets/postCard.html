@@ -26,8 +26,11 @@
 
             <div class="col s11">
                 <span class="card-title ">
-                    <a href="{% url 'post-detail' post.id %}" class=" white-text flow-text" id="">{{ post.title }}</a>
-
+                    {% if not user in post.views.all %}
+                    <u><b><a href="{% url 'post-detail' post.id %}" class=" white-text flow-text" id="">{{ post.title }}</a></b></u>
+                    {% else %}
+                    <b><a href="{% url 'post-detail' post.id %}" class=" white-text flow-text" id="">{{ post.title }}</a></b>
+                    {% endif %}
                     <!-- <a href="{% url 'post-detail' post.id %}" class=" white-text myCard-title" id="">{{ post.title }}</a> -->
                     <div class="right">
                         <div class="row">

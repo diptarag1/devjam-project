@@ -196,7 +196,7 @@
         <div class="parallax-container">
             <nav class="nav-wrapper transparent">
                 <div class=" black-text">
-                    <a href="{% url 'blog-home' %}" class="center brand-logo black-text">BRUH!!</a>
+                    <a href="{% url 'blog-home' %}" class="center brand-logo black-text">Motiopolis</a>
                     <a href="" class="sidenav-trigger" data-target="mobile-menu">
                         <i class="material-icons">menu</i>
                     </a>
@@ -207,11 +207,6 @@
                     <ul class="right hide-on-med-and-down">
 
                         {% if user.is_authenticated%}
-
-                        <!-- <li><a id="notificationsButton" class=" btn-floating z-depth-0 indigo darken-4 ">
-                                <i class=" material-icons">notifications</i>
-                            </a></li>
-                        <li><span class="badge white-text new pink">5</span></li> -->
                         <li><a class="btn white indigo-text " href="{% url 'logout' %}">Log Out</a></li>
                         {% endif %}
 
@@ -279,8 +274,10 @@
                         <!-- <div class="card ">
                             <div class="card-content"> -->
                         <h4 class="blue-text text-darken-4"> @{{ userd.username }}</h4>
-                        <h4 class="blue-text text-darken-4">Bio</h4>
-                        <p> {{userd.profile.get_gender_display}} </p>
+                        <h4 class="blue-text text-darken-4">User Info</h4>
+                        <p>Name:{{userd.first_name}} {{userd.last_name}}</p>
+                        <p>Gender:{{userd.profile.get_gender_display}} </p>
+                        <p>Registration Number:{{userd.regnum}}</p>
                         <p> From: {{userd.profile.country}} </p>
                         <p> Bio:{{userd.profile.bio}} </p>
                         {% if user.is_authenticated %}
@@ -297,7 +294,6 @@
                     <div class="col s12 l12 ">
                         <!-- <div class="card ">
                             <div class="card-content"> -->
-                        <h4 class="indigo-text text-darken-4">Gallery</h4>
 
 
                     </div>

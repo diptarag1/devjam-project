@@ -95,7 +95,8 @@
     </div>
     <div class="col s2 offset-s1 valign-wrapper">
         <div class="container">
-            <h5 class=" indigo-text text-darken-4"> @{{mem.user.username}}</h5>
+        <a href="{% url 'profile' slug=mem.user.username%}">
+            <h5 class=" indigo-text text-darken-4"> @{{mem.user.username}}</h5></a>
 
         </div>
 
