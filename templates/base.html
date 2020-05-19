@@ -32,30 +32,35 @@
 
 </head>
 
-<body class="">
+<body class=" indigo lighten-5">
     <!-- {% include 'snippets/sitePreLoader.html' %} -->
-    {%block new%}
-    {%endblock%}
-    {% include 'snippets/mainNav.html' %}
+        {% include 'snippets/mainNav.html' %}
+    <div class="row">
+        <div class="col s10 offset-s1">
+            {%block new%}
+            {%endblock%}
 
-    <div id="slide-out" class="sidenav">
-        {% for post in notifications %}
-        <div class="row">
-            <div class="col s12 l12">
-                 {% include 'snippets/postCard.html' %}
+
+            <div id="slide-out" class="sidenav">
+                {% for post in notifications %}
+                <div class="row">
+                    <div class="col s12 l12">
+                         {% include 'snippets/postCard.html' %}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
+
+            {% block content %}
+            {% endblock %}
+
+
+            <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+            <script src="{% static 'materialize.min.js' %}"></script>
+            {%block js%}
+            {%endblock%}
         </div>
-        {% endfor %}
     </div>
-
-    {% block content %}
-    {% endblock %}
-
-    {% include 'snippets/mainFooter.html' %}
-    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'materialize.min.js' %}"></script>
-    {%block js%}
-    {%endblock%}
 
 </body>
 <script type="text/javascript">

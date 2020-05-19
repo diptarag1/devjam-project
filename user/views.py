@@ -48,10 +48,10 @@ def profile(request,slug):
 		}
 	else:
 		context = {
-		'userd':userd,
+		'userd':userd,#instance of current user
 		'slug':slug
 		}
-	context['posts'] = Post.objects.filter(author__username = slug,  grouppost__isnull=True)
+	context['posts'] = Post.objects.filter(author__username = slug,grouppost__isnull=True)#getting post which user made publicily 
 	return render(request, 'users/profile.html', context)
 
 def notification(request):

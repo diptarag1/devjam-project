@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <html lang="en">
 
 <head>
@@ -168,11 +169,21 @@
         #menu {
             transform: scale(2.0);
         }
+
+        #username {
+            text-transform: capitalize;
+            font-weight: 100;
+            /* lighter; */
+        }
+
+        #tabSection {
+            max-height: 40vh;
+        }
     </style>
 
 </head>
 
-<body class="">
+<body class="indigo lighten-5">
 
     <!-- parallax -->
 
@@ -209,6 +220,11 @@
                     </ul>
                 </div>
             </nav>
+            <style media="screen">
+                .parallax-container {
+                    height: 60vh;
+                }
+            </style>
             <div class="parallax">
                 <img src="{% static 'sn.jpg' %}" alt="" class="responsive-img">
             </div>
@@ -216,7 +232,7 @@
     </div>
 
     <!-- services / tabs -->
-    <div class="container my">
+    <div class="container my ">
         <div class="row">
             <div class="col s12 l4 goUp baap">
                 <div class="row">
@@ -228,66 +244,159 @@
                             <div class="circular--landscape">
                                 <img src="{{userd.profile.image.url}}" class="materialboxed" alt="">
                             </div>
-                            <h3 class="center-align">{{ userd.username }}</h3>
+
+                            <!-- <div class="row">
+                                <div class="col s6 l6">
+                                        <h5 class="grey-text">Followers</h5>
+                                </div>
+                                <div class="col s6 l6">
+                                    <h5 class="grey-text">Following
+                                    </h5>
+                                </div>
+
+                            </div>
                             <div class="row">
                                 <div class="col s6 l6">
-                                    <span>
-                                        <h5 class="btn btn-large center-align amber lighten-1">Followers</h5>
-                                        <p class="center-align">67</p>
-                                    </span>
+                                    <p class="deep-purple-text text-darken-4">69</p>
                                 </div>
                                 <div class="col s6 l6">
-                                    <span>
-                                        <h5 class="btn btn-large center-align deep-purple lighten-1">Following
-
-                                        </h5>
-                                    </span>
-                                    <p class="center-align">69</p>
-
-
+                                <p class="deep-purple-text text-darken-4">69</p>
                                 </div>
-                                <div class="divider">
+                            </div> -->
+                            <div class="divider"></div>
 
-                                </div>
-                            </div>
                         </div>
 
 
 
                     </div>
+                    <div class="divider"></div>
+
                     <div class="col s12 l12 ">
-                        <div class="card light-blue lighten-4">
-                            <div class="card-content">
-                                <h4>Bio</h4>
-                                <p class="floating-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                    nisi ut
-                                    aliquip
-                                    ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                    est
-                                    laborum.</p>
-                            </div>
-                        </div>
+                        <!-- <div class="card ">
+                            <div class="card-content"> -->
+                        <h4 class="blue-text text-darken-4">Bio</h4>
+                        <p class="grey-text text-darken-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip
+                            ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                            est
+                            laborum.</p>
+                        <!-- </div>
+                        </div> -->
+                        <div class="divider"></div>
                     </div>
+
+
                     <div class="col s12 l12 ">
-                        <div class="card purple lighten-4">
-                            <div class="card-content">
-                                <h4>Gallery</h4>
+                        <!-- <div class="card ">
+                            <div class="card-content"> -->
+                                <h4 class="indigo-text text-darken-4">Gallery</h4>
                                 <div id="" class="">
 
                                 </div>
+                                <style media="screen">
+                                    /* .frame-square {
+                                        background: #fff;
+                                        border: 2px solid #000;
+                                        display: inline-block;
+                                        vertical-align: top;
+                                        padding: 10px;
+                                        width: 130px;
+                                        height: 130px;
+
+                                    }
+
+                                    .image-cropper {
+                                        width: 100px;
+                                        height: 100px;
+                                        position: relative;
+                                        overflow: hidden;
+                                        border-radius: 50%;
+                                    }
+
+                                    .profile-pic {
+                                        display: inline;
+                                        margin: 0 auto;
+                                        margin-left: -25%; //centers the image
+                                        height: 100%;
+                                        width: auto;
+                                    } */
+                                    .myimg {
+                                        /* max-height: auto ;
+                                        max-width: 100% ;
+                                        object-fit: cover; */
+                                        /* width: 8vw;
+                                        height: 16vw;
+
+                                         */
+                                         border-radius: 1vw;
+                                        margin-bottom: 1vw;
+                                    }
+                                    /* .spaceOut{
+                                        padding-bottom: 1vw;
+                                    } */
+                                </style>
                                 <div class="row">
-                                    <div class="col s6 m6 l4  ">
-                                        <div class="gallery-image">
-                                            <img src="{% static 'gallery/bb.jpg' %}" class="responsive-img materialboxed">
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
                                         </div>
                                     </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3  myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+                                    <div class="col s4 l4">
+                                        <div class="spaceOut">
+                                            <img src="{% static 'gallery/bb.jpg' %}"  class="responsive-img materialboxed z-depth-3 myImg">
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- <div class="frame-square">
+                                        <img src="{% static 'gallery/bb.jpg' %}" class="">
+                                    </div> -->
+                                    <!-- <div class="col s6 m6 l4  ">
+                                        <div class="gallery-image">
+                                            <img src="{% static 'gallery/bb.jpg' %}" class="myImage responsive-img materialboxed">
+                                        </div>
+                                    </div> -->
+                                    <!--
                                     <div class="col s6 m6 l4  ">
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/gv.jpg' %}" class="responsive-img materialboxed">
                                         </div>
                                     </div>
-                                    <div class="col s6 m6 l4  ">
+                                     <div class="co l s6 m6 l4  ">
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/lm.jpg' %}" class="responsive-img materialboxed">
                                         </div>
@@ -326,11 +435,13 @@
                                         <div class="gallery-image">
                                             <img src="{% static 'gallery/bb2.jpg' %}" class="responsive-img materialboxed">
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
                                 </div>
 
+                                <div class="divider"></div>
+
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                                     commodo
                                     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
@@ -342,8 +453,9 @@
                                     est
                                     laborum.</p>
 
-                            </div>
-                        </div>
+                            <!-- </div>
+                        </div> -->
+
                     </div>
 
                 </div>
@@ -352,13 +464,19 @@
 
             </div>
             <div class="col s12 l6">
+                <div class="row">
+                    <div class="col s12 l12">
+                        <h2 id="username" class="left ">{{ userd.username }}</h2>
+
+                    </div>
+                </div>
 
                 <!-- tabs -->
                 <div class="row">
-                    <div class="col s12 l12">
-                        <ul class="tabs">
+                    <div id="tabSection" class="col s12 l12 ">
+                        <ul class="tabs ">
                             <li class="tab col s3">
-                                <a href="#photography" class="active indigo-text text-darken-4">Photography</a>
+                                <a href="#photography" class=" active indigo-text text-darken-4">Photography</a>
                             </li>
                             <li class="tab col s3">
                                 <a href="#editing" class="indigo-text text-darken-4">Editing</a>
@@ -396,12 +514,12 @@
                 </div>
                 <div class="row">
                     <div class="col s10 l10 offset-s1 offset-l1 ">
-                        {% if posts %}
+                        <!-- {% if posts %}
                         {% if userd == user %}
                         <h3> My posts </h3>
                         {% else %}
                         <h3> Posts </h3>
-                        {% endif %}
+                        {% endif %} -->
                     </div>
                     <div id="postCalone" class="col s12 l12">
 
@@ -428,25 +546,20 @@
                             </a>
                             <ul>
                                 <li><a href="{% url 'post-create' %}" data-position="left" class="tooltipped btn-floating btn-large  red" data-tooltip="Create Post"><i class="material-icons">add</i></a></li>
-                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
+                                <li><a href="#exampleModal" data-position="left" class="tooltipped btn-floating  btn-large amber darken-1" data-tooltip="ResetPassword"><i class="material-icons">edit</i></a></li>
                                 <li><a data-position="left" class="tooltipped btn-floating  btn-large green" data-tooltip="Create Post"><i class="material-icons">publish</i></a></li>
-                                <li><a data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Create Post"><i class="material-icons">attach_file</i></a></li>
+                                <li><a href="{% url 'blog-home' %}password-reset/" data-position="left" class="tooltipped btn-floating  btn-large blue" data-tooltip="Reset Password"><i class="material-icons">attach_file</i></a></li>
                             </ul>
                         </div>
-                        <a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit Profile
-                        </a>
+                        <span><a href="#exampleModal" class="btn btn-large orange modal-trigger"> Edit</a></span>
 
                         {% endif %}
                         {% endif %}
-                        {% if userd == user %}
-                        <a href="{% url 'post-create' %}" class="btn btn-large waves-effect waves-light green">
-                            <p>Create Post</p>
-                        </a>
-                        {% endif %}
+
                     </div>
                 </div>
 
-                <div class="card  red lighten-3">
+                <div class="card  ">
                     <div class="card-content">
 
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -471,59 +584,31 @@
 
     </div>
 
-    <div id="exampleModal" class="modal  ">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <h4>Edit Profile</h4>
-
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="modal-body">
-
-                    <div class="container">
-                        <div class="input-field ">
-                            <label for="id_country">Country:</label> <input type="text" name="country" value="d" maxlength="50" required id="id_country">
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="input-field ">
-                            <label for="id_bio">Bio:</label> <textarea name="bio" cols="40" rows="10" class="materialize-textarea" required id="id_bio"> </textarea>
-                        </div>
-
-                    </div>
-                    <label for="id_gender">Gender:</label>
-
-                    <select name="gender" id="id_gender" <option value="0" selected>Not Defined</option>
-                        <option value="0" selected>Not Defined</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
-                    </select>
-
-                    <div class="container">
-                        <div class="file-field input-field">
-                            <div class="btn">
-                                <span>File</span>
-                                <p><label for="id_image">Image:</label> Currently: <a href="/media/default.jpg">default.jpg</a><br>
-
-                                    <input type="file" name="image" accept="image/*" id="id_image">
-                                </p>
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text">
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-large " data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-large">Save Changes</button>
-                </div>
-            </form>
-
+            <div class="modal-body">
+            			<fieldset class="form-group">
+                        {{pform|crispy}}
+            			</fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button>
+                </form>
+            </div>
         </div>
-
     </div>
+</div>
+
 
     <div id="coolButton">
         <a id="menu" class="waves-effect waves-light btn btn-floating"><i class="material-icons">menu</i></a>
@@ -550,7 +635,9 @@
             $('.sidenav').sidenav();
             $('.materialboxed').materialbox();
             $('.parallax').parallax();
-            $('.tabs').tabs();
+            $('.tabs').tabs({
+                swipeable: true
+            });
             $('.modal').modal();
             $('.tooltipped').tooltip();
             $('.fixed-action-btn').floatingActionButton({

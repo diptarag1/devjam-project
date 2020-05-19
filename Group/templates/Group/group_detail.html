@@ -9,18 +9,17 @@
         <div class="card">
             <div class="card-content">
                 <span class="card-title">
-                    {% if user.is_authenticated and user in group.members.all%}
+                    {% if user.is_authenticated and cgmember.status == 1%}
                     <h4>Channels</h4>
                 </span>
                 {% if cgmember %}
                 {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
                 {% else %}
-                <h5 align="center"><a class="" href="{% url 'post-create' %}"> Create Group Post </a> </h5>
+                <h5 align="center"><a class="" href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}"> Create Group Post </a> </h5>
                 <h5 align="center">    <a href="{% url 'poll_create' %} "  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
                 {% endif %}
                 {% endif %}
                 <ul class="collection">
-
                     {% for c in channels %}
                     <li class="collection-item"> <a href="{% url 'group-detail' slug=group.slug activechannel=c.name %}">
                             <p> {{c.name}} </p>
@@ -39,10 +38,10 @@
     <div id="centerMostColumn" class="col s12 l7">
         <div class="card">
             <div class="card-image">
-                <img src="{% static 'sn.jpg' %}">
+                <img src="{{group.logo.url}}">
                 <!-- <h1 class="card-title"></h1> -->
                 <span class="card-title">
-                    <h1>{{group.title}}</h1>
+                    <h1 style="color: #ffffff; background-color: #263238";>{{group.title}}</h1>
                 </span>
             </div>
             <div class="card-content">
@@ -62,7 +61,7 @@
 
                 </div>
 
-
+                {# join and leave section#}
                 <div class="divider"></div>
                 {% if not user in group.members.all %}
                 <a href="{%url 'addmember' slug=group.slug%}" class="btn blue right">Join</a>
@@ -72,10 +71,13 @@
                 <a href="{%url 'addmember' slug=group.slug%}" class="btn red right" >Leave</a>
                 {% endif %}
 
-                {% if user in group.members.all %}
+                {% if cgmember.status == 1 %}
                 {% if cgmember.auth < 2 %}
                 <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter1">
                     Request List
+                </a>
+                <a class="waves-effect waves-light btn modal-trigger" href="#exampleModalCenter3">
+                    Edit Group Info
                 </a>
                 {% endif %}
 
@@ -152,7 +154,7 @@
         </div>
         <div class="modal-footer">
 
-            <a href="" class="btn btn-large green">Save changes</a>
+            <a href="" class="btn green">Save changes</a>
         </div>
     </div>
     <div class="modal-footer">
@@ -175,6 +177,27 @@
     <div class="modal-footer">
     </div>
 </div>
+<div id="exampleModalCenter3" class="modal">
+    <div class="modal-content">
+        <h4>Members List</h4>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="modal-body">
+                        <fieldset class="form-group">
+                        {{gform|crispy}}
+                        </fieldset>
+            </div>
+            <div class="modal-footer">
+                <a href="">
+                <button type="submit" class="btn btn-outline-success md-4">Save Changes</button></a>
+                </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
 
 <div id="channelmodal" class="modal">
     <div class="modal-content">

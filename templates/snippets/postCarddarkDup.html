@@ -1,0 +1,51 @@
+
+
+
+
+
+
+<style media="screen">
+    .myGradCard {
+        /* background: rgb(69, 90, 100);
+        background: linear-gradient(103deg, rgba(69, 90, 100, 1) 0%, rgba(38, 50, 56, 1) 100%); */
+        margin-bottom: 3%;
+        border-radius: 10px;
+    }
+</style>
+<div class=" myGradCard  blue-grey darken-4 z-depth-2">
+    <div class=" white-text">
+        <span class=""><a href="{% url 'post-detail' post.id %}" class="  blue-grey-text text-lighten-4 " >
+            <h3>{{ post.title }}</h3>
+        </a>
+
+        </span>
+        <span>
+            <a class="" href="{% url 'profile' slug=post.author.username %}" >@{{ post.author }}</a>
+
+        </span>
+
+        <!-- {% if not user in post.views.all %}
+
+        <span class="card-title"><a href="{% url 'post-detail' post.id %}" class="card-title blue-grey-text text-lighten-4">{{ post.title }}</a><i class="material-icons right activator">more_vert</i></span>
+        {% else %}
+        <span class="card-title"><a href="{% url 'post-detail' post.id %}" class="card-title blue-grey-text text-lighten-4">{{ post.title }}</a><i class="material-icons right activator">more_vert</i></span>
+        {% endif %} -->
+
+        <p>{{post.content|safe}}</p>
+    </div>
+    {% if post.tags.all %}
+    <style media="screen">
+        .my-tag{
+            font-size: 1.1rem;
+        }
+    </style>
+    <div class="divider"></div>
+    <div class="">
+            {% for tag in post.tags.all %}
+            <a href="{% url 'explore-tag' tag %} " class="my-tag amber-text text-darken-2"> #{{tag}} </a>
+            {% endfor %}
+    </div>
+    {% endif %}
+
+
+</div>
