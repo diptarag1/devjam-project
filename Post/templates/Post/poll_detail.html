@@ -1,18 +1,38 @@
 {% load mathfilters %}
-        {% if uchoice == '' %}
-        <ul>
-        {% for op in options.all %}
-        <li><a href="{% url 'addpoll' pk=op.id pollid=poll.id%}"><h5>{{op.option}}</h3></a></li>
-        {% endfor %}
-        </ul>
-        {% else %}
-        <ul>
-        {% for op in options.all %}
-        {% if uchoice == op %}
-            <li><u>{{op.option}}</u>: {{op.voters.count|div:total|mul:100|floatformat:2}}%</li>
-        {% else %}
-            <li>{{op.option}}: {{op.voters.count|div:total|mul:100|floatformat:2}}%</li>
-        {% endif %}
-        {% endfor %}
-         </ul>
-        {% endif %}
+<style media="screen">
+    .poll {
+        /* background-color: red; */
+        margin: 3%;
+    }
+</style>
+{% if uchoice == '' %}
+<div class="">
+    
+    <table>
+        <tr>
+            {% for op in options.all %}
+            <td>
+                <div class="poll center">
+                    <a href="{% url 'addpoll' pk=op.id pollid=poll.id%}">
+                        <h3>{{op.option}}</h3>
+                    </a>
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+
+</div>
+
+
+{% else %}
+<ul>
+    {% for op in options.all %}
+    {% if uchoice == op %}
+    <li><u>{{op.option}}</u>: {{op.voters.count|div:total|mul:100|floatformat:2}}%</li>
+    {% else %}
+    <li>{{op.option}}: {{op.voters.count|div:total|mul:100|floatformat:2}}%</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}

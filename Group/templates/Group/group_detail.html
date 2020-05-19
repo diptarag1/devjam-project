@@ -9,34 +9,7 @@
 
 <div class="row">
     <div id="leftMostColumn" class="col s12 l2">
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">
-                    {% if user.is_authenticated and cgmember.status == 1%}
-                    <h4>Channels</h4>
-                </span>
-                {% if cgmember %}
-                {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
-                {% else %}
-                <h5 align="center"><a class="" href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}"> Create Group Post </a> </h5>
-                <h5 align="center">    <a href="{% url 'group-poll-create' slug=group.slug channel=activechannel.name %}"  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
-                {% endif %}
-                {% endif %}
-                <ul class="collection">
-                    {% for c in channels %}
-                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.slug activechannel=c.name %}">
-                            <p> {{c.name}} </p>
-                        </a> </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% if cgmember %}
-                {% if cgmember.auth < 2 %}
-                <h5 align="center">  <a  href = "#channelmodal" class="waves-effect waves-light btn modal-trigger"> Add Channel </a></h5>
-                {% endif %}
-                {% endif %}
-            </div>
-        </div>
+
     </div>
     <div id="centerMostColumn" class="col s12 l7">
         <div class="card">
@@ -177,6 +150,37 @@
         {% endif %}
     </div>
     <div id="rightMostColumn" class="col s12 l3">
+        <div class="card">
+            <div class="card-content center">
+                <span class="card-title">
+                    {% if user.is_authenticated and cgmember.status == 1%}
+                    <h4>Channels</h4>
+                </span>
+                {% if cgmember %}
+                {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
+                {% else %}
+                <a  href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}" class="btn btn-large " > Create  Post </a>
+                <a href="{% url 'group-poll-create' slug=group.slug channel=activechannel.name %}"  class="btn btn-large amber   	indigo-text text-darken-4 center"> Create Poll </a>
+                <h5 align="center">
+                    </h5>
+                <h5 align="center">    </h5>
+                {% endif %}
+                {% endif %}
+                <ul class="collection">
+                    {% for c in channels %}
+                    <li class="collection-item"> <a href="{% url 'group-detail' slug=group.slug activechannel=c.name %}">
+                            <p> {{c.name}} </p>
+                        </a> </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if cgmember %}
+                {% if cgmember.auth < 2 %}
+                <h5 align="center">  <a  href = "#channelmodal" class="waves-effect waves-light btn modal-trigger"> Add Channel </a></h5>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
 
     </div>
 </div>
