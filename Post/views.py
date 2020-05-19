@@ -12,7 +12,7 @@ from .models import Post, Comment ,Poll ,PollChoice
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from Tag.models import Tag
-from .forms import PollForm,PollChoiceFormset,PostCreateFrom,GroupPostCreateForm,SearchForm
+from .forms import PollForm,PollChoiceFormset,PostCreateFrom,GroupPostCreateForm,SearchForm,PostUpdateFrom
 from Group.models import Group,Channel
 from django.contrib.auth.models import User
 
@@ -30,13 +30,16 @@ from django.contrib.auth.models import User
 #         context['posts'] = Post.objects.filter(grouppost__isnull=True).annotate(like_count=Count('likers')).order_by('-like_count')
 #
 #         return context
-
+official_tag=['official','test1','test2']
 def PostListView(request):
-    posts = Post.objects.filter(grouppost__isnull=True).annotate(like_count=Count('likers')).order_by('-like_count')
+    posts = Post.objects.filter(grouppost__isnull=True).order_by('-date_posted')
+    # .annotate(like_count=Count('likers')).order_by('-like_count')
     tags = Tag.objects.all
     groups = Group.objects.all
+    aposts = posts.filter(tags__name__in=official_tag).filter(tags__in=request.user.profile.tags.all()).distinct()
     form1 = SearchForm(request.POST)
     context = {
+        'aposts':aposts,
         'posts' : posts,
         'groups' : groups,
         'tags' : tags,
@@ -80,7 +83,11 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostCreateFrom
-    # fields = ['title','tags','content']
+
+    def get_form_kwargs(self):
+        kwargs=super().get_form_kwargs()
+        kwargs.update({'user':self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -89,7 +96,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 def GroupPostCreateView(request,channel,slug):
         if(request.method == 'POST'):
-            form1 = GroupPostCreateForm(request.POST)
+            form1 = GroupPostCreateForm(request.POST,user=request.user)
             if(form1.is_valid()):
                 group = Group.objects.get(slug = slug)
                 form1.instance.parentchannel = Channel.objects.get(parentgroup = group, name = channel)
@@ -97,9 +104,10 @@ def GroupPostCreateView(request,channel,slug):
                 form1.save()
                 return redirect(group.get_channel_url(channel))
         else:
-            form1 = GroupPostCreateForm()
+            form1 = GroupPostCreateForm(user=request.user)
         context = {
             'form': form1,
+            'user':request.user
         }
         return render(request, 'Post/post_form.html', context)
 
@@ -113,7 +121,12 @@ def commentFunc(request,pk):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostUpdateFrom
+
+    def get_form_kwargs(self):
+        kwargs=super().get_form_kwargs()
+        kwargs.update({'user':self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -203,7 +216,3 @@ def Search(request):
     }
     html = render_to_string('Post/searchresults.html',context, request = request)
     return JsonResponse({'form':html})
-
-
-# def about(request):
-#     return render(request, 'Post/about.html', {'title': 'About'})

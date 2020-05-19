@@ -5,6 +5,7 @@ from datetime import datetime
 from django.utils import timezone
 from PIL import Image
 from Post.models import Post
+from Tag.models import Tag
 SEX = ((0, "Not Defined"), (1, "Male"), (2, "Female"))
 
 class Profile(models.Model):
@@ -14,6 +15,7 @@ class Profile(models.Model):
     country = models.CharField(max_length=50, default=" ")
     gender = models.IntegerField(choices=SEX, default=0)
     notif = models.DateTimeField(blank=True, default=timezone.now)
+    tags = models.ManyToManyField(Tag,related_name='user_tags',blank=True)
     # point = models.IntegerField(unique=False,default=0)
 
     def __str__(self):

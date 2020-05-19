@@ -88,6 +88,9 @@
 		<div id="announcements" class="col s12">
 			<!-- <h2 class="active indigo-text text-darken-4">Search Posts</h2> -->
 			<h2>announcements</h2>
+			{% for post in aposts %}
+			{% include 'snippets/postCard.html' %}
+			{% endfor %}
 
 		</div>
 

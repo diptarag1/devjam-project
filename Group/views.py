@@ -16,7 +16,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from Tag.models import Tag
 from .models import Group, GroupMember, Channel
 from Post.models import GroupPost
-from .forms import ChannelCreateForm,GroupUpdateForm
+from .forms import ChannelCreateForm,GroupUpdateForm,GroupCreateForm
 
 
 class CreateGroup(LoginRequiredMixin, CreateView):
@@ -26,6 +26,11 @@ class CreateGroup(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs=super().get_form_kwargs()
+        kwargs.update({'user':self.request.user})
+        return kwargs
 
 
 def SingleGroup(request, slug, activechannel):
