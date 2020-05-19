@@ -35,29 +35,31 @@
 <body class=" indigo lighten-5">
     <!-- {% include 'snippets/sitePreLoader.html' %} -->
         {% include 'snippets/mainNav.html' %}
-    <div class="container">
-        {%block new%}
-        {%endblock%}
+    <div class="row">
+        <div class="col s10 offset-s1">
+            {%block new%}
+            {%endblock%}
 
 
-        <div id="slide-out" class="sidenav">
-            {% for post in notifications %}
-            <div class="row">
-                <div class="col s12 l12">
-                     {% include 'snippets/postCard.html' %}
+            <div id="slide-out" class="sidenav">
+                {% for post in notifications %}
+                <div class="row">
+                    <div class="col s12 l12">
+                         {% include 'snippets/postCard.html' %}
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+
+            {% block content %}
+            {% endblock %}
+
+
+            <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+            <script src="{% static 'materialize.min.js' %}"></script>
+            {%block js%}
+            {%endblock%}
         </div>
-
-        {% block content %}
-        {% endblock %}
-
-
-        <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
-        <script src="{% static 'materialize.min.js' %}"></script>
-        {%block js%}
-        {%endblock%}
     </div>
 
 </body>

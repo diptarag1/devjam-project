@@ -1,32 +1,30 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+{% extends "base.html" %}
+{% load static %}
+{%block content%}
+<div class="row">
+    {% for group in object_list %}
+    <div class="col s4">
+        <div class="card medium">
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="{{group.logo.url}}">
+            </div>
+            <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">{{group.title}}<i class="material-icons right">more_vert</i></span>
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    </head>
-    <body>
-{% for group in object_list %}
-<div class="card">
-<div class="card-image waves-effect waves-block waves-light">
-  <img class="activator" src="{{group.logo.url}}" width="100" height="100">
+                <p><a href="{% url 'group-detail' slug=group.slug activechannel="General" %}">Explore</a></p>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Group Info<i class="material-icons right">close</i></span>
+                <p>Description:{{group.description}}</p>
+                <p>Members:{{group.members.count}}</p>
+            </div>
+            <div class="card-action">
+                {% for tag in group.tags.all %}
+                <a href="{% url 'explore-tag' tag %} " class="my-tag amber-text text-darken-2"> #{{tag}} </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-<div class="card-content">
-  <span class="card-title activator grey-text text-darken-4">{{group.title}}<i class="material-icons right">more_vert</i></span>
-  {% for tag in group.tags.all %}
-  <a href="{% url 'explore-tag' tag %} " class="my-tag amber-text text-darken-2"> #{{tag}} </a>
-  {% endfor %}
-  <p><a href="{% url 'group-detail' slug=group.slug activechannel="General" %}">Explore</a></p>
-</div>
-<div class="card-reveal">
-  <span class="card-title grey-text text-darken-4">Group Info<i class="material-icons right">close</i></span>
-  <p>Description:{{group.description}}</p>
-  <p>Members:{{group.members.count}}</p>
-</div>
-</div>
-{% endfor %}
-    </body>
-</html>
+{% endblock %}
