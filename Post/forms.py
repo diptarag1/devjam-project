@@ -27,12 +27,12 @@ class PostUpdateFrom(forms.ModelForm):
 		widgets = {
             'content': SummernoteWidget(),
         }
-		def __init__(self, *args, **kwargs):
-			user = kwargs.pop('user',None)
-			super().__init__(*args,**kwargs)
-			print(user)
-			if not user.is_superuser:
-				self.fields['tags'].queryset=Tag.objects.exclude(name__in=official_tag)
+		# def __init__(self, *args, **kwargs):
+		# 	user = kwargs.pop('user',None)
+		# 	super().__init__(*args,**kwargs)
+		# 	print(user)
+		# 	if not user.is_superuser:
+		# 		self.fields['tags'].queryset=Tag.objects.exclude(name__in=official_tag)
 
 class PollForm(forms.ModelForm):
 

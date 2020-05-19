@@ -129,6 +129,22 @@
 </div>
 
 <!-- Modal Structure -->
+<div id="channelmodal" class="modal">
+    <div class="modal-content">
+      <form method = "post">
+       {% csrf_token %}
+        <h4>Channel Name</h4>
+        <div class="modal-body">
+          {{ channelform|crispy }}
+          </div>
+          <div class = "modal-footer">
+            <button type="submit" class="btn btn-large">Create</button>
+            </div>
+        </form>
+</div>
+</div>
+
+
 <div id="exampleModalCenter1" class="modal">
     <div class="modal-content">
         <h4>Pending List</h4>
@@ -200,26 +216,6 @@
     </div>
 </div>
 
-
-<div id="channelmodal" class="modal">
-    <div class="modal-content">
-      <form method = "post">
-        {% csrf_token %}
-        <h4>Channel Name</h4>
-        <div class="modal-body">
-            <div id="memberlist">
-                {{ channelform|crispy }}
-            </div>
-        </div>
-        <div class="modal-footer">
-
-            <button type="submit" class="btn btn-large">Create</button>
-            </form>
-        </div>
-    </div>
-    <div class="modal-footer">
-    </div>
-</div>
 
 {%endblock%}
 {% block js %}
