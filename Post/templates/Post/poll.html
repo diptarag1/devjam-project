@@ -1,30 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{%  extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include 'snippets/bootstrapLibRequirements.html' %}
 
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col s6 m6 l6 xl6">
+            <h1>create poll</h1>
+            <h3>leave blank for unwanted poll option</h3>
+            <form class="center" action="" method="post">
+                {%csrf_token%}
+                {{pollform|crispy}}
+                {{ formset.management_form }}
+                {% for field in formset %}
+                <div class="input-field">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                </div>
+                {% endfor %}
 
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-<h1>create poll</h1>
-<h3>leave blank for unwanted poll option</h3>
-<form class="" action="" method="post">
-    {%csrf_token%}
-    {{pollform.as_p}}
-    {{ formset.management_form }}
-{% for form in formset %}
-<p>{{form}}</p>
-{% endfor %}
-<button class="addb">+</button>
-<button type="submit" class="btn btn-block btn-primary">Create</button>
-</form>
-    </body>
+                <button class="add">+</button>
+                <button type="submit" class="btn btn-block btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- <script type='text/javascript'>
     $(document).ready(function(){
     $(".addb").click(function(e) {
@@ -34,4 +35,4 @@
     });
 }); -->
 </script>
-</html>
+{% endblock %}
