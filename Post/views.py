@@ -174,6 +174,31 @@ def ExploreTagView(request, tag):
     }
     return render(request, 'Post/explore-tag.html', context)
 
+
+def GroupPollNew(request,channel,slug):
+    if request.method == 'GET':
+        pollform = GroupPostCreateForm(request.POST,user=request.user)
+        formset = PollChoiceFormset(queryset=PollChoice.objects.none())
+    elif request.method == 'POST':
+        pollform = GroupPostCreateForm(request.POST,user=request.user)
+        formset = PollChoiceFormset(request.POST)
+        if pollform.is_valid() and formset.is_valid():
+            group = Group.objects.get(slug = slug)
+            pollform.instance.parentchannel = Channel.objects.get(parentgroup = group, name = channel)
+            pollform.instance.author = request.user
+            pollform.save()
+            poll = pollform.save(commit=False)
+            poll.save()
+            id = poll.pk
+            for form in formset:
+                pollob = form.save(commit=False)
+                if pollob.option=='':
+                    continue
+                pollob.poll = poll
+                pollob.save()
+        return redirect(group.get_channel_url(channel))
+    return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
+
 def pollnew(request):
     if request.method == 'GET':
         pollform = PostCreateFrom(request.GET or None, user = request.user)

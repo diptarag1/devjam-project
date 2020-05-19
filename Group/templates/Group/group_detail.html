@@ -16,7 +16,7 @@
                 {% if activechannel.name == "Announcements" and cgmember.auth > 2 %}
                 {% else %}
                 <h5 align="center"><a class="" href="{% url 'group-post-create' slug=group.slug channel=activechannel.name %}"> Create Group Post </a> </h5>
-                <h5 align="center">    <a href="{% url 'poll_create' %} "  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
+                <h5 align="center">    <a href="{% url 'group-poll-create' slug=group.slug channel=activechannel.name %}"  class="btn btn-large amber 	indigo-text text-darken-4 center"> Create Poll </a></h5>
                 {% endif %}
                 {% endif %}
                 <ul class="collection">

@@ -11,6 +11,7 @@ urlpatterns=[
     path('reject/<slug:userd>/<slug:slug>',views.reject,name='reject'),
     path('promote_demote/$',views.promote_demote, name = 'promote_demote'),
     path('createpost/<slug:slug>/<channel>/', p_views.GroupPostCreateView, name = "group-post-create"),
+    path('createpoll/<slug:slug>/<channel>/', p_views.GroupPollNew, name = "group-poll-create"),
     # path('createpoll/<slug:slug>/<channel>/', p_views.GroupPollCreateView, name = "group-poll-create"),
     path('group-list/',views.ListGroups.as_view(),name='group-list'),
 ]
