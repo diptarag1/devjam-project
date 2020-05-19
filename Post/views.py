@@ -53,7 +53,7 @@ def PostListView(request):
     else:
         return render(request,'intro.html')
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin,DetailView):
     model = Post
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -99,7 +99,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
+@login_required
 def GroupPostCreateView(request,channel,slug):
         if(request.method == 'POST'):
             form1 = GroupPostCreateForm(request.POST,user=request.user)

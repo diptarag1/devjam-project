@@ -12,15 +12,13 @@
                <form method="POST">
            {% csrf_token %}
            <fieldset class="form-group">
-               <legend class="border-bottom mb-4"> Login </legend>
+               <legend class="border-bottom mb-4"> Enter Your New Password </legend>
                {{form.as_p}}
            </fieldset>
            <div class="form-group">
-           <button class="btn btn-outline-info" type="submit"> Log In </button>
+           <button class="btn btn-outline-info" type="submit"> Proceed </button>
            </div>
        </form>
-       <a href="{%url 'password_reset' %}">
-        <button class="btn btn-small"> Forget Password </button></a>
            </div>
        </div>
     </body>
