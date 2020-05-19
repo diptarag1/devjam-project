@@ -36,15 +36,16 @@ def PostListView(request):
     # .annotate(like_count=Count('likers')).order_by('-like_count')
     tags = Tag.objects.all
     groups = Group.objects.all
-    aposts = posts.filter(tags__name__in=official_tag).filter(tags__in=request.user.profile.tags.all()).distinct()
     form1 = SearchForm(request.POST)
     context = {
-        'aposts':aposts,
         'posts' : posts,
         'groups' : groups,
         'tags' : tags,
         'form' : form1,
     }
+    if request.user.is_authenticated:
+        aposts = posts.filter(tags__name__in=official_tag).filter(tags__in=request.user.profile.tags.all()).distinct()
+        context['aposts'] = aposts
     return render(request, 'Post/home.html', context)
 
 class PostDetailView(DetailView):
@@ -107,7 +108,7 @@ def GroupPostCreateView(request,channel,slug):
             form1 = GroupPostCreateForm(user=request.user)
         context = {
             'form': form1,
-            'user':request.user
+            # 'user':request.user
         }
         return render(request, 'Post/post_form.html', context)
 
@@ -173,12 +174,37 @@ def ExploreTagView(request, tag):
     }
     return render(request, 'Post/explore-tag.html', context)
 
-def pollnew(request):
+
+def GroupPollNew(request,channel,slug):
     if request.method == 'GET':
-        pollform = PostCreateFrom(request.GET or None)
+        pollform = GroupPostCreateForm(request.POST,user=request.user)
         formset = PollChoiceFormset(queryset=PollChoice.objects.none())
     elif request.method == 'POST':
-        pollform = PostCreateFrom(request.POST)
+        pollform = GroupPostCreateForm(request.POST,user=request.user)
+        formset = PollChoiceFormset(request.POST)
+        if pollform.is_valid() and formset.is_valid():
+            group = Group.objects.get(slug = slug)
+            pollform.instance.parentchannel = Channel.objects.get(parentgroup = group, name = channel)
+            pollform.instance.author = request.user
+            pollform.save()
+            poll = pollform.save(commit=False)
+            poll.save()
+            id = poll.pk
+            for form in formset:
+                pollob = form.save(commit=False)
+                if pollob.option=='':
+                    continue
+                pollob.poll = poll
+                pollob.save()
+        return redirect(group.get_channel_url(channel))
+    return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
+
+def pollnew(request):
+    if request.method == 'GET':
+        pollform = PostCreateFrom(request.GET or None, user = request.user)
+        formset = PollChoiceFormset(queryset=PollChoice.objects.none())
+    elif request.method == 'POST':
+        pollform = PostCreateFrom(request.POST, user = request.user)
         formset = PollChoiceFormset(request.POST)
         if pollform.is_valid() and formset.is_valid():
             poll = pollform.save(commit=False)
