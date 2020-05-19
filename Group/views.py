@@ -22,7 +22,7 @@ from .forms import ChannelCreateForm,GroupUpdateForm,GroupCreateForm
 #class to create group
 class CreateGroup(LoginRequiredMixin, CreateView):
     model = Group
-    fields = ['title','tags','description']
+    form_class=GroupCreateForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user #assigning create_by
