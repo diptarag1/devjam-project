@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
+
+
 {%block content%}
-{% include 'snippets/circularImageStyle.html' %}
+<!-- {% include 'snippets/circularImageStyle.html' %} -->
 {% load crispy_forms_tags %}
 {% load materializecss %}
-
-
 
 <div class="row">
     <div id="leftMostColumn" class="col s12 l2">
@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div id="centerMostColumn" class="col s12 l9">
+    <div id="centerMostColumn" class="col s12 l7">
         <div class="card">
             <div class="card-image">
                 <img src="{{group.logo.url}}">
@@ -105,21 +105,71 @@
                 </div>
             </div>
             <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4 ">Card Title<i class="material-icons right">close</i></span>
+                <span class="card-title grey-text tex   t-darken-4 ">Card Title<i class="material-icons right">close</i></span>
                 <p>Here is some more information about this product that is only revealed once clicked on.</p>
             </div>
             <div class="card-action">
                 <a href="#">This dis a link</a>
             </div>
         </div>
+        <style media="screen">
+            .circular--portrait {
+                position: relative;
+                width: auto;
+                height: 40px;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+
+            .circular--portrait img {
+                width: 100%;
+                height: auto;
+            }
+
+            .circular--square {
+                border-radius: 50% !important;
+            }
+
+            .circular--landscape {
+                /* margin: 4vh; */
+
+                display: inline-block;
+                position: relative;
+
+                max-width: 4vh;
+                max-height: 4vh;
+                /* width: 200px; */
+                height: 10vh;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+
+            .circular--landscape img {
+
+                width: auto;
+                height: 100%;
+                /* margin-left: -50px; */
+            }
+
+            .myCard-left {
+                position: absolute;
+                top: 2vh;
+                left: 2vh;
+            }
+
+            .tag {
+                font-size: 1.1rem;
+            }
+            .card{
+                min-height: 30vh;
+            }
+            /* .tag-thin{
+                font-weight: 300;
+            } */
+        </style>
         {% if posts %}
         {% for post in posts %}
-        <div class="row">
-            <div class="col s12 l12">
-                {% include 'snippets/postCardHome.html' %}
-
-            </div>
-        </div>
+        {% include 'snippets/postCard.html' %}
         {% endfor %}
         {% else %}
         <h1>No Posts yet</h1>

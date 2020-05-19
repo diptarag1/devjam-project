@@ -22,7 +22,7 @@
 			z-index: 9999 !important;
 		} */
 	</style>
-	<div class="col s12 l2  ">
+	<div class="col s12 m2 offset-m1 ">
 		<br>
 		<div class="center">
 			{% if user.is_authenticated%}
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 
-	<div id="postCalone" class="col s12 l7 ">
+	<div id="postCalone" class="col s12 m6 ">
 		<ul class="row tabs">
 			<li class="tab col s4">
 				<a href="#recentPosts" class="active indigo-text text-darken-4">
@@ -89,7 +89,7 @@
 			<!-- <h2 class="active indigo-text text-darken-4">Search Posts</h2> -->
 			<h2>announcements</h2>
 			{% for post in aposts %}
-			{% include 'snippets/postCard.html' %}
+			{% include 'snippets/postCardHome.html' %}
 			{% endfor %}
 
 		</div>
@@ -97,7 +97,7 @@
 
 
 	</div>
-	<div class="col s12 l3 ">
+	<div class="col s12 l2 ">
 		<style media="screen">
 			/* #sid-bar{
 				background: rgb(96, 125, 139);
@@ -143,7 +143,7 @@
 
 					{% for tag in tags %}
 					<!-- <li class="collection-item myGradCard">  -->
-						<div class="row  center-align explore-tag">
+						<div class="center-align explore-tag">
 							<a href="{% url 'explore-tag' tag %}" class="orange-text flow-text"> #{{tag.name}} </a>
 						</div>
 						<div class="divider"></div>
