@@ -104,8 +104,8 @@ def GroupPostCreateView(request,channel,slug):
                 form1.instance.author = request.user
                 form1.save()
                 return redirect(group.get_channel_url(channel))
-        # else:
-        #     # form1 = GroupPostCreateForm(user=request.user)
+        else:
+            form1 = GroupPostCreateForm(user=request.user)
         context = {
             'form': form1,
             # 'user':request.user
