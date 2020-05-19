@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {%block content%}
+<style media="screen">
+    .myGradCard {
+        background: rgb(69, 90, 100);
+        background: linear-gradient(283deg, rgba(69, 90, 100, 1) 0%, rgba(38, 50, 56, 1) 100%);
+    }
+
+</style>
 <div class="row">
     <div class="col s12 ">
         <div class="card">
@@ -17,13 +24,13 @@
         <div class="row">
             {% for group in object_list %}
             <div class="col s12 m4">
-                <div class="card  orange lighten-4 medium">
+                <div class="card  myGradCard medium">
                     <div class="card-image waves-effect waves-block waves-light">
                         <img class="activator" src="{{group.logo.url}}">
                     </div>
                     <div class="card-content">
                         <span class="card-title  ">
-                            <a href="{% url 'group-detail' slug=group.slug activechannel="General" %}" class="grey-text text-darken-4">
+                            <a href="{% url 'group-detail' slug=group.slug activechannel="General" %}" class="white-text text-darken-4">
                                 {{group.title}}
                             </a>
                             <i class="material-icons activator right">more_vert</i>
