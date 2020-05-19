@@ -15,6 +15,7 @@ from Tag.models import Tag
 from .forms import PollForm,PollChoiceFormset,PostCreateFrom,GroupPostCreateForm,SearchForm,PostUpdateFrom
 from Group.models import Group,Channel
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 # class PostListView(ListView):
@@ -31,22 +32,26 @@ from django.contrib.auth.models import User
 #
 #         return context
 official_tag=['official','test1','test2']
+
 def PostListView(request):
-    posts = Post.objects.filter(grouppost__isnull=True).order_by('-date_posted')
+    if request.user.is_authenthicated:
+        posts = Post.objects.filter(grouppost__isnull=True).order_by('-date_posted')
     # .annotate(like_count=Count('likers')).order_by('-like_count')
-    tags = Tag.objects.all
-    groups = Group.objects.all
-    form1 = SearchForm(request.POST)
-    context = {
+        tags = Tag.objects.all
+        groups = Group.objects.all
+        form1 = SearchForm(request.POST)
+        context = {
         'posts' : posts,
         'groups' : groups,
         'tags' : tags,
         'form' : form1,
-    }
-    if request.user.is_authenticated:
-        aposts = posts.filter(tags__name__in=official_tag).filter(tags__in=request.user.profile.tags.all()).distinct()
-        context['aposts'] = aposts
-    return render(request, 'Post/home.html', context)
+        }
+        if request.user.is_authenticated:
+            aposts = posts.filter(tags__name__in=official_tag).filter(tags__in=request.user.profile.tags.all()).distinct()
+            context['aposts'] = aposts
+        return render(request, 'Post/home.html', context)
+    else:
+        return render(request,'intro.html')
 
 class PostDetailView(DetailView):
     model = Post
@@ -112,6 +117,7 @@ def GroupPostCreateView(request,channel,slug):
         }
         return render(request, 'Post/post_form.html', context)
 
+@login_required
 def commentFunc(request,pk):
     if (request.method=='POST'):
         the_content = request.POST.get('the_content')
@@ -148,6 +154,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+@login_required
 def likepost(request):
     post = get_object_or_404(Post, id = request.POST.get('id'))
     is_liked = False
@@ -165,7 +172,7 @@ def likepost(request):
     html = render_to_string('Post/like-section.html',context, request = request)
     return JsonResponse({'form':html})
 
-
+@login_required
 def ExploreTagView(request, tag):
     posts = Post.objects.filter(tags__name = tag).filter(grouppost__isnull=True)
     context = {
@@ -174,7 +181,7 @@ def ExploreTagView(request, tag):
     }
     return render(request, 'Post/explore-tag.html', context)
 
-
+@login_required
 def GroupPollNew(request,channel,slug):
     if request.method == 'GET':
         pollform = GroupPostCreateForm(request.POST,user=request.user)
@@ -199,6 +206,7 @@ def GroupPollNew(request,channel,slug):
         return redirect(group.get_channel_url(channel))
     return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
 
+@login_required
 def pollnew(request):
     if request.method == 'GET':
         pollform = PostCreateFrom(request.GET or None, user = request.user)
@@ -220,14 +228,14 @@ def pollnew(request):
         return redirect('post-detail',pk=id)
     return render(request,'Post/poll.html',{'pollform':pollform,'formset':formset})
 
-
+@login_required
 def addpoll(request,pk,pollid):
     option = PollChoice.objects.get(pk=pk)
     option.voters.add(request.user)
     option.save()
     return redirect('post-detail',pk=pollid)
 
-
+@login_required
 def Search(request):
     searchstring = request.POST.get('searchterm')
     users = User.objects.filter(username__icontains = searchstring)
