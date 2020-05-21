@@ -29,11 +29,13 @@
 				<br>
 				<div class="center">
 					{% if user.is_authenticated%}
-					<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">Create  Posts! </a>
+					<a  class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">  Create </a>
 					<br>
-					<a href="{% url 'poll_create' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Create  Polls! </a>
+					<a href="{% url 'post-create' %} " class="btn btn-large amber indigo-text text-darken-4 center  waves-effect waves-light">   Posts! </a>
 					<br>
-					<a href="{% url 'create_group' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light"> Create Group </a>
+					<a href="{% url 'poll_create' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light">    Polls! </a>
+					<br>
+					<a href="{% url 'create_group' %} " class="btn btn-large amber 	indigo-text text-darken-4 center  waves-effect waves-light">   Group </a>
 					<br>
 					{% endif %}
 					<div class="divider">
