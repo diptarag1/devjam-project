@@ -9,10 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
-    <link rel="stylesheet" href="{% static 'materialize.min.css' %}">
+    {% include 'snippets/matCSS.html' %}
 
     {% if title %}
     <title> Blog- {{title}}</title>
@@ -56,8 +53,8 @@
             {% endblock %}
 
 
-            <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
-            <script src="{% static 'materialize.min.js' %}"></script>
+            {% include 'snippets/JQuery.html' %}
+            {% include 'snippets/matJS.html' %}
             {%block js%}
             {%endblock%}
         <!-- </div>
