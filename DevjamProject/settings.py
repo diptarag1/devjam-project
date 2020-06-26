@@ -27,12 +27,13 @@ SECRET_KEY = '&t1m1hm&w7aiuq=x7x1!4z4wo0wwilkd6f@u*o8)e-n@&=r&t('
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost','motionpolis.ddns.net']
+ALLOWED_HOSTS = ['localhost','motiopolis.ddns.net']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
