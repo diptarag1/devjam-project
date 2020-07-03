@@ -27,7 +27,8 @@ SECRET_KEY = '&t1m1hm&w7aiuq=x7x1!4z4wo0wwilkd6f@u*o8)e-n@&=r&t('
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost','motiopolis.ddns.net','13.76.41.218']
+myDomainName='motiopolis.ddns.net'
+ALLOWED_HOSTS = ['localhost',myDomainName,'13.76.41.218']
 
 
 # Application definition
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
 ]
 
 ROOT_URLCONF = 'DevjamProject.urls'
@@ -83,9 +85,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'DevjamProject.wsgi.application'
-
-#SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_DOMAIN = ".motiopolis.ddns.net"
+SECURE_SSL_REDIRECT = True
 # Database
+
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
