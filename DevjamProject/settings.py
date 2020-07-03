@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'Group',
     'django_summernote',
     'materializecssform',
-
 ]
 
 MIDDLEWARE = [
